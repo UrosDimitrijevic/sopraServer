@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
 
 import java.util.UUID;
 
@@ -25,13 +26,44 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User userByUsername(String name ){
+        return this.userRepository.findByUsername(name );
+    }
+
+    public void setOnline(User user){
+        user.setStatus(UserStatus.ONLINE);
+        userRepository.save(user);
+    }
+
+    public void setOffline(User user){
+        user.setStatus(UserStatus.OFFLINE);
+        userRepository.save(user);
+    }
+
+    public void updateProfile(User modelUser, long id){
+        User gef = this.userByID(id);
+        if( modelUser.getUsername() != null){
+            gef.setUsername(modelUser.getUsername() );
+        }
+        if( modelUser.getBirthday() != null){
+            gef.setBirthday(modelUser.getBirthday() );
+        }
+        userRepository.save(gef );
+    }
+
+    public User userByID(long id ){
+        return this.userRepository.findById(id );
+    }
+
     public Iterable<User> getUsers() {
         return this.userRepository.findAll();
     }
 
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
-        newUser.setStatus(UserStatus.ONLINE);
+        newUser.setStatus(UserStatus.OFFLINE);
+        newUser.initCreationDate();
+        newUser.setBirthday( "1800-01-01" );
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
