@@ -84,7 +84,7 @@ public class UserController {
         //return ResponseEntity.status(HttpStatus.NOT_FOUND).body( newUser );
 
         User gef = service.userByID(id);
-        if( gef == null  ) {
+        if( gef == null || (gef != service.userByUsername(newUser.getUsername()) && service.userByUsername(newUser.getUsername()) != null) ) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body( "user with user-ID: " + id+" not found in Put-call" );
         }
         else{

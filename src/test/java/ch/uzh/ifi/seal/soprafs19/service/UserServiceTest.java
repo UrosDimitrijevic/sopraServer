@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import javax.servlet.ServletContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.time.LocalDate;
@@ -60,6 +62,9 @@ public class UserServiceTest {
     private WebApplicationContext wac;
 
 
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+
     @Test
     public void createUser() {
         Assert.assertNull(userRepository.findByUsername("testUsername"));
@@ -74,6 +79,7 @@ public class UserServiceTest {
         Assert.assertNotNull(createdUser.getToken());
         Assert.assertEquals(createdUser.getStatus(),UserStatus.OFFLINE);
         Assert.assertEquals(createdUser, userRepository.findByToken(createdUser.getToken()));
+
     }
 
 
@@ -104,15 +110,14 @@ public class UserServiceTest {
         userService.createUser(testUser);
 
         LocalDate localDate = LocalDate.now();//For reference
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        this.mockMvc.perform(get("/users/{id}","1" )).andExpect(status().isOk() ).   //+Long.toString(testUser.getId())
+        this.mockMvc.perform(get("/users/{id}",testUser.getId() )).andExpect(status().isOk() ).   //+Long.toString(testUser.getId())
                 andExpect(MockMvcResultMatchers.jsonPath("$.username").value("Alex")).
                 andExpect(MockMvcResultMatchers.jsonPath("$.password").value("")).
                 andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("2001-10-10")).
                 andExpect(MockMvcResultMatchers.jsonPath("$.token").value(testUser.getToken() )).
-                andExpect(MockMvcResultMatchers.jsonPath("$.id").value( "1" )).
-                andExpect(MockMvcResultMatchers.jsonPath("$.creationDate").value( localDate.format(formatter) ));
+                andExpect(MockMvcResultMatchers.jsonPath("$.id").value( testUser.getId() )).
+                andExpect(MockMvcResultMatchers.jsonPath("$.creationDate").value( localDate.format(this.formatter) ));
     }
 
 
@@ -128,9 +133,104 @@ public class UserServiceTest {
     }
 
     //Post{ user/ } test
-    /*@Test
-    public void testForPutUserHans_false() throws Exception {
-        this.mockMvc.perform(post("/users").param("username", "Hans").param("password", "blabla")).
-                andExpect(status().isCreated() );
-    }*/
+    @Test
+    public void testForPostUserHans_working() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        User testUser = new User();
+        testUser.setUsername("Alex");
+        testUser.setPassword("johoho");
+        testUser.setBirthday("2001-10-10");
+
+        LocalDate localDate = LocalDate.now();
+
+        this.mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"Hans\", \"password\": \"123\"}")
+                )
+                .andExpect(status().isCreated() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").value("Hans"))
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").value(""))
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").isNotEmpty() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").value( localDate.format(this.formatter) ));
+
+        Assert.assertEquals( "123" , userService.userByUsername("Hans").getPassword());
+    }
+
+    @Test
+    public void testForPostUserPeter_taken() throws Exception {
+
+        User testUser = new User();
+        //testUser.setName("testName");
+        testUser.setUsername("Peter");
+        testUser.setPassword("123");
+
+        User createdUser = userService.createUser(testUser);
+
+
+        this.mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"Peter\", \"password\": \"123\"}")
+        )
+                .andExpect(status().isConflict() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").doesNotExist() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").doesNotExist());
+
+    }
+
+    //PUT { user/{id} } test
+    @Test
+    public void testForPutUserKarl_working() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        User testUser = new User();
+        testUser.setUsername("Obama");
+        testUser.setPassword("johoho");
+        testUser.setBirthday("2001-10-10");
+
+        User createdUser = userService.createUser(testUser);
+
+        long id = createdUser.getId();
+
+        this.mockMvc.perform(put("/users/{id}",createdUser.getId() )
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"Karl\", \"birthday\": \"2012-12-24\"}")
+        )
+                .andExpect(status().isNoContent() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").doesNotExist() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").doesNotExist());
+
+        Assert.assertEquals( "Karl", userService.userByID(id).getUsername() );
+        Assert.assertEquals( LocalDate.parse("2012-12-24", formatter) ,userService.userByID(id).getBirthday());
+    }
+
+    @Test
+    public void testForPutUserJonathan_notWorking() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        User testUser = new User();
+        testUser.setUsername("Putin");
+        testUser.setPassword("johoho");
+        testUser.setBirthday("2001-10-10");
+
+        User createdUser = userService.createUser(testUser);
+
+        long id = createdUser.getId();
+
+        this.mockMvc.perform(put("/users/{id}",100)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"Karl\", \"birthday\": \"2012-12-24\"}")
+        )
+                .andExpect(status().isNotFound() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").doesNotExist() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").doesNotExist());
+
+    }
 }
