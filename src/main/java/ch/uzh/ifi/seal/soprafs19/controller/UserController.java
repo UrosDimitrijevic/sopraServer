@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/users")
     ResponseEntity all() {
-        Iterable<User> allUsers = service.getUsers();
+        Iterable<User> allUsers = this.service.getUsers();
         for (User user: allUsers){
             user.removePassword();
         }
@@ -37,7 +37,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(gef.removePassword() );
         }
         else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("UserName not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("-");
         }
     }
 
@@ -66,29 +66,32 @@ public class UserController {
     }
 
 
-    //Used to create new accounts
     @PostMapping("/users")
     ResponseEntity createUser(@RequestBody User newUser) {
         User testUser = this.service.userByUsername( newUser.getUsername() );
         if( testUser == null) {
             User createdUser = this.service.createUser(newUser);
-            return ResponseEntity.status(HttpStatus.OK).body( createdUser.removePassword() );
+            return ResponseEntity.status(HttpStatus.CREATED).body( createdUser.removePassword() );
         }
         else{
             return ResponseEntity.status(HttpStatus.CONFLICT).body(" Username already taken ");
         }
     }
 
+    //Used to create new accounts
     @PutMapping("/users/{id}")
-    ResponseEntity userByID(@PathVariable Long id, @RequestBody User newUser) {
+    ResponseEntity userByID(@PathVariable long id, @RequestBody User newUser) {
+        //return ResponseEntity.status(HttpStatus.NOT_FOUND).body( newUser );
+
         User gef = service.userByID(id);
         if( gef == null  ) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body( "user with user-ID: " + id+" not found" );
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body( "user with user-ID: " + id+" not found in Put-call" );
         }
         else{
             service.updateProfile(newUser, id);
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("-");
+
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
         }
     }
 

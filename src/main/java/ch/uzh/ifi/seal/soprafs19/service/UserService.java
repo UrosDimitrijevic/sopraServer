@@ -63,7 +63,9 @@ public class UserService {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.OFFLINE);
         newUser.initCreationDate();
-        newUser.setBirthday( "1800-01-01" );
+        if( newUser.getBirthday() == null) {
+            newUser.setBirthday("1800-01-01");
+        }
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;

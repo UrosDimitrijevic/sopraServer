@@ -5,8 +5,8 @@ import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -15,14 +15,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import ch.uzh.ifi.seal.soprafs19.controller.UserController;
+
+import javax.servlet.ServletContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Test class for the UserResource REST resource.
@@ -42,6 +54,12 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+
+    //von mir hinzugefügt
+    @Autowired
+    private WebApplicationContext wac;
+
+
     @Test
     public void createUser() {
         Assert.assertNull(userRepository.findByUsername("testUsername"));
@@ -58,21 +76,61 @@ public class UserServiceTest {
         Assert.assertEquals(createdUser, userRepository.findByToken(createdUser.getToken()));
     }
 
-    @Autowired
+
+    //von mir
     private MockMvc mockMvc;
+    @Before
+    public void setup() throws Exception {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
 
     @Test
-    public void retrieveDetailsForCourse() {
+    public void givenWac_whenServletContext_thenItProvidesGreetController() {
+        ServletContext servletContext = wac.getServletContext();
 
-        //Mockito.when( studentService.retrieveCourse(Mockito.anyString(), Mockito.anyString())).thenReturn(mockCourse);
+        Assert.assertNotNull(servletContext);
+        Assert.assertTrue(servletContext instanceof MockServletContext);
+        Assert.assertNotNull(wac.getBean("corsConfigurer"));
+    }
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/users").accept(MediaType.APPLICATION_JSON);
 
-        try{ MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+    //Get{ user/{id} tests
+    @Test
+    public void testForGetUserOne_correct() throws Exception {
+        User testUser = new User();
+        testUser.setUsername("Alex");
+        testUser.setPassword("johoho");
+        testUser.setBirthday("2001-10-10");
+        userService.createUser(testUser);
 
-        // {"id":"Course1","name":"Spring","description":"10 Steps, 25 Examples and 10K Students","steps":["Learn Maven","Import Project","First Example","Second Example"]}
+        LocalDate localDate = LocalDate.now();//For reference
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        Assert.assertEquals("[]", result.getResponse().getContentAsString(), false); }
-        catch(Exception e){ }
+        this.mockMvc.perform(get("/users/{id}","1" )).andExpect(status().isOk() ).   //+Long.toString(testUser.getId())
+                andExpect(MockMvcResultMatchers.jsonPath("$.username").value("Alex")).
+                andExpect(MockMvcResultMatchers.jsonPath("$.password").value("")).
+                andExpect(MockMvcResultMatchers.jsonPath("$.birthday").value("2001-10-10")).
+                andExpect(MockMvcResultMatchers.jsonPath("$.token").value(testUser.getToken() )).
+                andExpect(MockMvcResultMatchers.jsonPath("$.id").value( "1" )).
+                andExpect(MockMvcResultMatchers.jsonPath("$.creationDate").value( localDate.format(formatter) ));
+    }
+
+
+    @Test
+    public void testForGetUserOne_false() throws Exception {
+        this.mockMvc.perform(get("/users/100")).andExpect(status().isNotFound() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".birthday").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").doesNotExist());
+    }
+
+    //Post{ user/ } test
+    @Test
+    public void testForPutUserHans_false() throws Exception {
+        this.mockMvc.perform(post("/users").param("username", "Hans").param("password", "blabla")).
+                andExpect(status().isCreated() );
     }
 }
