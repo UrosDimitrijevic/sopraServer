@@ -128,9 +128,9 @@ public class UserServiceTest {
     }
 
     //Post{ user/ } test
-    @Test
+    /*@Test
     public void testForPutUserHans_false() throws Exception {
         this.mockMvc.perform(post("/users").param("username", "Hans").param("password", "blabla")).
                 andExpect(status().isCreated() );
-    }
+    }*/
 }

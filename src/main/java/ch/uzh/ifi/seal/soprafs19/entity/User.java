@@ -56,8 +56,9 @@ public class User implements Serializable {
 	}
 
 	public void setBirthday(String date){
+		DateTimeFormatter DATEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		this.birthday = LocalDate.parse(date);
+		this.birthday = LocalDate.parse(date, DATEFORMATTER);
 	}
 
 	public Long getId() {
