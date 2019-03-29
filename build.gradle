@@ -60,4 +60,12 @@ jacocoTestReport {
     }
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectName", "sopra-fs19-group06-service"
+        property "sonar.projectKey", "sopra-fs19-group06-service"
+        }
+}
+
+
 defaultTasks 'bootJar', 'build'
