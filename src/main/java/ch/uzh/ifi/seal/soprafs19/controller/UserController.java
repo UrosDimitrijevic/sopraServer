@@ -42,8 +42,8 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
-    ResponseEntity getUser(@RequestBody User loginUser) {
+    @PostMapping("user/userId/login")
+    ResponseEntity loginUser(@RequestBody User loginUser) {
         User savedUser = this.service.userByUsername( loginUser.getUsername() );
         if( savedUser != null && savedUser.getPassword().equals( loginUser.getPassword() ) ) {
             this.service.setOnline(savedUser);
@@ -54,7 +54,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/logout/{id}")
+    @GetMapping("user/userId/logout/{id}")
     ResponseEntity logoutUser(@PathVariable Long id) {
         User testUser = this.service.userByID( id );
         if( testUser != null) {
@@ -65,7 +65,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\n \"message\": \"Username taken\"\n} ");
         }
     }
-
 
     @PostMapping("/users")
     ResponseEntity createUser(@RequestBody User newUser) {
