@@ -42,7 +42,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("user/userId/login")
+    @PostMapping("users/login")
     ResponseEntity loginUser(@RequestBody User loginUser) {
         User savedUser = this.service.userByUsername( loginUser.getUsername() );
         if( savedUser != null && savedUser.getPassword().equals( loginUser.getPassword() ) ) {
@@ -54,7 +54,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("user/userId/logout/{id}")
+    @GetMapping("users/{id}/logout")
     ResponseEntity logoutUser(@PathVariable Long id) {
         User testUser = this.service.userByID( id );
         if( testUser != null) {
