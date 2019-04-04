@@ -95,4 +95,22 @@ public class UserController {
         }
     }
 
+    //Used to create new accounts
+    @PutMapping("/users/challenges/{id}")
+    ResponseEntity challengePlayer(@PathVariable long id, @RequestBody long id_of_challenger) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
+    }
+
+    //Used to create new accounts
+    @GetMapping("/user/challengestatus/{id}")
+    ResponseEntity getChallengeStatus(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
+    }
+
+    //Used to create new accounts
+    @PutMapping("/users/MyGame/{id}")
+    ResponseEntity getMyGame(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
+    }
+
 }
