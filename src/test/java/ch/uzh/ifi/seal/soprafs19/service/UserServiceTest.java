@@ -8,6 +8,7 @@ import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -231,6 +232,39 @@ public class UserServiceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath( ".token").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath( ".id").doesNotExist() )
                 .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").doesNotExist());
+
+    }
+
+    @Ignore
+    @Test
+    public void canChallenge() throws Exception {
+
+        /*
+
+        MAKE SURE ID 1 AND ID 2 EXIST
+
+         */
+
+        this.mockMvc.perform(put("/users/challenges/{id}", 1 )
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\": \"2\"}") )
+                .andExpect(status().isCreated() );
+
+    }
+
+    @Ignore
+    @Test
+    public void canGetChallenges() throws Exception {
+
+        /*
+
+        MAKE SURE ID 2 IS CHALLENGED
+         */
+
+        this.mockMvc.perform(get("/user/challengestatus/{id}", 2 )
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\": \"2\"}") )
+                .andExpect(status().isOk() );
 
     }
 }
