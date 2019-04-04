@@ -54,7 +54,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("users/{id}/logout")
+    @PutMapping("users/{id}/logout")
     ResponseEntity logoutUser(@PathVariable Long id) {
         User testUser = this.service.userByID( id );
         if( testUser != null) {
