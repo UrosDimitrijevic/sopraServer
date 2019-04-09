@@ -51,6 +51,9 @@ public class GameServiceTest {
     @Qualifier("userRepository")
     @Autowired
     private UserRepository userRepository;
+
+    @Qualifier("gameRepository")
+    @Autowired
     private GameRepository gameRepository;
 
     @Autowired
@@ -112,7 +115,7 @@ public class GameServiceTest {
 
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void canCreateAndSaveGame() throws Exception {
 
@@ -128,6 +131,6 @@ public class GameServiceTest {
 
         Game testGame = new Game(testUser1, testUser2 );
 
-        gameService.saveGame(testGame);
+        this.gameService.saveGame(testGame);
     }
 }

@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+@Service
+@Transactional
 public class GameService {
 
     private final Logger log = LoggerFactory.getLogger(GameService.class);
@@ -25,6 +28,6 @@ public class GameService {
     }
 
     public void saveGame(Game newgame){
-        gameRepository.save(newgame);
+        this.gameRepository.save(newgame);
     }
 }
