@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.service;
 
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,5 +18,13 @@ public class GameService {
     @Autowired
     public GameService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
+    }
+
+    public Game userByID(long id ){
+        return this.gameRepository.findById(id );
+    }
+
+    public void saveGame(Game newgame){
+        gameRepository.save(newgame);
     }
 }

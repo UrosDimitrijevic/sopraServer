@@ -3,7 +3,9 @@ package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.Application;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
+import ch.uzh.ifi.seal.soprafs19.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,9 +51,11 @@ public class GameServiceTest {
     @Qualifier("userRepository")
     @Autowired
     private UserRepository userRepository;
+    private GameRepository gameRepository;
 
     @Autowired
     private UserService userService;
+    private GameService gameService;
 
 
     //von mir hinzugefügt
@@ -106,5 +110,24 @@ public class GameServiceTest {
         this.mockMvc.perform(get("/game/Board/{id}", 1 ))
                 .andExpect(status().isOk() );
 
+    }
+
+    @Ignore
+    @Test
+    public void canCreateAndSaveGame() throws Exception {
+
+        User testUser1 = new User();
+        testUser1.setUsername("testUsername1");
+        testUser1.setPassword("testPassowrd");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsername2");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame = new Game(testUser1, testUser2 );
+
+        gameService.saveGame(testGame);
     }
 }

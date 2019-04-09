@@ -1,8 +1,18 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
-public class GodCard {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.io.Serializable;
 
-    GodCard(){
+@Entity
+public class GodCard  implements Serializable{
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    public GodCard(){
 
     }
 }

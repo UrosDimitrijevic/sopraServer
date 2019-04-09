@@ -1,6 +1,12 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
-public class Board {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.io.Serializable;
+
+@Entity
+public class Board implements Serializable{
     private Space [][] spaces;
     private Figurine figurines[][]; //p1f1 = [0][0], p1f2 =[0][1], ...
     private Figurine p1f1;
@@ -8,7 +14,11 @@ public class Board {
     private Figurine p2f1;
     private Figurine p2f2;
 
-    Board(){
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    public Board(){
         this.spaces = new Space[5][5];
         this.figurines = new Figurine[2][2];
         updateFigs();
@@ -25,4 +35,6 @@ public class Board {
         this.figurines[player-1][figNumber-1] = f;
         updateFigs();
     }
+
+
 }
