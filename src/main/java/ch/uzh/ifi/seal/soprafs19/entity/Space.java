@@ -32,4 +32,8 @@ public class Space implements Serializable{
     public void buildDome(){
         doam = true;
     }
+
+    public int getLevel(){
+        return this.level;
+    }
 }

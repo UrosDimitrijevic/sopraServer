@@ -118,21 +118,4 @@ public class GameServiceTest {
     }
 
 
-    @Test
-    public void canCreateAndSaveGame() throws Exception {
-
-        User testUser1 = new User();
-        testUser1.setUsername("testUsername1");
-        testUser1.setPassword("testPassowrd");
-        testUser1 = userService.createUser(testUser1);
-
-        User testUser2 = new User();
-        testUser2.setUsername("testUsername2");
-        testUser2.setPassword("testPassowrd");
-        testUser2 = userService.createUser(testUser2);
-
-        Game testGame = new Game(testUser1, testUser2 );
-
-        this.gameService.saveGame(testGame);
-    }
 }

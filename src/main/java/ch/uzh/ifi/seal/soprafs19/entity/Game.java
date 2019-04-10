@@ -11,7 +11,7 @@ public class Game  implements Serializable  {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private int status;
@@ -19,10 +19,10 @@ public class Game  implements Serializable  {
     @Column(nullable = true)
     private boolean playWithGodCards;
 
-   /* @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     private Board board;
 
-    @Column(nullable = false)
+   /* @Column(nullable = false)
     private Player players[];
 
     @Column(nullable = false)
@@ -48,9 +48,12 @@ public class Game  implements Serializable  {
         return (rand.nextInt(2) == 1)?true:false;
     }
 
+    public Game(){
+    }
+
     public Game(User user1, User user2){
         this.status = 0;
-        //this.board = new Board();
+        this.board = new Board();
         //this.players = new Player[2];
         boolean doesP1start = this.DoesP1Start(user1,user2);
         this.playWithGodCards = false;
@@ -59,5 +62,13 @@ public class Game  implements Serializable  {
         //this.p2 =  new Player(user2,this.board, !doesP1start );
         //this.players[0] = this.p1;
         //this.players[1] = this.p2;
+    }
+
+    public int getLvlAt(int column, int row){
+        return this.board.getLvlAt(column, row);
+    }
+
+    public long getId(){
+        return this.id;
     }
 }
