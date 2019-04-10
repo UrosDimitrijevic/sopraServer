@@ -27,6 +27,12 @@ public class GameService {
 
     public Game gameByID(long id ){ return this.gameRepository.findById(id ); }
 
+    public Game gameByPlaxerId(long id ){
+        Game game = this.gameRepository.findByPlayer1id(id);
+        if( game != null){ return game; }
+        else{ return this.gameRepository.findByPlayer2id(id); }
+    }
+
     public Iterable<Game> getGames() {
         return this.gameRepository.findAll();
     }
@@ -34,4 +40,5 @@ public class GameService {
     public void saveGame(Game newgame){
         this.gameRepository.save(newgame);
     }
+
 }
