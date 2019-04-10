@@ -13,6 +13,12 @@ public class Game  implements Serializable  {
     @GeneratedValue
     private long id;
 
+    @Column(unique = true, nullable = false)
+    private long player1id;
+
+    @Column(unique = true, nullable = false)
+    private long player2id;
+
     @Column(nullable = false)
     private int status;
 
@@ -22,14 +28,8 @@ public class Game  implements Serializable  {
     @Column(nullable = false, length = 2000)
     private Board board;
 
-   /* @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     private Player players[];
-
-    @Column(nullable = false)
-    private Player p1;
-
-    @Column(nullable = false)
-    private Player p2;*/
 
     private boolean DoesP1Start(User u1, User u2){
         Random rand = new Random();
@@ -54,14 +54,14 @@ public class Game  implements Serializable  {
     public Game(User user1, User user2){
         this.status = 0;
         this.board = new Board();
-        //this.players = new Player[2];
+        this.players = new Player[2];
         boolean doesP1start = this.DoesP1Start(user1,user2);
         this.playWithGodCards = false;
 
-        //this.p1 =  new Player(user1,this.board, doesP1start );
-        //this.p2 =  new Player(user2,this.board, !doesP1start );
-        //this.players[0] = this.p1;
-        //this.players[1] = this.p2;
+        this.players[0] =  new Player(user1,this.board, doesP1start );
+        this.players[1] =  new Player(user2,this.board, !doesP1start );
+        this.player1id = user1.getId();
+        this.player2id = user2.getId();
     }
 
     public int getLvlAt(int column, int row){

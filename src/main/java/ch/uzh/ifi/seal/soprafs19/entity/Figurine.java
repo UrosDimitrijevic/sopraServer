@@ -9,7 +9,7 @@ public class Figurine implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     private Board board;
     private Player player;

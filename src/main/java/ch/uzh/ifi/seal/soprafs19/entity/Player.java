@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,12 +11,18 @@ public class Player implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
-    private Long myUserID;
+    private long myUserID;
+
     private boolean startingplayer;
+
     private boolean GodMode;
+
+    @Column(nullable = false, length = 300)
     private Figurine figurine1;
+
+    @Column(nullable = false, length = 300)
     private Figurine figurine2;
 
     public Player(User me, Board board, boolean doIstart){
