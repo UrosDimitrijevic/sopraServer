@@ -58,6 +58,8 @@ public class GameServiceTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
     private GameService gameService;
 
 
@@ -115,7 +117,7 @@ public class GameServiceTest {
 
     }
 
-    @Ignore
+
     @Test
     public void canCreateAndSaveGame() throws Exception {
 

@@ -15,6 +15,7 @@ public class GameService {
 
     private final Logger log = LoggerFactory.getLogger(GameService.class);
 
+    @Autowired
     private final GameRepository gameRepository;
 
 
