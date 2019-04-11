@@ -56,7 +56,7 @@ public class Player implements Serializable {
         return startingplayer;
     }
 
-    public Iterable<Action> getPossibleActions(Game game){
+    public ArrayList<Action> getPossibleActions(Game game){
         ArrayList<Action> possibeActions = new ArrayList<>();
         if( game.getStatus() == GameStatus.CHOSING_GAME_MODE && startingplayer){
             possibeActions.add(new ChoseGameModeAction(game, true));

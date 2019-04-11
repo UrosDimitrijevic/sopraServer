@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
+import ch.uzh.ifi.seal.soprafs19.service.ActionService;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
@@ -24,24 +25,36 @@ public class GameController {
 
     private final GameService gameService;
 
-    GameController(UserService service, GameService gameService) {
+    private final ActionService actionService;
+
+    GameController(UserService service, GameService gameService, ActionService actionService) {
         this.service = service;
         this.gameService = gameService;
+        this.actionService = actionService;
     }
 
     @GetMapping("/game/actions/{id}")
     ResponseEntity getActions(@PathVariable long id) {
         Iterable<Action> performableActions;
         Game myGame = gameService.gameByPlaxerId(id);
+        if( myGame == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player is not in a game");
+        }
         performableActions = myGame.getPossibleActions(id);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
+        if(performableActions == null){
+            return ResponseEntity.status(HttpStatus.OK).body("performable actions is null for some reason");
+        }
+        for(Action action:performableActions){
+            this.actionService.saveAction(action);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(performableActions);
     }
 
     @GetMapping("/game/Board/{id}")
     ResponseEntity getBoardStatus(@PathVariable Long id) {
         Game game = this.gameService.gameByPlaxerId(id);
         if(game == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player doesn't have a game");
         }
         else{
             return ResponseEntity.status(HttpStatus.OK).body(game);
@@ -50,6 +63,9 @@ public class GameController {
 
     @PutMapping("/game/actions/{actionId}")
     ResponseEntity performAction(@PathVariable Long actionId) {
+        if( this.actionService.runActionByID(actionId) ){
+            return ResponseEntity.status(HttpStatus.OK).body("Action performed");
+        }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
     }
 
@@ -63,7 +79,7 @@ public class GameController {
         }
         Game game = new Game(user1,user2);
         gameService.saveGame(game);
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.gameByPlaxerId(user1.getId()) );
+        return ResponseEntity.status(HttpStatus.OK).body("game was created" );
     }
 
 

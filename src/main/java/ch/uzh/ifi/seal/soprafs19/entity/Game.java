@@ -96,14 +96,14 @@ public class Game  implements Serializable  {
         return this.id;
     }
 
-    GameStatus getStatus(){ return this.status; }
+    public GameStatus getStatus(){ return this.status; }
 
     public Iterable<Action> getPossibleActions(long playerid){
-        Iterable<Action> possibleActions = new ArrayList<>();
+        ArrayList<Action> possibleActions = new ArrayList<>();
         if(player1id == playerid){
-            possibleActions = players[0].getPossibleActions(this);
+            possibleActions.addAll( players[0].getPossibleActions(this) );
         }
-        return null;
+        return possibleActions;
 
     }
 }
