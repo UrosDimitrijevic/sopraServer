@@ -22,5 +22,5 @@ public abstract class Action{
     @Column(nullable = false)
     long myGameId;
 
-    public abstract void run(GameService gameService);
+    public abstract void perfromAction(GameService gameService);
 }
