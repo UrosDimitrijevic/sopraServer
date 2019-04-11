@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs19.controller;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
+import ch.uzh.ifi.seal.soprafs19.service.GameService;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import org.apache.coyote.Response;
@@ -18,8 +19,11 @@ public class GameController {
 
     private final UserService service;
 
-    GameController(UserService service) {
+    private final GameService gameService;
+
+    GameController(UserService service, GameService gameService) {
         this.service = service;
+        this.gameService = gameService;
     }
 
     @GetMapping("/game/actions/{id}")
