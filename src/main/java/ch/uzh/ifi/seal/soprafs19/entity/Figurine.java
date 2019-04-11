@@ -12,9 +12,16 @@ public class Figurine implements Serializable {
     private long id;
 
     private Board board;
+
     private Player player;
     int playerNumber;
     int figurineNumber;
+
+
+    public int getFigurineNumber() {
+        return figurineNumber;
+    }
+
 
     public Figurine(Player player, Board board, int figurineNumber){
         this.board = board;

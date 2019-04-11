@@ -1,10 +1,14 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Random;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Entity
 public class Game  implements Serializable  {
@@ -20,7 +24,7 @@ public class Game  implements Serializable  {
     private long player2id;
 
     @Column(nullable = false)
-    private int status;
+    private GameStatus status;
 
     @Column(nullable = true)
     private boolean playWithGodCards;
@@ -51,8 +55,28 @@ public class Game  implements Serializable  {
     public Game(){
     }
 
+    public long getPlayer1id() {
+        return player1id;
+    }
+
+    public long getPlayer2id() {
+        return player2id;
+    }
+
+    public boolean isPlayWithGodCards() {
+        return playWithGodCards;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
     public Game(User user1, User user2){
-        this.status = 0;
+        this.status = GameStatus.CHOSING_GAME_MODE;
         this.board = new Board();
         this.players = new Player[2];
         boolean doesP1start = this.DoesP1Start(user1,user2);
@@ -70,5 +94,16 @@ public class Game  implements Serializable  {
 
     public long getId(){
         return this.id;
+    }
+
+    GameStatus getStatus(){ return this.status; }
+
+    public Iterable<Action> getPossibleActions(long playerid){
+        Iterable<Action> possibleActions = new ArrayList<>();
+        if(player1id == playerid){
+            possibleActions = players[0].getPossibleActions(this);
+        }
+        return null;
+
     }
 }

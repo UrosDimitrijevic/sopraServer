@@ -17,6 +17,11 @@ public class Board implements Serializable{
     private Figurine p2f1;
     private Figurine p2f2;
 
+    public Space[][] getSpaces() {
+        return spaces;
+    }
+
+
     @Id
     @GeneratedValue
     private Long id;

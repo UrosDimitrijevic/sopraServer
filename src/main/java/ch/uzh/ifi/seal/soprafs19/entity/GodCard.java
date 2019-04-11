@@ -15,4 +15,8 @@ public class GodCard  implements Serializable{
     public GodCard(){
 
     }
+
+    public Long getId() {
+        return id;
+    }
 }

@@ -20,6 +20,11 @@ public class Space implements Serializable{
         doam = false;
     }
 
+
+    public boolean isDoam() {
+        return doam;
+    }
+
     public void build(){
         if(level <= 3) {
             this.level += 1;

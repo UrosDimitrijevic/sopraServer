@@ -7,7 +7,7 @@ public class ChoseGameModeAction extends Action {
 
     private boolean withGodCards;
 
-    public ChoseModeAction (Game game, boolean withGodCards){
+    public ChoseGameModeAction (Game game, boolean withGodCards){
         this.withGodCards = withGodCards;
         this.name = "ChoseMode";
         this.myGameId = game.getId();
@@ -16,7 +16,5 @@ public class ChoseGameModeAction extends Action {
     @java.lang.Override
     public void perfromAction(GameService gameService) {
         System.out.println("\n\n\n\n\n\nI chose my godMode here\n\n\n\n\n\n");
-
-        game.setMode = withGodCards;
     }
 }

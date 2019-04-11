@@ -25,7 +25,7 @@ public class ActionService {
 
     public void runActionByID(long id ){
         Action action = this.actionRepository.findById(id );
-        action.run(this.gameService);
+        action.perfromAction(this.gameService);
     }
 
     public void saveAction(Action action){
