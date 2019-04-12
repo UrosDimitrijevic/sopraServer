@@ -3,7 +3,9 @@ package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.Application;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
+import ch.uzh.ifi.seal.soprafs19.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,8 +52,15 @@ public class GameServiceTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Qualifier("gameRepository")
+    @Autowired
+    private GameRepository gameRepository;
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GameService gameService;
 
 
     //von mir hinzugefügt
@@ -107,4 +116,6 @@ public class GameServiceTest {
                 .andExpect(status().isOk() );
 
     }
+
+
 }

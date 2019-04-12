@@ -16,7 +16,8 @@ import java.util.UUID;
 @Transactional
 public class UserService {
 
-    private final Logger log = LoggerFactory.getLogger(UserService.class);
+
+
 
     private final UserRepository userRepository;
 
@@ -67,7 +68,6 @@ public class UserService {
             newUser.setBirthday("1800-01-01");
         }
         userRepository.save(newUser);
-        log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
 }
