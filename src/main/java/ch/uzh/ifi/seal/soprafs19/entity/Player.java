@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs19.entity;
 import ch.qos.logback.core.util.COWArrayList;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.ChooseGod;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
 import org.springframework.boot.context.properties.source.IterableConfigurationPropertySource;
 
@@ -25,6 +26,8 @@ public class Player implements Serializable {
     private boolean startingplayer;
 
     private boolean GodMode;
+
+    private long assignedGod=0;
 
     @Column(nullable = false, length = 300)
     private Figurine figurine1;
@@ -57,11 +60,25 @@ public class Player implements Serializable {
     }
 
     public ArrayList<Action> getPossibleActions(Game game){
-        ArrayList<Action> possibeActions = new ArrayList<>();
+        ArrayList<Action> possibleActions = new ArrayList<>();
         if( game.getStatus() == GameStatus.CHOSING_GAME_MODE && startingplayer){
-            possibeActions.add(new ChoseGameModeAction(game, true));
-            possibeActions.add(new ChoseGameModeAction(game, false));
+            possibleActions.add(new ChoseGameModeAction(game, true));
+            possibleActions.add(new ChoseGameModeAction(game, false));
+        }else if (game.getStatus() == GameStatus.CHOSING_GODCARDS && startingplayer){
+
+            for(int i=1;i<10;i++){
+                for(int j=i+1;j<=10;j++)
+                possibleActions.add(new ChooseGod(game,i,j));
+            }
+
         }
-        return possibeActions;
+
+        return possibleActions;
     }
+
+
+    public void setAssignedGod(long assignedGod) {
+        this.assignedGod = assignedGod;
+    }
+
 }

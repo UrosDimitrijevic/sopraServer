@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
+import ch.uzh.ifi.seal.soprafs19.service.ActionService;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import java.util.Random;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 
 @Entity
 public class Game  implements Serializable  {
@@ -55,6 +58,7 @@ public class Game  implements Serializable  {
     public Game(){
     }
 
+
     public long getPlayer1id() {
         return player1id;
     }
@@ -88,6 +92,10 @@ public class Game  implements Serializable  {
         this.player2id = user2.getId();
     }
 
+    public void setPlayWithGodCards(boolean playWithGodCards) {
+        this.playWithGodCards = playWithGodCards;
+    }
+
     public int getLvlAt(int column, int row){
         return this.board.getLvlAt(column, row);
     }
@@ -96,6 +104,7 @@ public class Game  implements Serializable  {
         return this.id;
     }
 
+
     public GameStatus getStatus(){ return this.status; }
 
     public Iterable<Action> getPossibleActions(long playerid){
@@ -103,7 +112,9 @@ public class Game  implements Serializable  {
         if(player1id == playerid){
             possibleActions.addAll( players[0].getPossibleActions(this) );
         }
+        else{
+            possibleActions.addAll( players[1].getPossibleActions(this) );
+        }
         return possibleActions;
-
     }
 }

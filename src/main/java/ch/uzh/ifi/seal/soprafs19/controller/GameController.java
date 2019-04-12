@@ -1,20 +1,16 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
-import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
-import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.ActionService;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
 
 //Uros was here, server works
 
@@ -33,8 +29,7 @@ public class GameController {
         this.actionService = actionService;
     }
 
-    @GetMapping("/game/actions/{id}")
-    ResponseEntity getActions(@PathVariable long id) {
+    @ResponseEntity getActions(@PathVariable long id) {
         Iterable<Action> performableActions;
         Game myGame = gameService.gameByPlaxerId(id);
         if( myGame == null){
@@ -50,8 +45,7 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(performableActions);
     }
 
-    @GetMapping("/game/Board/{id}")
-    ResponseEntity getBoardStatus(@PathVariable Long id) {
+    @ResponseEntity getBoardStatus(@PathVariable Long id) {
         Game game = this.gameService.gameByPlaxerId(id);
         if(game == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player doesn't have a game");

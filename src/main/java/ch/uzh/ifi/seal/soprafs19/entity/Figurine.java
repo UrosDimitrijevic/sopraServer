@@ -20,6 +20,7 @@ public class Figurine implements Serializable {
 
     public int getFigurineNumber() {
         return figurineNumber;
+
     }
 
 
@@ -30,4 +31,6 @@ public class Figurine implements Serializable {
         this.playerNumber = (player.isStartingplayer())?1:2;
         board.setFigurine(this,this.playerNumber,this.figurineNumber);
     }
+
+
 }

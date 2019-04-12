@@ -1,12 +1,7 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
-import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
-import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-import org.apache.coyote.Response;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +19,7 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/users")
-    ResponseEntity all() {
+    @ResponseEntity all() {
         Iterable<User> allUsers = this.service.getUsers();
         for (User user: allUsers){
             user.removePassword();
@@ -33,8 +27,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(allUsers);
     }
 
-    @GetMapping("/users/{id}")
-    ResponseEntity userByID(@PathVariable Long id) {
+    @ResponseEntity userByID(@PathVariable Long id) {
         User gef = service.userByID(id);
         if( gef != null  ) {
             return ResponseEntity.status(HttpStatus.OK).body(gef.removePassword() );
@@ -56,8 +49,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("users/{id}/logout")
-    ResponseEntity logoutUser(@PathVariable Long id) {
+    @ResponseEntity logoutUser(@PathVariable Long id) {
         User testUser = this.service.userByID( id );
         if( testUser != null) {
             this.service.setOffline(testUser);
@@ -104,8 +96,7 @@ public class UserController {
     }
 
     //Used to create new accounts
-    @GetMapping("/user/challengestatus/{id}")
-    ResponseEntity getChallengeStatus(@PathVariable long id) {
+    @ResponseEntity getChallengeStatus(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
     }
 
