@@ -27,7 +27,7 @@ public class Player implements Serializable {
 
     private boolean GodMode;
 
-    private long assignedGod=0;
+    private GodCard assignedGod;
 
     @Column(nullable = false, length = 300)
     private Figurine figurine1;
@@ -77,7 +77,7 @@ public class Player implements Serializable {
     }
 
 
-    public void setAssignedGod(long assignedGod) {
+    public void setAssignedGod(GodCard assignedGod) {
         this.assignedGod = assignedGod;
     }
 

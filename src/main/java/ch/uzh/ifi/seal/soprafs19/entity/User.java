@@ -111,4 +111,6 @@ public class User implements Serializable {
 		User user = (User) o;
 		return this.getId().equals(user.getId());
 	}
+
+
 }

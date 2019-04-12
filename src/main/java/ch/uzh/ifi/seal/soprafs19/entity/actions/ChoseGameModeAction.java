@@ -10,7 +10,8 @@ public class ChoseGameModeAction extends Action {
 
     private boolean withGodCards;
 
-    public ChoseGameModeAction() {
+    public ChoseGameModeAction(){
+
     }
 
     public ChoseGameModeAction (Game game, boolean withGodCards){
