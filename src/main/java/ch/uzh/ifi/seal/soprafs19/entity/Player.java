@@ -1,11 +1,10 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
-import ch.qos.logback.core.util.COWArrayList;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChooseGod;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
-import org.springframework.boot.context.properties.source.IterableConfigurationPropertySource;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,12 +64,15 @@ public class Player implements Serializable {
             possibleActions.add(new ChoseGameModeAction(game, true));
             possibleActions.add(new ChoseGameModeAction(game, false));
         }else if (game.getStatus() == GameStatus.CHOSING_GODCARDS && startingplayer){
-
+            GodCard god1;
+            GodCard god2;
             for(int i=1;i<10;i++){
-                for(int j=i+1;j<=10;j++)
-                possibleActions.add(new ChooseGod(game,i,j));
+                for(int j=i+1;j<=10;j++) {
+                    god1=GodCard.getGodwithNumber(i);
+                    god2=GodCard.getGodwithNumber(j);
+                    possibleActions.add(new ChooseGod(game, god1, god2));
+                }
             }
-
         }
 
         return possibleActions;

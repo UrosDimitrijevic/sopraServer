@@ -1,14 +1,23 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
-import ch.uzh.ifi.seal.soprafs19.entity.GodCard;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+
+@Entity
 public class ChooseGod extends Action {
 
+
     public ChooseGod(){
+
     }
+
 
     private GodCard god1;
 
@@ -24,6 +33,8 @@ public class ChooseGod extends Action {
     }
 
 
+
+    @java.lang.Override
     public void perfromAction(GameService gameservice){
         Game myGame = gameservice.gameByID(this.myGameId);
         Player[] player = myGame.getPlayers();
