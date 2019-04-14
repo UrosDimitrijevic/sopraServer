@@ -48,7 +48,7 @@ public abstract class GodCard implements Serializable {
         return this.id;
     }
 
-    
+
 
 
     public abstract void perfromAction(GameService gameservice){

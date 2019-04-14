@@ -44,16 +44,6 @@ public class Player implements Serializable {
 
     @Column(nullable = false, length = 300)
     private Figurine figurine2;
-    private Apollo Apollo1;
-    private Artemis Artemis1;
-    private Athena Athena1;
-    private Atlas Atlas1;
-    private Demeter Demeter1;
-    private Hephastephus Hephastephus1;
-    private Hermes Hermes1;
-    private Minotaur Minotaur1;
-    private Pan Pan1;
-    private Prometheus Prometheus1;
 
 
     public long getMyUserID() {
@@ -87,28 +77,38 @@ public class Player implements Serializable {
             possibleActions.add(new ChoseGameModeAction(game, false));
         }else if (game.getStatus() == GameStatus.CHOSING_GODCARDS && startingplayer){
                     ArrayList<GodCard> gods = new ArrayList<GodCard>();
-                    gods.add(Apollo1);
-                    gods.add(Artemis1);
-                    gods.add(Athena1);
-                    gods.add(Atlas1);
-                    gods.add(Demeter1);
-                    gods.add(Hephastephus1);
-                    gods.add(Hermes1);
-                    gods.add(Minotaur1);
-                    gods.add(Pan1);
-                    gods.add(Prometheus1);
+                    Apollo Apollo1 = new Apollo();
+             Artemis Artemis1 = new Artemis();
+             Athena Athena1 = new Athena();
+             Atlas Atlas1 = new Atlas();
+             Demeter Demeter1 = new Demeter();
+             Hephastephus Hephastephus1 = new Hephastephus();
+             Hermes Hermes1 = new Hermes();
+             Minotaur Minotaur1 = new Minotaur();
+             Pan Pan1 = new Pan();
+             Prometheus Prometheus1 = new Prometheus();
+             gods.add(Apollo1);
+             gods.add(Artemis1);
+             gods.add(Athena1);
+             gods.add(Atlas1);
+             gods.add(Demeter1);
+             gods.add(Hephastephus1);
+             gods.add(Hermes1);
+             gods.add(Minotaur1);
+             gods.add(Pan1);
+             gods.add(Prometheus1);
 
-                    Iterator<GodCard> godIterator = gods.iterator();
-                    Iterator<GodCard> i= godIterator;
-                    Iterator<GodCard> j= (Iterator<GodCard>) i.next();
-                    while(i.hasNext()){
-                        while(j!=null){
-                            GodCard v= (GodCard) i;
-                            GodCard w= (GodCard) j;
-                            possibleActions.add(new ChooseGod(game, v, w));
-                        }
-                    }
+            Iterator<GodCard> godIterator = gods.iterator();
+            Iterator<GodCard> i= godIterator;
+            Iterator<GodCard> j= (Iterator<GodCard>) i.next();
+            while(i.hasNext()){
+                while(j!=null){
+                    GodCard v= (GodCard) i;
+                    GodCard w= (GodCard) j;
+                    possibleActions.add(new ChooseGod(game, v, w));
                 }
+            }
+        }
         return possibleActions;
     }
 
