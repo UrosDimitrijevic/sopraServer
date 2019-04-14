@@ -43,8 +43,6 @@ public class Hephastephus extends GodCard {
     }
 
     public void perfromAction(GameService gameservice){
-
-
     }
 
 
