@@ -1,6 +1,5 @@
 package ch.uzh.ifi.seal.soprafs19.entity.GodCards;
 
-import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
 import javax.persistence.Column;
@@ -30,8 +29,8 @@ public class Hephastephus extends GodCard {
         super();
     }
 
-    public GodCard getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
+    public GodCard getGodwithNumber(int godNumber) {
+        if (godnumber == this.getGodnumber()) {
             return this;
         }
     }
@@ -41,7 +40,6 @@ public class Hephastephus extends GodCard {
         return this.id;
     }
 
-
     public String getName(){
         return this.name;
     }
@@ -50,7 +48,6 @@ public class Hephastephus extends GodCard {
         return this.godnumber;
 
     }
-
 
     public void perfromAction(GameService gameservice){
 

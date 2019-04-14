@@ -8,15 +8,11 @@ import ch.uzh.ifi.seal.soprafs19.service.GameService;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Iterator;
 
 
 @Entity
 public class ChooseGod extends Action {
-
-
-    public ChooseGod(){
-
-    }
 
 
     private GodCard god1;
@@ -32,6 +28,8 @@ public class ChooseGod extends Action {
 
     }
 
+    public ChooseGod(Game game, GodCard v, GodCard w) {
+    }
 
 
     @java.lang.Override

@@ -5,6 +5,16 @@ import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChooseGod;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Artemis;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Athena;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Atlas;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Demeter;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Hephastephus;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Hermes;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Minotaur;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Pan;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Prometheus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +22,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @Entity
 public class Player implements Serializable {
@@ -33,6 +44,17 @@ public class Player implements Serializable {
 
     @Column(nullable = false, length = 300)
     private Figurine figurine2;
+    private Apollo Apollo1;
+    private Artemis Artemis1;
+    private Athena Athena1;
+    private Atlas Atlas1;
+    private Demeter Demeter1;
+    private Hephastephus Hephastephus1;
+    private Hermes Hermes1;
+    private Minotaur Minotaur1;
+    private Pan Pan1;
+    private Prometheus Prometheus1;
+
 
     public long getMyUserID() {
         return myUserID;
@@ -64,23 +86,40 @@ public class Player implements Serializable {
             possibleActions.add(new ChoseGameModeAction(game, true));
             possibleActions.add(new ChoseGameModeAction(game, false));
         }else if (game.getStatus() == GameStatus.CHOSING_GODCARDS && startingplayer){
-            GodCard god1;
-            GodCard god2;
-            for(int i=1;i<10;i++){
-                for(int j=i+1;j<=10;j++) {
-                    god1=GodCard.getGodwithNumber(i);
-                    god2=GodCard.getGodwithNumber(j);
-                    possibleActions.add(new ChooseGod(game, god1, god2));
-                }
-            }
-        }
+                    ArrayList<GodCard> gods = new ArrayList<GodCard>();
+                    gods.add(Apollo1);
+                    gods.add(Artemis1);
+                    gods.add(Athena1);
+                    gods.add(Atlas1);
+                    gods.add(Demeter1);
+                    gods.add(Hephastephus1);
+                    gods.add(Hermes1);
+                    gods.add(Minotaur1);
+                    gods.add(Pan1);
+                    gods.add(Prometheus1);
 
+                    Iterator<GodCard> godIterator = gods.iterator();
+                    Iterator<GodCard> i= godIterator;
+                    Iterator<GodCard> j= (Iterator<GodCard>) i.next();
+                    while(i.hasNext()){
+                        while(j!=null){
+                            GodCard v= (GodCard) i;
+                            GodCard w= (GodCard) j;
+                            possibleActions.add(new ChooseGod(game, v, w));
+                        }
+                    }
+
+
+                }
         return possibleActions;
-    }
+            }
 
 
     public void setAssignedGod(GodCard assignedGod) {
         this.assignedGod = assignedGod;
     }
-
 }
+
+
+
+

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs19.entity.GodCards;
 
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.ChooseGod;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
 import javax.persistence.Column;
@@ -8,9 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 @Entity
-public abstract class GodCard implements Serializable{
+public abstract class GodCard implements Serializable {
 
 
 
@@ -26,7 +29,6 @@ public abstract class GodCard implements Serializable{
     int godnumber;
 
 
-
     public GodCard(){
 
     }
@@ -37,8 +39,9 @@ public abstract class GodCard implements Serializable{
 
 
     public Godcard(Game game){
-
         this.myGameId =game.getId();
+
+
     }
 
     public Long getId() {
@@ -56,10 +59,10 @@ public abstract class GodCard implements Serializable{
     }
 
     public abstract GodCard getGodwithNumber(int godnumber){
+        return this;
     }
 
     public abstract void perfromAction(GameService gameservice){
-
 
     }
 
