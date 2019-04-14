@@ -77,27 +77,27 @@ public class Player implements Serializable {
             possibleActions.add(new ChoseGameModeAction(game, true));
             possibleActions.add(new ChoseGameModeAction(game, false));
         }else if (game.getStatus() == GameStatus.CHOSING_GODCARDS && startingplayer){
-                    ArrayList<GodCard> gods = new ArrayList<GodCard>();
-                    Apollo Apollo1 = new Apollo();
-             Artemis Artemis1 = new Artemis();
-             Athena Athena1 = new Athena();
-             Atlas Atlas1 = new Atlas();
-             Demeter Demeter1 = new Demeter();
-             Hephastephus Hephastephus1 = new Hephastephus();
-             Hermes Hermes1 = new Hermes();
-             Minotaur Minotaur1 = new Minotaur();
-             Pan Pan1 = new Pan();
-             Prometheus Prometheus1 = new Prometheus();
-             gods.add(Apollo1);
-             gods.add(Artemis1);
-             gods.add(Athena1);
-             gods.add(Atlas1);
-             gods.add(Demeter1);
-             gods.add(Hephastephus1);
-             gods.add(Hermes1);
-             gods.add(Minotaur1);
-             gods.add(Pan1);
-             gods.add(Prometheus1);
+            ArrayList<GodCard> gods = new ArrayList<GodCard>();
+            GodCard Apollo1 = new Apollo();
+            /*Artemis Artemis1 = new Artemis();
+            Athena Athena1 = new Athena();
+            Atlas Atlas1 = new Atlas();
+            Demeter Demeter1 = new Demeter();
+            Hephastephus Hephastephus1 = new Hephastephus();
+            Hermes Hermes1 = new Hermes();
+            Minotaur Minotaur1 = new Minotaur();
+            Pan Pan1 = new Pan();
+            Prometheus Prometheus1 = new Prometheus();*/
+            gods.add(Apollo1);
+            /*gods.add(Artemis1);
+            gods.add(Athena1);
+            gods.add(Atlas1);
+            gods.add(Demeter1);
+            gods.add(Hephastephus1);
+            gods.add(Hermes1);
+            gods.add(Minotaur1);
+            gods.add(Pan1);
+            gods.add(Prometheus1);*/
 
             Iterator<GodCard> godIterator = gods.iterator();
             Iterator<GodCard> i= godIterator;

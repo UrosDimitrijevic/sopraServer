@@ -15,10 +15,10 @@ import java.util.Iterator;
 @Entity
 public class ChooseGod extends Action {
 
-    @Column(nullable = false, length = 800)
+    @Column(nullable = true, length = 800)
     private GodCard god1;
 
-    @Column(nullable = false, length = 800)
+    @Column(nullable = true, length = 800)
     private GodCard god2;
 
 

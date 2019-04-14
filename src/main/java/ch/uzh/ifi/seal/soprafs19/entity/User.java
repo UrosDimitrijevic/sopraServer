@@ -39,6 +39,30 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private LocalDate creationDate;
 
+	//stores the id of the user this user is challenging
+	@Column(nullable = true)
+	private Long challenging;
+
+	//stores the id of the user who is challenging this user
+	@Column(nullable = true)
+	private Long gettingChallengedBy;
+
+	public Long getChallenging() {
+		return challenging;
+	}
+
+	public void setChallenging(Long challenging) {
+		this.challenging = challenging;
+	}
+
+	public Long getGettingChallengedBy() {
+		return gettingChallengedBy;
+	}
+
+	public void setGettingChallengedBy(Long gettingChallengedBy) {
+		this.gettingChallengedBy = gettingChallengedBy;
+	}
+
 	public void initCreationDate( ){
 		this.creationDate = LocalDate.now();
 	}

@@ -26,6 +26,10 @@ public class Game  implements Serializable  {
     @Column(unique = true, nullable = false)
     private long player2id;
 
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
+
     @Column(nullable = false)
     private GameStatus status;
 

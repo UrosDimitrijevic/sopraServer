@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
@@ -36,6 +37,12 @@ public class ChoseGameModeAction extends Action {
 
         Game myGame = gameService.gameByID(this.myGameId);
         myGame.setPlayWithGodCards(this.withGodCards);
+        if(this.withGodCards){
+            myGame.setStatus(GameStatus.CHOSING_GODCARDS);
+        }
+        else{
+            myGame.setStatus(GameStatus.SettingFigurinesp1f1);
+        }
         gameService.saveGame(myGame);
     }
 
