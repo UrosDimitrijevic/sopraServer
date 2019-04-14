@@ -22,10 +22,7 @@ public class Artemis extends GodCard {
 
 
 
-    public GodCard(){
-
-    }
-    public GodCard(){
+    public Artemis(){
         super();
     }
 
@@ -44,12 +41,6 @@ public class Artemis extends GodCard {
 
     }
 
-    public Hephastephus getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
-            return this;
-        }
-
-    }
 
     public void perfromAction(GameService gameservice){
 

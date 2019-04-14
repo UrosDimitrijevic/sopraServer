@@ -22,18 +22,11 @@ public class Hephastephus extends GodCard {
 
 
 
-    public GodCard(){
-
-    }
-    public GodCard(){
+    public Hephastephus(){
         super();
     }
 
-    public GodCard getGodwithNumber(int godNumber) {
-        if (godnumber == this.getGodnumber()) {
-            return this;
-        }
-    }
+
 
 
     public Long getId() {

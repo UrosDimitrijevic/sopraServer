@@ -22,10 +22,8 @@ public class Demeter extends GodCard {
 
 
 
-    public GodCard(){
 
-    }
-    public GodCard(){
+    public Demeter(){
         super();
     }
 
@@ -44,11 +42,7 @@ public class Demeter extends GodCard {
 
     }
 
-    public GodCard getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
-            return this;
-        }
-    }
+
 
     public void perfromAction(GameService gameservice){
 

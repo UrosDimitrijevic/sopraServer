@@ -22,10 +22,8 @@ public class Atlas extends GodCard {
 
 
 
-    public GodCard(){
 
-    }
-    public GodCard(){
+    public Atlas(){
         super();
     }
 
@@ -49,13 +47,6 @@ public class Atlas extends GodCard {
         
     }
 
-
-    public Hephastephus getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
-            return this;
-        }
-        return null;
-    }
 
     public void perfromAction(GameService gameservice){
 

@@ -22,10 +22,7 @@ public class Athena extends GodCard {
 
 
 
-    public GodCard(){
-
-    }
-    public GodCard(){
+    public Athena(){
         super();
     }
 
@@ -41,12 +38,6 @@ public class Athena extends GodCard {
 
     public int getGodnumber(){
         return this.godnumber;
-
-    }
-    public Hephastephus getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
-            return this;
-        }
 
     }
 

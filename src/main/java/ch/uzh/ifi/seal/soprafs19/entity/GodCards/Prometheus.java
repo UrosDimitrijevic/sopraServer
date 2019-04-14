@@ -22,10 +22,7 @@ public class Prometheus extends GodCard {
 
 
 
-    public GodCard(){
-    }
-
-    public GodCard(){
+    public Prometheus(){
 
         super();
     }
@@ -42,14 +39,6 @@ public class Prometheus extends GodCard {
 
     public int getGodnumber(){
         return this.godnumber;
-    }
-
-
-    public Hephastephus getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
-            return this;
-        }
-        return null;
     }
 
     public void perfromAction(GameService gameservice){

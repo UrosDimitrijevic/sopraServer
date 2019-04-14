@@ -28,9 +28,6 @@ public class ChooseGod extends Action {
 
     }
 
-    public ChooseGod(Game game, GodCard v, GodCard w) {
-    }
-
 
     @java.lang.Override
     public void perfromAction(GameService gameservice){

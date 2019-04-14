@@ -22,10 +22,8 @@ public class Minotaur extends GodCard {
 
 
 
-    public GodCard(){
 
-    }
-    public GodCard(){
+    public Minotaur(){
         super();
     }
 
@@ -43,13 +41,6 @@ public class Minotaur extends GodCard {
         return this.godnumber;
 
     }
-    public Hephastephus getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
-            return this;
-        }
-
-    }
-
 
     public void perfromAction(GameService gameservice){
 

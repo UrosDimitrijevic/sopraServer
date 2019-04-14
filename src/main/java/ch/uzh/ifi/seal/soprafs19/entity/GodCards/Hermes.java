@@ -22,10 +22,7 @@ public class Hermes extends GodCard {
 
 
 
-    public GodCard(){
-
-    }
-    public GodCard(){
+    public Hermes(){
         super();
 
     }
@@ -42,13 +39,6 @@ public class Hermes extends GodCard {
 
     public int getGodnumber(){
         return this.godnumber;
-
-    }
-
-    public Hephastephus getGodwithNumber(int godNumber){
-        if(godnumber==this.getGodnumber()){
-            return this;
-        }
 
     }
 
