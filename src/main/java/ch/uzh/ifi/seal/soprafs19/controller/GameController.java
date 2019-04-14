@@ -29,7 +29,8 @@ public class GameController {
         this.actionService = actionService;
     }
 
-    @ResponseEntity getActions(@PathVariable long id) {
+    @GetMapping("/game/actions/{id}")
+    ResponseEntity getActions(@PathVariable long id) {
         Iterable<Action> performableActions;
         Game myGame = gameService.gameByPlaxerId(id);
         if( myGame == null){
@@ -45,7 +46,9 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(performableActions);
     }
 
-    @ResponseEntity getBoardStatus(@PathVariable Long id) {
+
+    @GetMapping("/game/Board/{id}")
+    ResponseEntity getBoardStatus(@PathVariable Long id) {
         Game game = this.gameService.gameByPlaxerId(id);
         if(game == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player doesn't have a game");

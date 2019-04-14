@@ -19,7 +19,8 @@ public class UserController {
         this.service = service;
     }
 
-    @ResponseEntity all() {
+    @GetMapping("/users")
+    ResponseEntity all() {
         Iterable<User> allUsers = this.service.getUsers();
         for (User user: allUsers){
             user.removePassword();
@@ -27,7 +28,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(allUsers);
     }
 
-    @ResponseEntity userByID(@PathVariable Long id) {
+    @GetMapping("/users/{id}")
+    ResponseEntity userByID(@PathVariable Long id) {
         User gef = service.userByID(id);
         if( gef != null  ) {
             return ResponseEntity.status(HttpStatus.OK).body(gef.removePassword() );
@@ -49,7 +51,8 @@ public class UserController {
         }
     }
 
-    @ResponseEntity logoutUser(@PathVariable Long id) {
+    @GetMapping("/logout/{id}")
+    ResponseEntity logoutUser(@PathVariable Long id) {
         User testUser = this.service.userByID( id );
         if( testUser != null) {
             this.service.setOffline(testUser);
@@ -87,23 +90,6 @@ public class UserController {
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
         }
-    }
-
-    //Used to create new accounts
-    @PutMapping("/users/challenges/{id}")
-    ResponseEntity challengePlayer(@PathVariable long id, @RequestBody long id_of_challenger) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
-    }
-
-    //Used to create new accounts
-    @ResponseEntity getChallengeStatus(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
-    }
-
-    //Used to create new accounts
-    @PutMapping("/users/MyGame/{id}")
-    ResponseEntity getMyGame(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
     }
 
 }
