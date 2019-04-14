@@ -14,33 +14,17 @@ public class Hermes extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Hermes"
-
-    @Column(nullable= false)
-    int godnumber=7;
-
-
 
     public Hermes(){
         super();
-
     }
 
 
     public Long getId() {
+
         return this.id;
     }
 
-
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
-    }
 
     public void perfromAction(GameService gameservice){
 

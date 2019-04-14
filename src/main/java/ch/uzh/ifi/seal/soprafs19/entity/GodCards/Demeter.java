@@ -14,12 +14,6 @@ public class Demeter extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Demeter"
-
-    @Column(nullable= false)
-    int godnumber=5;
-
 
 
 
@@ -30,16 +24,6 @@ public class Demeter extends GodCard {
 
     public Long getId() {
         return this.id;
-    }
-
-
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
     }
 
 

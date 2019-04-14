@@ -14,14 +14,6 @@ public class Hephastephus extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Hephastephus"
-
-    @Column(nullable= false)
-    int godnumber=6;
-
-
-
     public Hephastephus(){
         super();
     }
@@ -33,14 +25,6 @@ public class Hephastephus extends GodCard {
         return this.id;
     }
 
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
-    }
 
     public void perfromAction(GameService gameservice){
     }

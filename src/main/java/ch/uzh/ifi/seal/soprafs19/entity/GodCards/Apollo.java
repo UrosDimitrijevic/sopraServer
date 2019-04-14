@@ -14,13 +14,6 @@ public class Apollo extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Apollo"
-
-    @Column(nullable= false)
-    int godnumber=1;
-
-
 
     public Apollo(){
         super();
@@ -32,14 +25,6 @@ public class Apollo extends GodCard {
     }
 
 
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
-    }
 
 
     public void perfromAction(GameService gameservice){

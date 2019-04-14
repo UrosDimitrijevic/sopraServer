@@ -108,11 +108,9 @@ public class Player implements Serializable {
                             possibleActions.add(new ChooseGod(game, v, w));
                         }
                     }
-
-
                 }
         return possibleActions;
-            }
+    }
 
 
     public void setAssignedGod(GodCard assignedGod) {

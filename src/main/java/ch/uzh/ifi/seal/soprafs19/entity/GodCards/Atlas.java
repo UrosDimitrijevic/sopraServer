@@ -14,13 +14,6 @@ public class Atlas extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Atlas"
-
-    @Column(nullable= false)
-    int godnumber=4;
-
-
 
 
     public Atlas(){
@@ -33,19 +26,6 @@ public class Atlas extends GodCard {
     }
 
 
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
-    }
-    
-    public GodCard getThis(){
-        return this;
-        
-    }
 
 
     public void perfromAction(GameService gameservice){

@@ -14,33 +14,19 @@ public class Minotaur extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Minotaur"
-
-    @Column(nullable= false)
-    int godnumber=8;
-
-
 
 
     public Minotaur(){
+
         super();
     }
 
 
     public Long getId() {
+
         return this.id;
     }
 
-
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
-    }
 
     public void perfromAction(GameService gameservice){
 

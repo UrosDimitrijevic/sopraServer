@@ -14,13 +14,6 @@ public class Artemis extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Artemis"
-
-    @Column(nullable= false)
-    int godnumber=2;
-
-
 
     public Artemis(){
         super();
@@ -31,15 +24,6 @@ public class Artemis extends GodCard {
         return this.id;
     }
 
-
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
-    }
 
 
     public void perfromAction(GameService gameservice){

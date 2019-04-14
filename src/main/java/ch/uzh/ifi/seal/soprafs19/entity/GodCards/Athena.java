@@ -14,12 +14,6 @@ public class Athena extends GodCard {
     private Long id;
 
 
-    @Column(nullable = false)
-    String name="Athena"
-
-    @Column(nullable= false)
-    int godnumber=3;
-
 
 
     public Athena(){
@@ -29,16 +23,6 @@ public class Athena extends GodCard {
 
     public Long getId() {
         return this.id;
-    }
-
-
-    public String getName(){
-        return this.name;
-    }
-
-    public int getGodnumber(){
-        return this.godnumber;
-
     }
 
 
