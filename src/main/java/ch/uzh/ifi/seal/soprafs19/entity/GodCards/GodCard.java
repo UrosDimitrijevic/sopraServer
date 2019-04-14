@@ -28,17 +28,17 @@ public abstract class GodCard implements Serializable {
     @Column(nullable= false)
     int godnumber;
 
-
-    public GodCard(){
-
-    }
-
     @Column(nullable = false)
     long myGameId;
 
 
 
-    public Godcard(Game game){
+
+    public GodCard(){
+
+    }
+
+    public GodCard(Game game){
         this.myGameId =game.getId();
 
 
@@ -51,8 +51,6 @@ public abstract class GodCard implements Serializable {
 
 
 
-    public abstract void perfromAction(GameService gameservice){
-
-    }
+    public abstract void perfromAction(GameService gameservice);
 
 }

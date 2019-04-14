@@ -37,6 +37,7 @@ public class Player implements Serializable {
 
     private boolean GodMode;
 
+    @Column(nullable = false, length = 800)
     private GodCard assignedGod;
 
     @Column(nullable = false, length = 300)
