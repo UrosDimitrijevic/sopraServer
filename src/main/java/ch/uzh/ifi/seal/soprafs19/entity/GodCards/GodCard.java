@@ -48,15 +48,7 @@ public abstract class GodCard implements Serializable {
         return this.id;
     }
 
-
-    public String getName(){
-        return this.name;
-    }
-
-    public abstract int getGodnumber(){
-        return this.godnumber;
-
-    }
+    
 
 
     public abstract void perfromAction(GameService gameservice){
