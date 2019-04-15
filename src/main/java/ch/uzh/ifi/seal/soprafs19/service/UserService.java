@@ -67,6 +67,14 @@ public class UserService {
             }
             userRepository.save(oponent);
         }
+
+        //checking if a challenge got rejected
+        if( modelUser.getGettingChallengedBy() == null && gef.getGettingChallengedBy() != null){
+            User oponent = this.userByID(gef.getGettingChallengedBy());
+            oponent.setChallenging(null);
+            this.userRepository.save(oponent);
+            gef.setGettingChallengedBy(null);
+        }
         userRepository.save(gef );
     }
 
