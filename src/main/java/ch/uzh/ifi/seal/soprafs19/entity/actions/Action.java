@@ -55,4 +55,8 @@ public abstract class Action implements Serializable{
 
 
     public abstract void perfromAction(GameService gameService);
+
+    public long TheGameId(){
+        return this.myGameId;
+    }
 }

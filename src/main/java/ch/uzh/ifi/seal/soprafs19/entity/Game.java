@@ -23,8 +23,16 @@ public class Game  implements Serializable  {
     @Column(unique = true, nullable = false)
     private long player1id;
 
+
     @Column(unique = true, nullable = false)
     private long player2id;
+
+    @Column(nullable = true, length = 2000)
+    ArrayList<Long> actions1;
+
+
+    @Column(nullable = true, length = 2000)
+    ArrayList<Long> actions2;
 
     public void setStatus(GameStatus status) {
         this.status = status;
@@ -62,6 +70,21 @@ public class Game  implements Serializable  {
     public Game(){
     }
 
+    public ArrayList<Long> retriveActions1() {
+        return actions1;
+    }
+
+    public void setActions1(ArrayList<Long> actions1) {
+        this.actions1 = actions1;
+    }
+
+    public ArrayList<Long> retriveActions2() {
+        return actions2;
+    }
+
+    public void setActions2(ArrayList<Long> actions2) {
+        this.actions2 = actions2;
+    }
 
     public long getPlayer1id() {
         return player1id;

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.repository.ActionRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
@@ -22,6 +23,16 @@ public class ActionService {
         this.gameService = gameService;
     }
 
+    public Action getActionById(long id){
+        Action action = this.actionRepository.findById(id);
+        if(action == null){
+            return null;
+        } else {
+            return action;
+        }
+    }
+
+
 
     public boolean runActionByID(long id ){
         Action action = this.actionRepository.findById(id );
@@ -29,10 +40,28 @@ public class ActionService {
             return false;
         }
         action.perfromAction(this.gameService);
+        long gameId = action.TheGameId();
+        Game game = this.gameService.gameByID(gameId);
+        if( game.retriveActions1() != null) {
+            for (long actionId : game.retriveActions1()) {
+                this.actionRepository.deleteById(actionId);
+            }
+        }
+        if( game.retriveActions2() != null) {
+            for (long actionId : game.retriveActions2()) {
+                this.actionRepository.deleteById(actionId);
+            }
+        }
+        game.setActions1(null);
+        game.setActions2(null);
         return true;
     }
 
     public void saveAction(Action action){
         this.actionRepository.save(action);
+    }
+
+    public Iterable<Action> getActions() {
+        return this.actionRepository.findAll();
     }
 }

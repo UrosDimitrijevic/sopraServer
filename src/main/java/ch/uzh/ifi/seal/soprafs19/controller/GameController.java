@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
 
 //Uros was here, server works
 
@@ -40,10 +41,41 @@ public class GameController {
         if(performableActions == null){
             return ResponseEntity.status(HttpStatus.OK).body("performable actions is null for some reason");
         }
-        for(Action action:performableActions){
-            this.actionService.saveAction(action);
+
+        //checking if actions not created yes:
+        if( (id == myGame.getPlayer1id() && myGame.retriveActions1() == null) || (id == myGame.getPlayer2id() && myGame.retriveActions2() == null) ) {
+            //storing the actions in repo and in Game
+            ArrayList<Long> theactions;
+            if (id == myGame.getPlayer1id()) {
+                myGame.setActions1(new ArrayList<Long>());
+                theactions = myGame.retriveActions1();
+            } else {
+                myGame.setActions2(new ArrayList<Long>());
+                theactions = myGame.retriveActions2();
+            }
+            for (Action action : performableActions) {
+                this.actionService.saveAction(action);
+                theactions.add(action.getId());
+            }
+            gameService.saveGame(myGame);
+            return ResponseEntity.status(HttpStatus.OK).body(performableActions);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(performableActions);
+        //returning the already existing actions
+        else{
+            ArrayList<Long> theactions;
+            if(id == myGame.getPlayer1id()){
+                theactions = myGame.retriveActions1();
+            } else {
+                theactions = myGame.retriveActions2();
+            }
+            ArrayList<Action> actionsArray = new ArrayList<Action>();
+            for(Long l:theactions){
+                Action nextAction = actionService.getActionById(l);
+                actionsArray.add(nextAction);
+            }
+            performableActions = actionsArray;
+            return ResponseEntity.status(HttpStatus.OK).body(performableActions);
+        }
     }
 
 
@@ -61,7 +93,7 @@ public class GameController {
     @PutMapping("/game/actions/{actionId}")
     ResponseEntity performAction(@PathVariable Long actionId) {
         if( this.actionService.runActionByID(actionId) ){
-            return ResponseEntity.status(HttpStatus.OK).body("Action performed");
+            return ResponseEntity.status(HttpStatus.OK).body("action was performed");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
     }
