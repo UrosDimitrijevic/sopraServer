@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs19.entity;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.ActionCreater;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChooseGod;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo;
@@ -36,6 +37,10 @@ public class Player implements Serializable {
     private boolean startingplayer;
 
     private boolean GodMode;
+
+    public GodCard getAssignedGod() {
+        return assignedGod;
+    }
 
     @Column(nullable = false, length = 800)
     private GodCard assignedGod;
@@ -77,9 +82,9 @@ public class Player implements Serializable {
             possibleActions.add(new ChoseGameModeAction(game, true));
             possibleActions.add(new ChoseGameModeAction(game, false));
         }else if (game.getStatus() == GameStatus.CHOSING_GODCARDS && startingplayer){
-            ArrayList<GodCard> gods = new ArrayList<GodCard>();
+            /*ArrayList<GodCard> gods = new ArrayList<GodCard>();
             GodCard Apollo1 = new Apollo();
-            /*Artemis Artemis1 = new Artemis();
+            Artemis Artemis1 = new Artemis();
             Athena Athena1 = new Athena();
             Atlas Atlas1 = new Atlas();
             Demeter Demeter1 = new Demeter();
@@ -87,9 +92,9 @@ public class Player implements Serializable {
             Hermes Hermes1 = new Hermes();
             Minotaur Minotaur1 = new Minotaur();
             Pan Pan1 = new Pan();
-            Prometheus Prometheus1 = new Prometheus();*/
+            Prometheus Prometheus1 = new Prometheus();
             gods.add(Apollo1);
-            /*gods.add(Artemis1);
+            gods.add(Artemis1);
             gods.add(Athena1);
             gods.add(Atlas1);
             gods.add(Demeter1);
@@ -97,7 +102,7 @@ public class Player implements Serializable {
             gods.add(Hermes1);
             gods.add(Minotaur1);
             gods.add(Pan1);
-            gods.add(Prometheus1);*/
+            gods.add(Prometheus1);
 
             Iterator<GodCard> godIterator = gods.iterator();
             Iterator<GodCard> i= godIterator;
@@ -108,7 +113,11 @@ public class Player implements Serializable {
                     GodCard w= (GodCard) j;
                     possibleActions.add(new ChooseGod(game, v, w));
                 }
-            }
+            }*/
+            possibleActions.addAll(ActionCreater.createChoseGodActions(game));
+        }
+        else if(game.getStatus() == GameStatus.PICKING_GODCARDS && !this.startingplayer){
+            possibleActions.addAll(ActionCreater.createPickGodActions(game));
         }
         return possibleActions;
     }

@@ -2,8 +2,13 @@ package ch.uzh.ifi.seal.soprafs19.service;
 
 
 import ch.uzh.ifi.seal.soprafs19.Application;
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
+import ch.uzh.ifi.seal.soprafs19.entity.User;
+import ch.uzh.ifi.seal.soprafs19.repository.ActionRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +38,7 @@ public class ActionTest {
 
     @Qualifier("actionRepository")
     @Autowired
-    private GameRepository actionRepository;
+    private ActionRepository actionRepository;
 
     @Autowired
     private UserService userService;
@@ -42,7 +47,7 @@ public class ActionTest {
     private GameService gameService;
 
     @Autowired
-    private GameService actionService;
+    private ActionService actionService;
 
 
     //von mir hinzugefügt
@@ -50,7 +55,6 @@ public class ActionTest {
     private WebApplicationContext wac;
     private MockMvc mockMvc;
 
-    @Ignore
     @Test
     public void canCreateAndSaveActions() throws Exception {
 
@@ -62,4 +66,32 @@ public class ActionTest {
 
     }
 
+
+    @Test
+    public void canGetGocCards() throws Exception {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameAction1");
+        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamection2");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame = new Game(testUser1, testUser2 );
+
+        testGame.setStatus(GameStatus.CHOSING_GODCARDS);
+        long id2 = 999;
+
+        this.gameService.saveGame(testGame);
+
+        long id = testGame.getId();
+
+        Game retrivedGame = this.gameService.gameByID(id);
+
+        retrivedGame.getPossibleActions(testUser1.getId());
+        retrivedGame.getPossibleActions(testUser2.getId());
+    }
 }

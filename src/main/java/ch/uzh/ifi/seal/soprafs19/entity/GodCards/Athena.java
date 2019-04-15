@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity.GodCards;
 
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
 import javax.persistence.Column;
@@ -23,6 +24,13 @@ public class Athena extends GodCard {
         super();
     }
 
+
+
+    public Athena(Game game){
+        super(game);
+        this.godnumber = 3;
+        this.name = "Athena";
+    }
 
     public Long getId() {
         return this.id;

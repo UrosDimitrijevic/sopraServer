@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity.GodCards;
 
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
 import javax.persistence.Column;
@@ -24,6 +25,12 @@ public class Prometheus extends GodCard {
         super();
     }
 
+
+    public Prometheus(Game game){
+        super(game);
+        this.godnumber = 1;
+        this.name = "Prometheus";
+    }
 
     public Long getId() {
         return this.id;

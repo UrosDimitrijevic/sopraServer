@@ -31,6 +31,14 @@ public abstract class GodCard implements Serializable {
     @Column(nullable = false)
     long myGameId;
 
+    public String getName() {
+        return name;
+    }
+
+    public int getGodnumber() {
+        return godnumber;
+    }
+
 
 
 
@@ -43,12 +51,6 @@ public abstract class GodCard implements Serializable {
 
 
     }
-
-    public Long getId() {
-        return this.id;
-    }
-
-
 
 
     public abstract void perfromAction(GameService gameservice);

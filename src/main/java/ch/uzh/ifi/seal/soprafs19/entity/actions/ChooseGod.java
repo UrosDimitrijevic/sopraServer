@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
@@ -21,6 +22,9 @@ public class ChooseGod extends Action {
     @Column(nullable = true, length = 800)
     private GodCard god2;
 
+    public ChooseGod(){
+
+    }
 
     public ChooseGod(Game game, GodCard god1, GodCard god2 ){
         super();
@@ -30,16 +34,22 @@ public class ChooseGod extends Action {
 
     }
 
+    public GodCard getGod1() {
+        return god1;
+    }
+
+    public GodCard getGod2() {
+        return god2;
+    }
 
     @java.lang.Override
     public void perfromAction(GameService gameservice){
         Game myGame = gameservice.gameByID(this.myGameId);
         Player[] player = myGame.getPlayers();
-        player[1].setAssignedGod(this.god1);
-        player[2].setAssignedGod(this.god2);
+        player[0].setAssignedGod(this.god1);
+        player[1].setAssignedGod(this.god2);
+        myGame.setStatus(GameStatus.PICKING_GODCARDS);
         gameservice.saveGame(myGame);
-
-
     }
 
 }
