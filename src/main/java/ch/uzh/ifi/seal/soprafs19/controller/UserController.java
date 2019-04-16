@@ -56,18 +56,6 @@ public class UserController {
         }
     }
 
-    @PutMapping("/logout/{id}")
-    ResponseEntity logoutUser(@PathVariable Long id) {
-        User testUser = this.service.userByID( id );
-        if( testUser != null) {
-            this.service.setOffline(testUser);
-            return ResponseEntity.status(HttpStatus.OK).body("logged-out");
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\n \"message\": \"Username taken\"\n} ");
-        }
-    }
-
     //Used to create new accounts
     @PostMapping("/users")
     ResponseEntity createUser(@RequestBody User newUser) {
