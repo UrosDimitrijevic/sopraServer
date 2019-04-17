@@ -54,6 +54,10 @@ public class Game  implements Serializable  {
     @Column(nullable = false, length = 4000)
     private ArrayList<Action> performedActions;
 
+    public ArrayList<Action> retrivePerformedActions() {
+        return performedActions;
+    }
+
     private boolean DoesP1Start(User u1, User u2){
         Random rand = new Random();
         if( u1.getBirthday() == null){

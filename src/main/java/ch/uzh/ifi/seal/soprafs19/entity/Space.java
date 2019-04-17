@@ -60,4 +60,8 @@ public class Space implements Serializable{
         if(yourLevel < this.level-1){ return false; }
         else{ return true && !this.doam; }
     }
+
+    public boolean isBuildiable(){
+        return !doam && (this.figurine == null);
+    }
 }

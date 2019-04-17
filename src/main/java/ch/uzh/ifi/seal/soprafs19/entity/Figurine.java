@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.Building;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Moving;
 
 import javax.persistence.Column;
@@ -67,7 +68,7 @@ public class Figurine implements Serializable {
         space = board.getSpaces()[row][column];
     }
 
-    public ArrayList<Action> getPossibleActions(Game game) {
+    public ArrayList<Action> getPossibleMovingActions(Game game) {
         ArrayList<Action> possibleActions = new ArrayList<>();
 
         if(board.isWalkeable(this.position[0]-1,this.position[1]-1,this.space.getLevel()) ){
@@ -88,11 +89,42 @@ public class Figurine implements Serializable {
         if(board.isWalkeable(this.position[0]+1,this.position[1]+1,this.space.getLevel()) ){
             possibleActions.add(new Moving(game, this, this.position[0]+1, this.position[1]+1 ) );
         }
-        if(board.isWalkeable(this.position[0]+1,this.position[1]-1,this.space.getLevel()) ){
+        if(board.isWalkeable(this.position[0],this.position[1]-1,this.space.getLevel()) ){
             possibleActions.add(new Moving(game, this, this.position[0], this.position[1]-1 ) );
         }
         if(board.isWalkeable(this.position[0],this.position[1]+1,this.space.getLevel()) ){
-            possibleActions.add(new Moving(game, this, this.position[0]+1, this.position[1] ) );
+            possibleActions.add(new Moving(game, this, this.position[0], this.position[1]+1 ) );
+        }
+
+        return possibleActions;
+    }
+
+    public ArrayList<Action> getPossibleBuildingActions(Game game) {
+        ArrayList<Action> possibleActions = new ArrayList<>();
+
+        if(board.isBuildiable(this.position[0]-1,this.position[1]-1) ){
+            possibleActions.add(new Building(game, this.position[0]-1, this.position[1]-1 ) );
+        }
+        if(board.isBuildiable(this.position[0]-1,this.position[1]) ){
+            possibleActions.add(new Building(game, this.position[0]-1, this.position[1] ) );
+        }
+        if(board.isBuildiable(this.position[0]-1,this.position[1]+1) ){
+            possibleActions.add(new Building(game, this.position[0]-1, this.position[1]+1 ) );
+        }
+        if(board.isBuildiable(this.position[0]+1,this.position[1]-1) ){
+            possibleActions.add(new Building(game, this.position[0]+1, this.position[1]-1 ) );
+        }
+        if(board.isBuildiable(this.position[0]+1,this.position[1]) ){
+            possibleActions.add(new Building(game, this.position[0]+1, this.position[1] ) );
+        }
+        if(board.isBuildiable(this.position[0]+1,this.position[1]+1) ){
+            possibleActions.add(new Building(game, this.position[0]+1, this.position[1]+1 ) );
+        }
+        if(board.isBuildiable(this.position[0],this.position[1]-1) ){
+            possibleActions.add(new Building(game, this.position[0], this.position[1]-1 ) );
+        }
+        if(board.isBuildiable(this.position[0],this.position[1]+1) ){
+            possibleActions.add(new Building(game, this.position[0], this.position[1]+1 ) );
         }
 
         return possibleActions;

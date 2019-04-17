@@ -55,12 +55,19 @@ public class Board implements Serializable{
 
     public boolean isWalkeable(int row, int collumn, int yourLevel){
         if(row >= 5 || collumn >= 5 || row < 0 || collumn < 0){
-            System.out.println("can't go to" + Integer.toString(row) + ", " + Integer.toString(collumn));
             return false;
         }
         else{
-            System.out.println("can't go to Level" + Integer.toString(yourLevel) + " the bolean is: " +Boolean.toString(this.spaces[row][collumn].isWalkeable(yourLevel)) );
             return this.spaces[row][collumn].isWalkeable(yourLevel);
+        }
+    }
+
+    public boolean isBuildiable(int row, int collumn){
+        if(row >= 5 || collumn >= 5 || row < 0 || collumn < 0){
+            return false;
+        }
+        else{
+            return this.spaces[row][collumn].isBuildiable();
         }
     }
 
