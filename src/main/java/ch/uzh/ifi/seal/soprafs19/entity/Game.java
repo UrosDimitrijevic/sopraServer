@@ -1,4 +1,5 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
+import ch.qos.logback.core.util.COWArrayList;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
@@ -49,6 +50,9 @@ public class Game  implements Serializable  {
 
     @Column(nullable = false, length = 2000)
     private Player players[];
+
+    @Column(nullable = false, length = 4000)
+    private ArrayList<Action> performedActions;
 
     private boolean DoesP1Start(User u1, User u2){
         Random rand = new Random();
@@ -117,6 +121,8 @@ public class Game  implements Serializable  {
         this.players[1] =  new Player(user2,this.board, !doesP1start );
         this.player1id = user1.getId();
         this.player2id = user2.getId();
+
+        this.performedActions = new ArrayList<Action>();
     }
 
     public void setPlayWithGodCards(boolean playWithGodCards) {
@@ -143,6 +149,10 @@ public class Game  implements Serializable  {
             possibleActions.addAll( players[1].getPossibleActions(this) );
         }
         return possibleActions;
+    }
+
+    public void addAction(Action action){
+        performedActions.add(action);
     }
 
 }

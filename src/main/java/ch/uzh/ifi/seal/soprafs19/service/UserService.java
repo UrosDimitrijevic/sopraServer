@@ -63,13 +63,14 @@ public class UserService {
                 Game game = new Game(oponent,gef);
                 gameService.saveGame(game);
                 System.out.println("\n\n\nshould have created the game\n\n\n");
-
+                oponent.setStatus(UserStatus.INGAME);
+                gef.setStatus(UserStatus.INGAME);
             }
             userRepository.save(oponent);
         }
 
         //checking if a challenge got rejected
-        if( modelUser.getGettingChallengedBy() == null && gef.getGettingChallengedBy() != null){
+        else if( modelUser.getGettingChallengedBy() == null && gef.getGettingChallengedBy() != null){
             User oponent = this.userByID(gef.getGettingChallengedBy());
             oponent.setChallenging(null);
             this.userRepository.save(oponent);

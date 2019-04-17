@@ -11,6 +11,8 @@ public class Figurine implements Serializable {
     @GeneratedValue
     private long id;
 
+    private boolean HasMoved;
+
     private Board board;
 
     private Player player;
@@ -30,6 +32,7 @@ public class Figurine implements Serializable {
         this.figurineNumber = figurineNumber;
         this.playerNumber = (player.isStartingplayer())?1:2;
         board.setFigurine(this,this.playerNumber,this.figurineNumber);
+        this.HasMoved = false;
     }
 
 
