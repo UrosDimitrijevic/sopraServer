@@ -42,6 +42,12 @@ public class Player implements Serializable {
         return assignedGod;
     }
 
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    private int playerNumber;
+
     @Column(nullable = false, length = 800)
     private GodCard assignedGod;
 
@@ -65,11 +71,12 @@ public class Player implements Serializable {
     }
 
 
-    public Player(User me, Board board, boolean doIstart){
+    public Player(User me, Board board, boolean doIstart, int playerNumber){
         this.myUserID = me.getId();
         this.startingplayer = doIstart;
         this.figurine1 = new Figurine(this,board,1);
         this.figurine2 = new Figurine(this,board,2);
+        this.playerNumber = playerNumber;
     }
 
     public boolean isStartingplayer() {

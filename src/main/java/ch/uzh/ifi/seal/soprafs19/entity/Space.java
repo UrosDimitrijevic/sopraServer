@@ -14,6 +14,7 @@ public class Space implements Serializable{
 
     private int level;
     private boolean doam;
+    private Figurine figurine;
 
     public Space(){
         level = 0;
@@ -40,5 +41,14 @@ public class Space implements Serializable{
 
     public int getLevel(){
         return this.level;
+    }
+
+    public void setFigurine(Figurine figurine) {
+        this.figurine = figurine;
+    }
+
+    public boolean isWalkeable(int yourLevel){
+        if(yourLevel < this.level-1){ return false; }
+        else{ return true && this.doam; }
     }
 }

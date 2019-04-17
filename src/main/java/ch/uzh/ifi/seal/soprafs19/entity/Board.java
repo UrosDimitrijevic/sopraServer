@@ -8,6 +8,11 @@ import java.io.Serializable;
 
 @Entity
 public class Board implements Serializable{
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private Space [][] spaces;
 
     @Column(nullable = false, length = 1500)
@@ -20,11 +25,6 @@ public class Board implements Serializable{
     public Space[][] getSpaces() {
         return spaces;
     }
-
-
-    @Id
-    @GeneratedValue
-    private Long id;
 
     public Board(){
         this.spaces = new Space[5][5];
@@ -53,5 +53,13 @@ public class Board implements Serializable{
         return this.spaces[column][row].getLevel();
     }
 
+    public boolean isWalkeable(int row, int collumn, int yourLevel){
+        if(row >= 5 || collumn >= 5){
+            return false;
+        }
+        else{
+            return this.spaces[row][collumn].isWalkeable(yourLevel);
+        }
+    }
 
 }
