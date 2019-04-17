@@ -28,6 +28,7 @@ public class ChooseGod extends Action {
 
     public ChooseGod(Game game, GodCard god1, GodCard god2 ){
         super();
+        this.name = "ChosingGod";
         this.myGameId = game.getId();
         this.god1 = god1;
         this.god2 = god2;

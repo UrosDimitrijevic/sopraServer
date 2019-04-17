@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +15,9 @@ public class Space implements Serializable{
 
     private int level;
     private boolean doam;
-    private Figurine figurine;
+
+    @Column(nullable = false, length = 300)
+    private int figurine[];
 
     public Space(){
         level = 0;
@@ -44,11 +47,17 @@ public class Space implements Serializable{
     }
 
     public void setFigurine(Figurine figurine) {
-        this.figurine = figurine;
+        if(figurine != null) {
+            this.figurine = new int[2];
+            this.figurine[0] = figurine.retrivePlayerNumber();
+            this.figurine[1] = figurine.getFigurineNumber();
+        } else {
+            this.figurine = null;
+        }
     }
 
     public boolean isWalkeable(int yourLevel){
         if(yourLevel < this.level-1){ return false; }
-        else{ return true && this.doam; }
+        else{ return true && !this.doam; }
     }
 }

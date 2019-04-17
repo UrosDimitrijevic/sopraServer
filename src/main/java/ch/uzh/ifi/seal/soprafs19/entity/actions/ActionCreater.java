@@ -2,6 +2,8 @@ package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.*;
+import ch.uzh.ifi.seal.soprafs19.entity.Player;
+
 import java.util.ArrayList;
 
 public class ActionCreater {
@@ -36,6 +38,14 @@ public class ActionCreater {
         ArrayList<Action> possibleActions = new ArrayList<>();
         possibleActions.add(new ChoseYourGod(game,false));
         possibleActions.add(new ChoseYourGod(game,true));
+
+        return possibleActions;
+    }
+
+    public static ArrayList<Action> createMovementActions(Game game, Player player){
+        ArrayList<Action> possibleActions = new ArrayList<>();
+        possibleActions.addAll(player.getFigurine1().getPossibleActions(game));
+        possibleActions.addAll(player.getFigurine2().getPossibleActions(game));
 
         return possibleActions;
     }

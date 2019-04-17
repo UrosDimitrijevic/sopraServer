@@ -70,13 +70,20 @@ public class Player implements Serializable {
         return figurine2;
     }
 
+    public Figurine getFigurines() [] {
+            Figurine figurines [] = new Figurine[2];
+            figurines[0] = this.figurine1;
+            figurines[1] = this.figurine2;
+            return figurines;
+    }
+
 
     public Player(User me, Board board, boolean doIstart, int playerNumber){
         this.myUserID = me.getId();
         this.startingplayer = doIstart;
+        this.playerNumber = playerNumber;
         this.figurine1 = new Figurine(this,board,1);
         this.figurine2 = new Figurine(this,board,2);
-        this.playerNumber = playerNumber;
     }
 
     public boolean isStartingplayer() {
@@ -125,6 +132,9 @@ public class Player implements Serializable {
         }
         else if(game.getStatus() == GameStatus.PICKING_GODCARDS && !this.startingplayer){
             possibleActions.addAll(ActionCreater.createPickGodActions(game));
+        }
+        else if( (game.getStatus() == GameStatus.MOVING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER && !this.startingplayer) ){
+            possibleActions.addAll(ActionCreater.createMovementActions(game, this));
         }
         return possibleActions;
     }
