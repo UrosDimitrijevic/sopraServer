@@ -70,13 +70,17 @@ public class Player implements Serializable {
         return figurine2;
     }
 
-    public Figurine getFigurines() [] {
+    public Figurine retirveFigurines() [] {
             Figurine figurines [] = new Figurine[2];
             figurines[0] = this.figurine1;
             figurines[1] = this.figurine2;
             return figurines;
     }
 
+    public void setBoardforFigurines(Board board){
+        this.figurine1.setBoard(board);
+        this.figurine2.setBoard(board);
+    }
 
     public Player(User me, Board board, boolean doIstart, int playerNumber){
         this.myUserID = me.getId();

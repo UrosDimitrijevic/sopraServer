@@ -29,10 +29,6 @@ public class Pan extends GodCard {
         this.name = "Pan";
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
 
 
     public void perfromAction(GameService gameservice){

@@ -114,6 +114,11 @@ public class Game  implements Serializable  {
         return players;
     }
 
+    public void setBoardForFigurines(){
+        this.players[0].setBoardforFigurines(this.board);
+        this.players[1].setBoardforFigurines(this.board);
+    }
+
     public Game(User user1, User user2){
         this.status = GameStatus.CHOSING_GAME_MODE;
         this.board = new Board();

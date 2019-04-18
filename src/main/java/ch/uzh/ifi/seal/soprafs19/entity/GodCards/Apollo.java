@@ -29,14 +29,6 @@ public class Apollo extends GodCard {
         this.name = "Apollo";
     }
 
-
-    public Long getId() {
-        return this.id;
-    }
-
-
-
-
     public void perfromAction(GameService gameservice){
 
 

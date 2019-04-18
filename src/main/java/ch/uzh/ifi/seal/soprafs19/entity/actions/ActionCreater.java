@@ -65,7 +65,7 @@ public class ActionCreater {
             }
         }
 
-        possibleActions.addAll(player.getFigurines()[movedFigurine].getPossibleBuildingActions(game));
+        possibleActions.addAll(player.retirveFigurines()[movedFigurine-1].getPossibleBuildingActions(game));
 
         return possibleActions;
     }

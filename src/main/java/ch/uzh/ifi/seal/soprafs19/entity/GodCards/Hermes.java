@@ -30,11 +30,6 @@ public class Hermes extends GodCard {
         this.name = "Hermes";
     }
 
-    public Long getId() {
-
-        return this.id;
-    }
-
 
     public void perfromAction(GameService gameservice){
 

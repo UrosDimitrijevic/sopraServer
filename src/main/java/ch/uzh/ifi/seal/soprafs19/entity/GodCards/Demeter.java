@@ -32,11 +32,6 @@ public class Demeter extends GodCard {
         this.name = "Demeter";
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-
 
     public void perfromAction(GameService gameservice){
 

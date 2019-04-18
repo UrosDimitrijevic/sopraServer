@@ -57,7 +57,7 @@ public class Moving extends Action {
     @java.lang.Override
     public void perfromAction(GameService gameService) {
         Game myGame = gameService.gameByID(this.myGameId);
-        Figurine figurine = myGame.getPlayers()[this.playerNumber-1].getFigurines()[this.figurineNumber-1];
+        Figurine figurine = myGame.getPlayers()[this.playerNumber-1].retirveFigurines()[this.figurineNumber-1];
 
         figurine.changePosition(this.row, this.column);
 

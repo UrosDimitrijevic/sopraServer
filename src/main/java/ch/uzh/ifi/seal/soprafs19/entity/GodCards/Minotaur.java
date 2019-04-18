@@ -32,11 +32,6 @@ public class Minotaur extends GodCard {
         this.name = "Minotaur";
     }
 
-    public Long getId() {
-
-        return this.id;
-    }
-
 
     public void perfromAction(GameService gameservice){
 

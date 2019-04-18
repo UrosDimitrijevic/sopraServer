@@ -35,6 +35,10 @@ public class Figurine implements Serializable {
 
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     public int retrivePlayerNumber(){
         return this.playerNumber;
     }
