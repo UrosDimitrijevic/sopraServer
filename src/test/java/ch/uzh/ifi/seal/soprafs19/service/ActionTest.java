@@ -9,6 +9,7 @@ import ch.uzh.ifi.seal.soprafs19.repository.ActionRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +19,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebAppConfiguration
@@ -53,7 +56,12 @@ public class ActionTest {
     //von mir hinzugefügt
     @Autowired
     private WebApplicationContext wac;
+
     private MockMvc mockMvc;
+    @Before
+    public void setup() throws Exception {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
 
     @Test
     public void canCreateAndSaveActions() throws Exception {
@@ -90,8 +98,11 @@ public class ActionTest {
 
         Game retrivedGame = this.gameService.gameByID(id);
 
-        retrivedGame.getPossibleActions(testUser1.getId());
-        retrivedGame.getPossibleActions(testUser2.getId());
+        //retrivedGame.getPossibleActions(testUser1.getId());
+        //retrivedGame.getPossibleActions(testUser2.getId());
+
+        this.mockMvc.perform(get("/users/{id}",testUser1.getId() )).andExpect(status().isOk() );
+        this.mockMvc.perform(get("/users/{id}",testUser2.getId() )).andExpect(status().isOk() );
     }
 
     @Test
