@@ -161,11 +161,11 @@ public class Player implements Serializable {
         else if( (game.getStatus() == GameStatus.BUILDING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.BUILDING_NONSTARTINGPLAYER && !this.startingplayer) ){
             possibleActions.addAll(ActionCreater.createBuildingActions(game, this));
         }
-        else if( ((game.getStatus() == GameStatus.SettingFigurinesp1f1 || game.getStatus() == GameStatus.SettingFigurinesp1f2) && this.startingplayer)){
-            possibleActions.addAll(ActionCreater.createPlaceWorkerActions(game));
+        else if( game.getStatus() == GameStatus.SettingFigurinesp1f1 || game.getStatus() == GameStatus.SettingFigurinesp2f1){
+            possibleActions.addAll(ActionCreater.createPlaceWorkerActions(game,this));
         }
-        else if( ((game.getStatus() == GameStatus.SettingFigurinesp2f1 || game.getStatus() == GameStatus.SettingFigurinesp2f2) && !this.startingplayer) ){
-            possibleActions.addAll(ActionCreater.createPlaceWorkerActions(game));
+        else if( game.getStatus() == GameStatus.SettingFigurinesp1f2 || game.getStatus() == GameStatus.SettingFigurinesp2f2 ){
+            possibleActions.addAll(ActionCreater.createPlaceWorker2Actions(game,this));
         }
 
 
@@ -173,9 +173,11 @@ public class Player implements Serializable {
     }
 
 
+
     public void setAssignedGod(GodCard assignedGod) {
         this.assignedGod = assignedGod;
     }
+
 }
 
 

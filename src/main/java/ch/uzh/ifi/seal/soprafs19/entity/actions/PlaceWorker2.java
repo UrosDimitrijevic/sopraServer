@@ -45,7 +45,7 @@ public class PlaceWorker2 extends Action {
         this.figurineNumber = figurineNumber;
     }
 
-    public PlaceWorker2(){
+    public PlaceWorker2(Game game, int i, int j){
 
     }
 
@@ -56,7 +56,6 @@ public class PlaceWorker2 extends Action {
         this.player=player;
 
         this.name = "PlaceWorker";
-
 
     }
 
@@ -69,7 +68,6 @@ public class PlaceWorker2 extends Action {
         if(myGame.getStatus() == GameStatus.SettingFigurinesp1f2){
             myGame.setStatus(GameStatus.SettingFigurinesp2f1);
         }
-
 
         if(myGame.getStatus() == GameStatus.SettingFigurinesp2f2){
             myGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);

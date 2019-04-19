@@ -51,17 +51,37 @@ public class ActionCreater {
     }
 
 
-    public static ArrayList<Action> createPlaceWorkerActions(Game game){
+    public static ArrayList<Action> createPlaceWorkerActions(Game game, Player player){
         ArrayList<Action> possibleActions= new ArrayList<>();
 
         for( int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
-                possibleActions.add(new PlaceWorker(game,i,j));
+                possibleActions.add(new PlaceWorker(game,player,i,j));
             }
         }
         return possibleActions;
 
     }
+
+    public static ArrayList<Action> createPlaceWorker2Actions(Game game, Player player){
+        ArrayList<Action> possibleActions= new ArrayList<>();
+
+        for( int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                possibleActions.add(new PlaceWorker2(game,player,i,j));
+            }
+        }
+
+        return possibleActions;
+
+    }
+
+
+
+
+
+
+
 
     public static ArrayList<Action> createBuildingActions(Game game, Player player){
         ArrayList<Action> possibleActions = new ArrayList<>();
