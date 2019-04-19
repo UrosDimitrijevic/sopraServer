@@ -61,8 +61,8 @@ public class Figurine implements Serializable {
         this.position[0] = row;
         this.position[1] = column;
         if(board.isWalkeable(row, column,space.getLevel()) ){
-        board.getSpaces()[row][column].setFigurine(this);
-        space = board.getSpaces()[row][column];
+            board.getSpaces()[row][column].setFigurine(this);
+            space = board.getSpaces()[row][column];
         }
     }
 
