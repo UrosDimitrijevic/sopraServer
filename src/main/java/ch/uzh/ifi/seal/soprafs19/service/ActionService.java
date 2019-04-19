@@ -42,6 +42,7 @@ public class ActionService {
         action.perfromAction(this.gameService);
         long gameId = action.TheGameId();
         Game game = this.gameService.gameByID(gameId);
+        game.addAction(action);
         if( game.retriveActions1() != null) {
             for (long actionId : game.retriveActions1()) {
                 this.actionRepository.deleteById(actionId);

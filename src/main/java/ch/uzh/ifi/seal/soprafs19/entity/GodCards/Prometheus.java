@@ -32,10 +32,6 @@ public class Prometheus extends GodCard {
         this.name = "Prometheus";
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
 
     public void perfromAction(GameService gameservice){
 

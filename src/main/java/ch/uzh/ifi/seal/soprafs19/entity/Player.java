@@ -42,6 +42,12 @@ public class Player implements Serializable {
         return assignedGod;
     }
 
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    private int playerNumber;
+
     @Column(nullable = false, length = 800)
     private GodCard assignedGod;
 
@@ -64,10 +70,22 @@ public class Player implements Serializable {
         return figurine2;
     }
 
+    public Figurine retirveFigurines() [] {
+            Figurine figurines [] = new Figurine[2];
+            figurines[0] = this.figurine1;
+            figurines[1] = this.figurine2;
+            return figurines;
+    }
 
-    public Player(User me, Board board, boolean doIstart){
+    public void setBoardforFigurines(Board board){
+        this.figurine1.setBoard(board);
+        this.figurine2.setBoard(board);
+    }
+
+    public Player(User me, Board board, boolean doIstart, int playerNumber){
         this.myUserID = me.getId();
         this.startingplayer = doIstart;
+        this.playerNumber = playerNumber;
         this.figurine1 = new Figurine(this,board,1);
         this.figurine2 = new Figurine(this,board,2);
     }
@@ -118,6 +136,12 @@ public class Player implements Serializable {
         }
         else if(game.getStatus() == GameStatus.PICKING_GODCARDS && !this.startingplayer){
             possibleActions.addAll(ActionCreater.createPickGodActions(game));
+        }
+        else if( (game.getStatus() == GameStatus.MOVING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER && !this.startingplayer) ){
+            possibleActions.addAll(ActionCreater.createMovementActions(game, this));
+        }
+        else if( (game.getStatus() == GameStatus.BUILDING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.BUILDING_NONSTARTINGPLAYER && !this.startingplayer) ){
+            possibleActions.addAll(ActionCreater.createBuildingActions(game, this));
         }
         return possibleActions;
     }

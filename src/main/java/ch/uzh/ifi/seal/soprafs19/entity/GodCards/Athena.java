@@ -32,10 +32,6 @@ public class Athena extends GodCard {
         this.name = "Athena";
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
 
     public void perfromAction(GameService gameservice){
 

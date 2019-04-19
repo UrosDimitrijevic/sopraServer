@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
@@ -107,6 +108,14 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
         Game game = new Game(user1,user2);
+
+        game.setPlayWithGodCards(false);
+        game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+        game.getPlayers()[0].getFigurine1().setPosition(0,0);
+        game.getPlayers()[0].getFigurine2().setPosition(0,2);
+        game.getPlayers()[1].getFigurine1().setPosition(4,0);
+        game.getPlayers()[1].getFigurine2().setPosition(4,2);
+
         gameService.saveGame(game);
         return ResponseEntity.status(HttpStatus.OK).body("game was created" );
     }

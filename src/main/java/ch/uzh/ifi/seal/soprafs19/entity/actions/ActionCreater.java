@@ -2,6 +2,8 @@ package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.*;
+import ch.uzh.ifi.seal.soprafs19.entity.Player;
+
 import java.util.ArrayList;
 
 public class ActionCreater {
@@ -40,4 +42,31 @@ public class ActionCreater {
         return possibleActions;
     }
 
+    public static ArrayList<Action> createMovementActions(Game game, Player player){
+        ArrayList<Action> possibleActions = new ArrayList<>();
+        possibleActions.addAll(player.getFigurine1().getPossibleMovingActions(game));
+        possibleActions.addAll(player.getFigurine2().getPossibleMovingActions(game));
+
+        return possibleActions;
+    }
+
+
+    public static ArrayList<Action> createBuildingActions(Game game, Player player){
+        ArrayList<Action> possibleActions = new ArrayList<>();
+
+        //figuring out which figurine moved
+        ArrayList<Action> oldActions = game.retrivePerformedActions();
+
+        int movedFigurine = 1;
+        for( int i = oldActions.size()-1; i >= 0; --i){
+            Action action = oldActions.get(i);
+            if( action instanceof Moving ){
+                movedFigurine = ((Moving) action).getFigurineNumber();
+            }
+        }
+
+        possibleActions.addAll(player.retirveFigurines()[movedFigurine-1].getPossibleBuildingActions(game));
+
+        return possibleActions;
+    }
 }
