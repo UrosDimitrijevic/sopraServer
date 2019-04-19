@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs19.constant.PlayerStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
@@ -15,6 +16,8 @@ public class PlaceWorker extends Action {
         int row;
         int column;
         int figurineNumber;
+        Player player;
+
 
         int playerNumber;
 
@@ -46,10 +49,11 @@ public class PlaceWorker extends Action {
 
         }
 
-        public PlaceWorker(Game game, int row, int column){
+        public PlaceWorker(Game game,Player player, int row, int column){
             super(game);
             this.row = row;
             this.column = column;
+            this.player=player;
 
             this.name = "PlaceWorker";
 
@@ -59,32 +63,14 @@ public class PlaceWorker extends Action {
         @java.lang.Override
         public void perfromAction(GameService gameService) {
             Game myGame = gameService.gameByID(this.myGameId);
-            Player player1 = myGame.getStartingPlayer();
-            Player player2 = myGame.getNonStartingPlayer();
-
+            Figurine figurine = this.player.retirveFigurines()[0];
+            figurine.setPosition(this.row, this.column);
 
             if(myGame.getStatus() == GameStatus.SettingFigurinesp1f1){
-                Figurine figurine = player1.retirveFigurines()[0];
-                figurine.setPosition(this.row, this.column);
                 myGame.setStatus(GameStatus.SettingFigurinesp1f2);
             }
-
-            if(myGame.getStatus() == GameStatus.SettingFigurinesp1f2){
-                Figurine figurine = player1.retirveFigurines()[1];
-                figurine.setPosition(this.row, this.column);
-                myGame.setStatus(GameStatus.SettingFigurinesp2f1);
-            }
-
             if(myGame.getStatus() == GameStatus.SettingFigurinesp2f1) {
-                Figurine figurine = player2.retirveFigurines()[0];
-                figurine.setPosition(this.row, this.column);
                 myGame.setStatus(GameStatus.SettingFigurinesp2f2);
-            }
-
-            if(myGame.getStatus() == GameStatus.SettingFigurinesp2f2){
-                Figurine figurine = player2.retirveFigurines()[1];
-                figurine.setPosition(this.row, this.column);
-                myGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
             }
 
 
