@@ -134,6 +134,22 @@ public class Game  implements Serializable  {
         this.performedActions = new ArrayList<Action>();
     }
 
+    public Player getStartingPlayer(){
+        if (players[0].isStartingplayer()) {
+            return players[0];
+        }else{
+            return players[1];
+        }
+    }
+
+    public Player getNonStartingPlayer(){
+        if (players[0].isStartingplayer()) {
+            return players[1];
+        }else{
+            return players[0];
+        }
+    }
+
     public void setPlayWithGodCards(boolean playWithGodCards) {
         this.playWithGodCards = playWithGodCards;
     }

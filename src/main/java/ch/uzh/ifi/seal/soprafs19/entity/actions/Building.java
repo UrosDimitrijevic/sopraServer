@@ -29,9 +29,11 @@ public class Building extends Action {
         this.column = column;
     }
 
+
     public Building(){
 
     }
+
 
     public Building (Game game, int row, int column){
         super(game);
@@ -40,6 +42,7 @@ public class Building extends Action {
 
         this.name = "Building";
     }
+
 
     @java.lang.Override
     public void perfromAction(GameService gameService) {

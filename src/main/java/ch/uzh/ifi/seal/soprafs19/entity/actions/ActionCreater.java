@@ -51,6 +51,18 @@ public class ActionCreater {
     }
 
 
+    public static ArrayList<Action> createPlaceWorkerActions(Game game){
+        ArrayList<Action> possibleActions= new ArrayList<>();
+
+        for( int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                possibleActions.add(new PlaceWorker(game,i,j));
+            }
+        }
+        return possibleActions;
+
+    }
+
     public static ArrayList<Action> createBuildingActions(Game game, Player player){
         ArrayList<Action> possibleActions = new ArrayList<>();
 
@@ -69,4 +81,5 @@ public class ActionCreater {
 
         return possibleActions;
     }
+
 }

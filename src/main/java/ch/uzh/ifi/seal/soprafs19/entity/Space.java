@@ -43,6 +43,7 @@ public class Space implements Serializable{
     }
 
     public int getLevel(){
+
         return this.level;
     }
 

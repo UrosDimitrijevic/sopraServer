@@ -50,6 +50,7 @@ public class Board implements Serializable{
     }
 
     public int getLvlAt(int column, int row){
+
         return this.spaces[column][row].getLevel();
     }
 

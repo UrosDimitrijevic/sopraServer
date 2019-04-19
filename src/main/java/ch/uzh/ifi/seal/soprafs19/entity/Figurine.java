@@ -32,8 +32,8 @@ public class Figurine implements Serializable {
 
     public int getFigurineNumber() {
         return figurineNumber;
-
     }
+
 
     public void setBoard(Board board) {
         this.board = board;
@@ -60,8 +60,10 @@ public class Figurine implements Serializable {
         this.position = new int [2];
         this.position[0] = row;
         this.position[1] = column;
+        if(board.isWalkeable(row, column,space.getLevel()) ){
         board.getSpaces()[row][column].setFigurine(this);
         space = board.getSpaces()[row][column];
+        }
     }
 
     public void changePosition(int row, int column){

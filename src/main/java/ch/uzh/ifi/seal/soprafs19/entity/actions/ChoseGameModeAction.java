@@ -16,10 +16,12 @@ public class ChoseGameModeAction extends Action {
     }
 
     public ChoseGameModeAction (Game game, boolean withGodCards){
+
         super();
         this.withGodCards = withGodCards;
         this.name = "ChoseMode";
         this.myGameId = game.getId();
+
     }
 
 

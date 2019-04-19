@@ -1,11 +1,9 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs19.constant.PlayerStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
-import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
-import ch.uzh.ifi.seal.soprafs19.entity.actions.ActionCreater;
-import ch.uzh.ifi.seal.soprafs19.entity.actions.ChooseGod;
-import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.*;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Artemis;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Athena;
@@ -43,10 +41,16 @@ public class Player implements Serializable {
     }
 
     public int getPlayerNumber() {
+
         return playerNumber;
     }
 
     private int playerNumber;
+
+
+    @Column
+    private PlayerStatus  plstatus;
+
 
     @Column(nullable = false, length = 800)
     private GodCard assignedGod;
@@ -88,11 +92,25 @@ public class Player implements Serializable {
         this.playerNumber = playerNumber;
         this.figurine1 = new Figurine(this,board,1);
         this.figurine2 = new Figurine(this,board,2);
+        this.activePlayer();
     }
+
+
+
 
     public boolean isStartingplayer() {
         return startingplayer;
     }
+
+    private void activePlayer(){
+        if(this.startingplayer){
+            this.plstatus=PlayerStatus.ACTIVE;
+        }else{
+            this.plstatus=PlayerStatus.PASSIVE;
+        }
+    }
+
+
 
     public ArrayList<Action> getPossibleActions(Game game){
         ArrayList<Action> possibleActions = new ArrayList<>();
@@ -143,6 +161,14 @@ public class Player implements Serializable {
         else if( (game.getStatus() == GameStatus.BUILDING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.BUILDING_NONSTARTINGPLAYER && !this.startingplayer) ){
             possibleActions.addAll(ActionCreater.createBuildingActions(game, this));
         }
+        else if( ((game.getStatus() == GameStatus.SettingFigurinesp1f1 || game.getStatus() == GameStatus.SettingFigurinesp1f2) && this.startingplayer)){
+            possibleActions.addAll(ActionCreater.createPlaceWorkerActions(game));
+        }
+        else if( ((game.getStatus() == GameStatus.SettingFigurinesp2f1 || game.getStatus() == GameStatus.SettingFigurinesp2f2) && !this.startingplayer) ){
+            possibleActions.addAll(ActionCreater.createPlaceWorkerActions(game));
+        }
+
+
         return possibleActions;
     }
 
