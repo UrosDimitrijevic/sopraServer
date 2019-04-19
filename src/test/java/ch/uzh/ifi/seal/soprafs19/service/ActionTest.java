@@ -97,20 +97,20 @@ public class ActionTest {
     @Test
     public void canPlaceWorker() throws Exception {
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction1");
-        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setUsername("testUsernameAction5");
+        testUser1.setPassword("testPassowrdAction6");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection2");
+        testUser2.setUsername("testUsernamection7");
         testUser2.setPassword("testPassowrd");
+        testUser2.setBirthday("2000-05-01");
         testUser2 = userService.createUser(testUser2);
 
         Game testGame = new Game(testUser1, testUser2 );
 
         testGame.setStatus(GameStatus.SettingFigurinesp1f1);
-        long id2 = 999;
 
         this.gameService.saveGame(testGame);
 
