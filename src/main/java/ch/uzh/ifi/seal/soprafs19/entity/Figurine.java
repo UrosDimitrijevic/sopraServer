@@ -19,6 +19,7 @@ public class Figurine implements Serializable {
 
     private boolean HasMoved;
 
+    @Column(nullable = true, length = 2000)
     private Board board;
 
     private Player player;
@@ -27,6 +28,8 @@ public class Figurine implements Serializable {
 
     @Column(nullable = false, length = 100)
     int position[];
+
+    @Column(nullable = true, length = 100)
     private Space space;
 
 
@@ -61,10 +64,8 @@ public class Figurine implements Serializable {
         this.position = new int [2];
         this.position[0] = row;
         this.position[1] = column;
-        if(board.isWalkeable(row, column,0) ){
-            board.getSpaces()[row][column].setFigurine(this);
-            space = board.getSpaces()[row][column];
-        }
+        board.getSpaces()[row][column].setFigurine(this);
+        space = board.getSpaces()[row][column];
     }
 
     public void changePosition(int row, int column){
@@ -77,7 +78,7 @@ public class Figurine implements Serializable {
 
     public ArrayList<Action> getPossibleMovingActions(Game game) {
         ArrayList<Action> possibleActions = new ArrayList<>();
-
+        if(this.space == null){ System.out.println("space == null\n\n\n"); }
         if(board.isWalkeable(this.position[0]-1,this.position[1]-1,this.space.getLevel()) ){
             possibleActions.add(new Moving(game, this, this.position[0]-1, this.position[1]-1 ) );
         }

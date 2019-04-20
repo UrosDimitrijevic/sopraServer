@@ -113,15 +113,15 @@ public class GameController {
         System.out.println("\n\n\nkommt bis hier\n\n\n\n");
         if(game == null){         System.out.println("game == null"); }
         if(game.retrivePlayers() == null){ System.out.println("players array == NULL"); }
-        if(game.retrivePlayers()[0] == null){ System.out.println("players[0] == NULL"); }
-        if(game.retrivePlayers()[0].getFigurine1() == null){ System.out.println("figurine[0][1] array == NULL"); }
+        if(game.retrivePlayers()[1] == null){ System.out.println("players[0] == NULL"); }
+        if(game.retrivePlayers()[1].getFigurine1() == null){ System.out.println("figurine[0][1] array == NULL"); }
 
         game.setPlayWithGodCards(false);
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
         game.retrivePlayers()[0].getFigurine1().setPosition(0,0);
-        //game.retrivePlayers()[0].getFigurine2().setPosition(0,2);
-        //game.retrivePlayers()[1].getFigurine1().setPosition(4,0);
-        //game.retrivePlayers()[1].getFigurine2().setPosition(4,2);
+        game.retrivePlayers()[0].getFigurine2().setPosition(0,2);
+        game.retrivePlayers()[1].getFigurine1().setPosition(4,0);
+        game.retrivePlayers()[1].getFigurine2().setPosition(4,2);
 
         gameService.saveGame(game);
         return ResponseEntity.status(HttpStatus.OK).body("game was created" );

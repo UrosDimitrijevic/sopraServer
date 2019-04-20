@@ -45,7 +45,7 @@ public class Game  implements Serializable  {
     @Column(nullable = true)
     private boolean playWithGodCards;
 
-    @Column(nullable = false, length = 2000)
+    @Column(nullable = false, length = 8000)
     private Board board;
 
     @Column(nullable = false, length = 4000)
