@@ -24,30 +24,30 @@ public class ChoseYourGod extends Action  {
         super(game);
         this.name = "ChoseYourGod";
         if(pickGod1){
-            this.myGod = game.getPlayers()[0].getAssignedGod();
+            this.myGod = game.retrivePlayers()[0].getAssignedGod();
         }
         else{
-            this.myGod = game.getPlayers()[1].getAssignedGod();
+            this.myGod = game.retrivePlayers()[1].getAssignedGod();
         }
     }
 
     @java.lang.Override
     public void perfromAction(GameService gameservice){
         Game game = gameservice.gameByID(this.myGameId);
-        boolean P1startingplayer = game.getPlayers()[0].isStartingplayer();
+        boolean P1startingplayer = game.retrivePlayers()[0].isStartingplayer();
         GodCard otherGod;
         if( P1startingplayer){
-            if(game.getPlayers()[0].getAssignedGod().getGodnumber() != this.myGod.getGodnumber() ){
-                otherGod = game.getPlayers()[0].getAssignedGod();
-                game.getPlayers()[0].setAssignedGod(this.myGod);
-                game.getPlayers()[1].setAssignedGod(otherGod);
+            if(game.retrivePlayers()[0].getAssignedGod().getGodnumber() != this.myGod.getGodnumber() ){
+                otherGod = game.retrivePlayers()[0].getAssignedGod();
+                game.retrivePlayers()[0].setAssignedGod(this.myGod);
+                game.retrivePlayers()[1].setAssignedGod(otherGod);
             }
         }
         else{
-            if(game.getPlayers()[1].getAssignedGod().getGodnumber() != this.myGod.getGodnumber() ){
-                otherGod = game.getPlayers()[1].getAssignedGod();
-                game.getPlayers()[1].setAssignedGod(this.myGod);
-                game.getPlayers()[0].setAssignedGod(otherGod);
+            if(game.retrivePlayers()[1].getAssignedGod().getGodnumber() != this.myGod.getGodnumber() ){
+                otherGod = game.retrivePlayers()[1].getAssignedGod();
+                game.retrivePlayers()[1].setAssignedGod(this.myGod);
+                game.retrivePlayers()[0].setAssignedGod(otherGod);
             }
         }
         game.setStatus(GameStatus.SettingFigurinesp1f1);

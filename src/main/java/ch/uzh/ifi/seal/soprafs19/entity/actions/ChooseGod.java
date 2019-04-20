@@ -46,7 +46,7 @@ public class ChooseGod extends Action {
     @java.lang.Override
     public void perfromAction(GameService gameservice){
         Game myGame = gameservice.gameByID(this.myGameId);
-        Player[] player = myGame.getPlayers();
+        Player[] player = myGame.retrivePlayers();
         player[0].setAssignedGod(this.god1);
         player[1].setAssignedGod(this.god2);
         myGame.setStatus(GameStatus.PICKING_GODCARDS);

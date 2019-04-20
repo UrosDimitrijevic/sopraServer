@@ -110,7 +110,7 @@ public class Game  implements Serializable  {
         return board;
     }
 
-    public Player[] getPlayers() {
+    public Player[] retrivePlayers() {
         return players;
     }
 
@@ -135,7 +135,7 @@ public class Game  implements Serializable  {
             this.players[0] = new Player(user2, this.board, true, 1);
             this.players[1] = new Player(user1, this.board, false, 2);
             this.player1id = user2.getId();
-            this.player1id = user1.getId();
+            this.player2id = user1.getId();
         }
 
         this.performedActions = new ArrayList<Action>();

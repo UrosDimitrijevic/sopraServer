@@ -101,6 +101,8 @@ public class GameController {
 
     @PutMapping("/game/justForTesting/{id}")
     ResponseEntity justForTesting(@PathVariable Long id) {
+
+
         Long secondId = 2L;
         User user1 = this.service.userByID(id);
         User user2 = this.service.userByID(secondId);
@@ -108,13 +110,18 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
         Game game = new Game(user1,user2);
+        System.out.println("\n\n\nkommt bis hier\n\n\n\n");
+        if(game == null){         System.out.println("game == null"); }
+        if(game.retrivePlayers() == null){ System.out.println("players array == NULL"); }
+        if(game.retrivePlayers()[0] == null){ System.out.println("players[0] == NULL"); }
+        if(game.retrivePlayers()[0].getFigurine1() == null){ System.out.println("figurine[0][1] array == NULL"); }
 
         game.setPlayWithGodCards(false);
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.getPlayers()[0].getFigurine1().setPosition(0,0);
-        game.getPlayers()[0].getFigurine2().setPosition(0,2);
-        game.getPlayers()[1].getFigurine1().setPosition(4,0);
-        game.getPlayers()[1].getFigurine2().setPosition(4,2);
+        game.retrivePlayers()[0].getFigurine1().setPosition(0,0);
+        //game.retrivePlayers()[0].getFigurine2().setPosition(0,2);
+        //game.retrivePlayers()[1].getFigurine1().setPosition(4,0);
+        //game.retrivePlayers()[1].getFigurine2().setPosition(4,2);
 
         gameService.saveGame(game);
         return ResponseEntity.status(HttpStatus.OK).body("game was created" );
