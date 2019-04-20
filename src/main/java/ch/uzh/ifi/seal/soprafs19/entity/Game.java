@@ -45,7 +45,7 @@ public class Game  implements Serializable  {
     @Column(nullable = true)
     private boolean playWithGodCards;
 
-    @Column(nullable = false, length = 2000)
+    @Column(nullable = false, length = 8000)
     private Board board;
 
     @Column(nullable = false, length = 4000)
@@ -110,7 +110,7 @@ public class Game  implements Serializable  {
         return board;
     }
 
-    public Player[] getPlayers() {
+    public Player[] retrivePlayers() {
         return players;
     }
 
@@ -126,10 +126,17 @@ public class Game  implements Serializable  {
         boolean doesP1start = this.DoesP1Start(user1,user2);
         this.playWithGodCards = false;
 
-        this.players[0] =  new Player(user1,this.board, doesP1start,1 );
-        this.players[1] =  new Player(user2,this.board, !doesP1start,2 );
-        this.player1id = user1.getId();
-        this.player2id = user2.getId();
+        if( doesP1start) {
+            this.players[0] = new Player(user1, this.board, true, 1);
+            this.players[1] = new Player(user2, this.board, false, 2);
+            this.player1id = user1.getId();
+            this.player2id = user2.getId();
+        } else {
+            this.players[0] = new Player(user2, this.board, true, 1);
+            this.players[1] = new Player(user1, this.board, false, 2);
+            this.player1id = user2.getId();
+            this.player2id = user1.getId();
+        }
 
         this.performedActions = new ArrayList<Action>();
     }

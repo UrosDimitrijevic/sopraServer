@@ -28,7 +28,7 @@ public class Prometheus extends GodCard {
 
     public Prometheus(Game game){
         super(game);
-        this.godnumber = 1;
+        this.godnumber = 10;
         this.name = "Prometheus";
     }
 
