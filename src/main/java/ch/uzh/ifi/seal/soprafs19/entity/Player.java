@@ -108,6 +108,7 @@ public class Player implements Serializable {
         }else{
             this.plstatus=PlayerStatus.PASSIVE;
         }
+
     }
 
 

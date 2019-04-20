@@ -49,13 +49,15 @@ public class PlaceWorker extends Action {
 
         }
 
-        public PlaceWorker(Game game,Player player, int row, int column){
+        public PlaceWorker(Game game, Figurine figurine, int row, int column){
             super(game);
             this.row = row;
             this.column = column;
-            this.player=player;
-
             this.name = "PlaceWorker";
+
+
+            this.figurineNumber = figurine.getFigurineNumber();
+            this.playerNumber = figurine.retrivePlayerNumber();
 
 
         }
@@ -63,7 +65,7 @@ public class PlaceWorker extends Action {
         @java.lang.Override
         public void perfromAction(GameService gameService) {
             Game myGame = gameService.gameByID(this.myGameId);
-            Figurine figurine = this.player.retirveFigurines()[0];
+            Figurine figurine = myGame.getPlayers()[this.playerNumber-1].retirveFigurines()[0];
             figurine.setPosition(this.row, this.column);
 
             if(myGame.getStatus() == GameStatus.SettingFigurinesp1f1){
@@ -76,7 +78,6 @@ public class PlaceWorker extends Action {
 
             gameService.saveGame(myGame);
         }
-
     }
 
 
