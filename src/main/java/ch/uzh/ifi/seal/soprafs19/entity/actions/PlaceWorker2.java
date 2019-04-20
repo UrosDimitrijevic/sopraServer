@@ -63,7 +63,7 @@ public class PlaceWorker2 extends Action {
     @java.lang.Override
     public void perfromAction(GameService gameService) {
         Game myGame = gameService.gameByID(this.myGameId);
-        Figurine figurine = myGame.getPlayers()[this.playerNumber-1].retirveFigurines()[1];
+        Figurine figurine = myGame.retrivePlayers()[this.playerNumber-1].retirveFigurines()[1];
 
           figurine.setPosition(this.row, this.column);
 
