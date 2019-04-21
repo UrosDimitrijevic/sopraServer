@@ -56,7 +56,7 @@ public class ActionCreater {
 
         for( int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
-                possibleActions.add(new PlaceWorker(game,player,i,j));
+                possibleActions.add(new PlaceWorker(game,player.getFigurine1(),i,j));
             }
         }
         return possibleActions;
@@ -68,7 +68,7 @@ public class ActionCreater {
 
         for( int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
-                possibleActions.add(new PlaceWorker2(game,player,i,j));
+                possibleActions.add(new PlaceWorker2(game,player.getFigurine2(),i,j));
             }
         }
 

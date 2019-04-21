@@ -45,7 +45,7 @@ public class PlaceWorker2 extends Action {
         this.figurineNumber = figurineNumber;
     }
 
-    public PlaceWorker2(Game game, int i, int j){
+    public PlaceWorker2(){
 
     }
 
