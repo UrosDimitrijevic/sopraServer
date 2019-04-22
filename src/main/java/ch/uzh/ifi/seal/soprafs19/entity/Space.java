@@ -47,10 +47,6 @@ public class Space implements Serializable{
         return this.level;
     }
 
-    public int[] getFigurine() {
-        return figurine;
-    }
-
     public void setFigurine(Figurine figurine) {
         if(figurine != null) {
             this.figurine = new int[2];
