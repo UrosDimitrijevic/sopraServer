@@ -19,7 +19,7 @@ public class Figurine implements Serializable {
 
     private boolean HasMoved;
 
-    @Column(nullable = true, length = 2000)
+    @Column(nullable = true, length = 2000  )
     private Board board;
 
     private Player player;

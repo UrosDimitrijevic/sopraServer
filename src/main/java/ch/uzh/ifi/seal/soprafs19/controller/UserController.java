@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 //Uros was here, server works
 
 @RestController
-public class UserController {
+public class    UserController {
 
     private final UserService service;
 
