@@ -39,7 +39,6 @@ public class ChooseMode extends Action {
     public void perfromAction(GameService gameService) {
         Game myGame = gameService.gameByID(this.myGameId);
         Player player = myGame.retrivePlayers()[this.playerNumber - 1];
-
         GodCard god;
         if (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER
                 && this.useGod) {
@@ -57,11 +56,6 @@ public class ChooseMode extends Action {
         gameService.saveGame(myGame);
 
     }
-
-
-
-
-
 
 
 }

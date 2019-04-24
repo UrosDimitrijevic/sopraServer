@@ -50,6 +50,22 @@ public class ActionCreater {
         return possibleActions;
     }
 
+    public static ArrayList<Action> createChooseModeActions(Game game, Player player){
+        ArrayList<Action> possibleActions =new ArrayList<>();
+        for( int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                if( game.getBoard().isEmpty(i,j) ) {
+                    possibleActions.add(new ChooseMode(game, player.getFigurine1(),true, i, j));
+                    possibleActions.add(new ChooseMode(game, player.getFigurine1(),false, i, j));
+                    possibleActions.add(new ChooseMode(game, player.getFigurine2(),true, i, j));
+                    possibleActions.add(new ChooseMode(game, player.getFigurine2(),false, i, j));
+                }
+            }
+        }
+
+    }
+
+
 
     public static ArrayList<Action> createPlaceWorkerActions(Game game, Player player){
         ArrayList<Action> possibleActions= new ArrayList<>();
