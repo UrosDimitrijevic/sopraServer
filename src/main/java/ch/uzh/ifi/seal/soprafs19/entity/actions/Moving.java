@@ -54,6 +54,7 @@ public class Moving extends Action {
         this.playerNumber = figurine.retrivePlayerNumber();
     }
 
+
     @java.lang.Override
     public void perfromAction(GameService gameService) {
         Game myGame = gameService.gameByID(this.myGameId);
@@ -65,6 +66,7 @@ public class Moving extends Action {
         else{ myGame.setStatus(GameStatus.BUILDING_NONSTARTINGPLAYER); }
 
         gameService.saveGame(myGame);
+
     }
 
 }

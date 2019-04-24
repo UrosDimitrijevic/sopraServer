@@ -78,6 +78,7 @@ public class PlaceWorker extends Action {
             gameService.saveGame(myGame);
 
         }
+
     }
 
 
