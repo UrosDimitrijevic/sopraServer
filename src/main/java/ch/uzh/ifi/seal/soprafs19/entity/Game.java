@@ -157,7 +157,7 @@ public class Game  implements Serializable  {
         }
     }
 
-    public int getCurrentPlayer(){
+    public long getCurrentPlayer(){
         if( this.status == GameStatus.MOVING_NONSTARTINGPLAYER || this.status == GameStatus.BUILDING_NONSTARTINGPLAYER || this.status == GameStatus.PICKING_GODCARDS
           || this.status == GameStatus.SettingFigurinesp2f2 || this.status == GameStatus.SettingFigurinesp1f2){
             return this.player2id;
