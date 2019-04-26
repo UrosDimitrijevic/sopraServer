@@ -43,7 +43,7 @@ public class ChooseMode extends Action {
         if (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER
                 && this.useGod) {
             god = player.getAssignedGod();
-            god.perfromAction(gameService);
+            //god.perfromAction(gameService);
         }
         else{
             Action normalMoving;
