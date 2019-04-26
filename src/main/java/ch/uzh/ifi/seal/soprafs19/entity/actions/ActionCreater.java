@@ -50,7 +50,7 @@ public class ActionCreater {
         return possibleActions;
     }
 
-    public static ArrayList createChooseModeActions(Game game, Player player){
+    public static ArrayList<Action> createChooseModeActions(Game game, Player player){
         ArrayList<Action> possibleActions =new ArrayList<>();
         for( int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
@@ -62,7 +62,7 @@ public class ActionCreater {
                 }
             }
         }
-        return possibleActions;
+
     }
 
 
