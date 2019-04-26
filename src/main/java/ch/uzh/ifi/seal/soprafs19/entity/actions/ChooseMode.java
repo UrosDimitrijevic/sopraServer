@@ -37,6 +37,32 @@ public class ChooseMode extends Action {
 
     }
 
+    public ChooseMode(Game game, Moving moving ){
+        super(game);
+        this.useGod= false;
+        this.name="Moving";
+        this.row= moving.getRow();
+        this.column= moving.getColumn();
+
+        this.figurineNumber = moving.getFigurineNumber();
+        this.playerNumber = moving.retrivePlayerNumber();
+    }
+
+    public int getFigurineNumber() {
+        return figurineNumber;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public boolean isUseGod() {
+        return useGod;
+    }
 
     @java.lang.Override
     public void perfromAction(GameService gameService) {
