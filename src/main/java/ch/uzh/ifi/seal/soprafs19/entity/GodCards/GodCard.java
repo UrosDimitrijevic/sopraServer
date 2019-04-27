@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.soprafs19.entity.GodCards;
 
+import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChooseGod;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
@@ -52,7 +54,8 @@ public abstract class GodCard implements Serializable {
 
     }
 
+    public abstract ArrayList<Action> getActions(Game game);
 
-    public abstract void perfromAction(GameService gameservice);
+    public abstract Action getAction(Game game, Figurine figurine, int row, int column);
 
 }
