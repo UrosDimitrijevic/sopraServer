@@ -38,6 +38,7 @@ public class Figurine implements Serializable {
     }
 
 
+
     public void setBoard(Board board) {
         this.board = board;
     }
@@ -50,6 +51,10 @@ public class Figurine implements Serializable {
         return position;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public Figurine(Player player, Board board, int figurineNumber){
         this.board = board;
         this.player = player;
@@ -60,7 +65,7 @@ public class Figurine implements Serializable {
     }
 
     public void setPosition(int row, int column){
-        if(this.board == null){         System.out.println("game == null"); return; }
+        if(this.board == null){ System.out.println("game == null"); return; }
         this.position = new int [2];
         this.position[0] = row;
         this.position[1] = column;
@@ -75,6 +80,7 @@ public class Figurine implements Serializable {
         board.getSpaces()[row][column].setFigurine(this);
         space = board.getSpaces()[row][column];
     }
+
 
     public ArrayList<Action> getPossibleMovingActions(Game game) {
         ArrayList<Action> possibleActions = new ArrayList<>();
@@ -103,9 +109,9 @@ public class Figurine implements Serializable {
         if(board.isWalkeable(this.position[0],this.position[1]+1,this.space.getLevel()) ){
             possibleActions.add(new Moving(game, this, this.position[0], this.position[1]+1 ) );
         }
-
         return possibleActions;
     }
+
 
     public ArrayList<Action> getPossibleBuildingActions(Game game) {
         ArrayList<Action> possibleActions = new ArrayList<>();

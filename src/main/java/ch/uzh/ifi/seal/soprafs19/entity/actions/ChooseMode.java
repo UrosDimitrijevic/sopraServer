@@ -25,7 +25,7 @@ public class ChooseMode extends Action {
     public ChooseMode(Game game, Figurine figurine, boolean useGod, int row, int column ){
         super(game);
         this.useGod=useGod;
-        this.name="Choose Mode";
+        this.name="Choose Moving Mode";
         this.row=row;
         this.column=column;
 
@@ -43,7 +43,7 @@ public class ChooseMode extends Action {
         if (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER
                 && this.useGod) {
             god = player.getAssignedGod();
-            god.perfromAction(gameService);
+
         }
         else{
             Action normalMoving;

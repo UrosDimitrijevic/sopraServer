@@ -96,8 +96,6 @@ public class Player implements Serializable {
     }
 
 
-
-
     public boolean isStartingplayer() {
         return startingplayer;
     }
@@ -110,8 +108,6 @@ public class Player implements Serializable {
         }
 
     }
-
-
 
     public ArrayList<Action> getPossibleActions(Game game){
         ArrayList<Action> possibleActions = new ArrayList<>();
@@ -175,14 +171,8 @@ public class Player implements Serializable {
         return possibleActions;
     }
 
-
-
     public void setAssignedGod(GodCard assignedGod) {
         this.assignedGod = assignedGod;
     }
 
 }
-
-
-
-
