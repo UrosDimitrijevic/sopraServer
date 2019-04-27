@@ -7,6 +7,9 @@ import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
+import javax.persistence.Entity;
+
+@Entity
 public class ChooseMode extends Action {
 
 
@@ -34,6 +37,32 @@ public class ChooseMode extends Action {
 
     }
 
+    public ChooseMode(Game game, Moving moving ){
+        super(game);
+        this.useGod= false;
+        this.name="Moving";
+        this.row= moving.getRow();
+        this.column= moving.getColumn();
+
+        this.figurineNumber = moving.getFigurineNumber();
+        this.playerNumber = moving.retrivePlayerNumber();
+    }
+
+    public int getFigurineNumber() {
+        return figurineNumber;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public boolean isUseGod() {
+        return useGod;
+    }
 
     @java.lang.Override
     public void perfromAction(GameService gameService) {
@@ -43,7 +72,8 @@ public class ChooseMode extends Action {
         if (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER
                 && this.useGod) {
             god = player.getAssignedGod();
-            god.perfromAction(gameService);
+            Action myAction = god.getAction(myGame,figurine,this.row,this.column);
+            myAction.perfromAction(gameService);
         }
         else{
             Action normalMoving;

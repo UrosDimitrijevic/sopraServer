@@ -157,7 +157,7 @@ public class Player implements Serializable {
             possibleActions.addAll(ActionCreater.createPickGodActions(game));
         }
         else if( (game.getStatus() == GameStatus.MOVING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER && !this.startingplayer) ){
-            possibleActions.addAll(ActionCreater.createMovementActions(game, this));
+            //possibleActions.addAll(ActionCreater.createMovementActions(game, this));
             possibleActions.addAll(ActionCreater.createChooseModeActions(game, this));
 
         }

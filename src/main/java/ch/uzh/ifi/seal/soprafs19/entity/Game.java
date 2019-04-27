@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs19.entity;
 import ch.qos.logback.core.util.COWArrayList;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
+import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
 import ch.uzh.ifi.seal.soprafs19.service.ActionService;
@@ -137,6 +138,8 @@ public class Game  implements Serializable  {
             this.player1id = user2.getId();
             this.player2id = user1.getId();
         }
+        user1.setStatus(UserStatus.INGAME);
+        user2.setStatus(UserStatus.INGAME);
 
         this.performedActions = new ArrayList<Action>();
     }
@@ -154,6 +157,16 @@ public class Game  implements Serializable  {
             return players[1];
         }else{
             return players[0];
+        }
+    }
+
+    public long getCurrentPlayer(){
+        if( this.status == GameStatus.MOVING_NONSTARTINGPLAYER || this.status == GameStatus.BUILDING_NONSTARTINGPLAYER || this.status == GameStatus.PICKING_GODCARDS
+          || this.status == GameStatus.SettingFigurinesp2f2 || this.status == GameStatus.SettingFigurinesp2f1){
+            return this.player2id;
+        }
+        else{
+            return this.player1id;
         }
     }
 

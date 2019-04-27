@@ -69,4 +69,7 @@ public class Moving extends Action {
 
     }
 
+    public int retrivePlayerNumber() {
+        return playerNumber;
+    }
 }
