@@ -144,4 +144,8 @@ public class Figurine implements Serializable {
         return possibleActions;
     }
 
+    public Board retriveBoard(){
+        return this.board;
+    }
+
 }
