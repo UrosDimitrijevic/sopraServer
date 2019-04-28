@@ -114,7 +114,7 @@ public class complexGameMoving {
         testGame.getStartingPlayer().getFigurine1().setPosition(1,1);
         testGame.getStartingPlayer().getFigurine2().setPosition(3,1);
         testGame.getNonStartingPlayer().getFigurine1().setPosition(1,2);
-        testGame.getNonStartingPlayer().getFigurine1().setPosition(3,3);
+        testGame.getNonStartingPlayer().getFigurine2().setPosition(3,3);
 
         gameRepository.save(testGame);
         this.player1id = testUser1.getId();
@@ -221,7 +221,7 @@ public class complexGameMoving {
         Assert.assertNotNull(game);
         Figurine figurine = game.getNonStartingPlayer().getFigurine2();
 
-        /*ArrayList<Action>  movementArray = figurine.getPossibleMovingActions(game);
+        ArrayList<Action>  movementArray = figurine.getPossibleMovingActions(game);
 
         int spaces[][] = new int[3][3];
 
@@ -234,25 +234,20 @@ public class complexGameMoving {
             if(thisAction instanceof  Moving){
                 Moving movingAction = (Moving) thisAction;
                 spaces[movingAction.getRow()-2][movingAction.getColumn()-2] += 1;
-                /*Assert.assertTrue(thisAction.getName().contains("Moving") );
-                Assert.assertEquals(movingAction.getFigurineNumber(), 1);
-                Assert.assertTrue(movingAction.getColumn() == 0 || movingAction.getColumn() == 1 || movingAction.getColumn() == 2);
-                Assert.assertTrue(movingAction.getRow() == 0 || movingAction.getRow() == 1 || movingAction.getRow() == 2);
-                Assert.assertFalse(movingAction.getRow() == 1 && movingAction.getColumn() == 1);
-                Assert.assertFalse(movingAction.getRow() == 1 && movingAction.getColumn() == 2);
             }
             else { Assert.assertFalse(true); }
         }
 
+
+        Assert.assertEquals(spaces[0][0],1);
         Assert.assertEquals(spaces[0][1],1);
         Assert.assertEquals(spaces[0][2],1);
-        Assert.assertEquals(spaces[1][0],1);
         Assert.assertEquals(spaces[2][0],1);
         Assert.assertEquals(spaces[2][1],1);
         Assert.assertEquals(spaces[2][2],1);
         //Not the field figurine is standing on
         Assert.assertEquals(spaces[1][1],0);
         //can't go on Dome
-        Assert.assertEquals(spaces[1][0],0); */
+        Assert.assertEquals(spaces[1][0],0);
     }
 }
