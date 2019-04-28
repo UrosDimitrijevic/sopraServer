@@ -96,6 +96,20 @@ public class complexGameMoving {
         //setting up game mode
         testGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
 
+        //building some structures
+        testGame.getBoard().getSpaces()[0][0].build();
+        testGame.getBoard().getSpaces()[0][0].build();
+        //under player2figurine2
+        testGame.getBoard().getSpaces()[3][3].build();
+        testGame.getBoard().getSpaces()[3][3].build();
+        testGame.getBoard().getSpaces()[3][3].build();
+        //next to pl2fig2
+        testGame.getBoard().getSpaces()[3][2].build();
+        testGame.getBoard().getSpaces()[3][2].build();
+        testGame.getBoard().getSpaces()[3][2].build();
+        testGame.getBoard().getSpaces()[3][2].build();
+
+
         //setting the figurines
         testGame.getStartingPlayer().getFigurine1().setPosition(1,1);
         testGame.getStartingPlayer().getFigurine2().setPosition(3,1);
@@ -162,11 +176,65 @@ public class complexGameMoving {
 
         ArrayList<Action>  movementArray = figurine.getPossibleMovingActions(game);
 
+        int spaces[][] = new int[3][3];
+
+        spaces[0][0] = 0; spaces[0][1] = 0; spaces[0][2] = 0;
+        spaces[1][0] = 0; spaces[1][1] = 0; spaces[1][2] = 0;
+        spaces[2][0] = 0; spaces[2][1] = 0; spaces[2][2] = 0;
+
         for( int i = 0; i < movementArray.size(); ++i){
             Action thisAction = movementArray.get(i);
             if(thisAction instanceof  Moving){
                 Moving movingAction = (Moving) thisAction;
-                Assert.assertTrue(thisAction.getName().contains("Moving") );
+                spaces[movingAction.getRow()][movingAction.getColumn()] += 1;
+                /*Assert.assertTrue(thisAction.getName().contains("Moving") );
+                Assert.assertEquals(movingAction.getFigurineNumber(), 1);
+                Assert.assertTrue(movingAction.getColumn() == 0 || movingAction.getColumn() == 1 || movingAction.getColumn() == 2);
+                Assert.assertTrue(movingAction.getRow() == 0 || movingAction.getRow() == 1 || movingAction.getRow() == 2);
+                Assert.assertFalse(movingAction.getRow() == 1 && movingAction.getColumn() == 1);
+                Assert.assertFalse(movingAction.getRow() == 1 && movingAction.getColumn() == 2);*/
+            }
+            else { Assert.assertFalse(true); }
+        }
+
+        Assert.assertEquals(spaces[0][1],1);
+        Assert.assertEquals(spaces[0][2],1);
+        Assert.assertEquals(spaces[1][0],1);
+        Assert.assertEquals(spaces[2][0],1);
+        Assert.assertEquals(spaces[2][1],1);
+        Assert.assertEquals(spaces[2][2],1);
+        //Not the field figurine is standing on
+        Assert.assertEquals(spaces[1][1],0);
+        //not a field that a figurine is standing on
+        Assert.assertEquals(spaces[1][2],0);
+        //can't go on a level two tower
+        Assert.assertEquals(spaces[0][0],0);
+    }
+
+
+    @Test
+    public void canGetAllPossiblePositonsWithLevel2andDome() throws Exception{
+        Game game = gameService.gameByID(this.gameId);
+        game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
+        gameService.saveGame(game);
+        game = gameService.gameByID(this.gameId);
+        Assert.assertNotNull(game);
+        Figurine figurine = game.getNonStartingPlayer().getFigurine2();
+
+        /*ArrayList<Action>  movementArray = figurine.getPossibleMovingActions(game);
+
+        int spaces[][] = new int[3][3];
+
+        spaces[0][0] = 0; spaces[0][1] = 0; spaces[0][2] = 0;
+        spaces[1][0] = 0; spaces[1][1] = 0; spaces[1][2] = 0;
+        spaces[2][0] = 0; spaces[2][1] = 0; spaces[2][2] = 0;
+
+        for( int i = 0; i < movementArray.size(); ++i){
+            Action thisAction = movementArray.get(i);
+            if(thisAction instanceof  Moving){
+                Moving movingAction = (Moving) thisAction;
+                spaces[movingAction.getRow()-2][movingAction.getColumn()-2] += 1;
+                /*Assert.assertTrue(thisAction.getName().contains("Moving") );
                 Assert.assertEquals(movingAction.getFigurineNumber(), 1);
                 Assert.assertTrue(movingAction.getColumn() == 0 || movingAction.getColumn() == 1 || movingAction.getColumn() == 2);
                 Assert.assertTrue(movingAction.getRow() == 0 || movingAction.getRow() == 1 || movingAction.getRow() == 2);
@@ -175,5 +243,16 @@ public class complexGameMoving {
             }
             else { Assert.assertFalse(true); }
         }
+
+        Assert.assertEquals(spaces[0][1],1);
+        Assert.assertEquals(spaces[0][2],1);
+        Assert.assertEquals(spaces[1][0],1);
+        Assert.assertEquals(spaces[2][0],1);
+        Assert.assertEquals(spaces[2][1],1);
+        Assert.assertEquals(spaces[2][2],1);
+        //Not the field figurine is standing on
+        Assert.assertEquals(spaces[1][1],0);
+        //can't go on Dome
+        Assert.assertEquals(spaces[1][0],0); */
     }
 }
