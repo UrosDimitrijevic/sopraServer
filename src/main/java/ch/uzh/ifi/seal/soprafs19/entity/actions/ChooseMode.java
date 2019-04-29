@@ -59,15 +59,15 @@ public class ChooseMode extends Action {
         Player player = myGame.retrivePlayers()[this.playerNumber - 1];
         GodCard god;
         if ( (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER) && this.useGod ) {
+            Figurine figurine = myGame.retrivePlayers()[this.playerNumber-1].retirveFigurines()[this.figurineNumber-1];
             god = player.getAssignedGod();
-
+            Action perfromableAction = god.getAction(myGame,figurine,this.row, this.column);
         }
         else{
             Action normalMoving;
             Figurine figurine = myGame.retrivePlayers()[this.playerNumber-1].retirveFigurines()[this.figurineNumber-1];
             normalMoving = new Moving(myGame,figurine,this.row,this.column);
             normalMoving.perfromAction(gameService);
-
         }
 
         gameService.saveGame(myGame);

@@ -51,7 +51,7 @@ public class ActionCreater {
         return possibleActions;
     }
 
-    public static ArrayList<Action> createChooseModeActions(Game game, Player player){
+    public static ArrayList<Action> createChooseModeMovementsActions(Game game, Player player){
         ArrayList<Action> possibleActions =new ArrayList<>();
         /*for( int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
@@ -69,6 +69,17 @@ public class ActionCreater {
             if(currentAction instanceof Moving){
                 Figurine figurine = player.retirveFigurines()[((Moving) currentAction).getFigurineNumber()-1];
                 possibleActions.add(new ChooseMode(game,figurine,false,((Moving) currentAction).getRow(), ((Moving) currentAction).getColumn() ) );
+            }
+            else{
+                return possibleActions;
+            }
+        }
+        ArrayList<Action> godMoving = player.getAssignedGod().getActions(game);
+        for( int i = 0; i < godMoving.size(); ++i){
+            Action currentAction = godMoving.get(i);
+            if(currentAction instanceof GodMovingAction){
+                Figurine figurine = player.retirveFigurines()[((GodMovingAction) currentAction).getFigurineNumber()-1];
+                possibleActions.add(new ChooseMode(game,figurine,true,((GodMovingAction) currentAction).getRow(), ((GodMovingAction) currentAction).getColumn() ) );
             }
             else{
                 return possibleActions;

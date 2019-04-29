@@ -154,7 +154,7 @@ public class Player implements Serializable {
         }
         else if( (game.getStatus() == GameStatus.MOVING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER && !this.startingplayer) ){
             //possibleActions.addAll(ActionCreater.createMovementActions(game, this));
-            possibleActions.addAll(ActionCreater.createChooseModeActions(game, this));
+            possibleActions.addAll(ActionCreater.createChooseModeMovementsActions(game, this));
 
         }
         else if( (game.getStatus() == GameStatus.BUILDING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.BUILDING_NONSTARTINGPLAYER && !this.startingplayer) ){
