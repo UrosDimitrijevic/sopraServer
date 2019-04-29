@@ -145,11 +145,13 @@ public class Figurine implements Serializable {
     }
 
     public boolean didWin(){
+        if( this.space == null){ return false; }
         if(this.space.getLevel() == 3){ return true; }
         else{ return false; }
     }
 
     public boolean didLoose(){
+        if( this.space == null){ return false; }
         if(
                 !this.board.isWalkeable(this.position[0]-1,this.position[1]-1,this.space.getLevel()) &&
                         !this.board.isWalkeable(this.position[0]-1,this.position[1],this.space.getLevel()) &&

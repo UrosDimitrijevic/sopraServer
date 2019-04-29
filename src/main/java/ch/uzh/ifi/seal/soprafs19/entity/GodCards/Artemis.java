@@ -20,7 +20,7 @@ public class Artemis extends GodCard {
     @GeneratedValue
     private Long id;
 
-
+    private boolean didUse;
 
     public Artemis(){
         super();
@@ -31,6 +31,7 @@ public class Artemis extends GodCard {
         super(game);
         this.godnumber = 2;
         this.name = "Artemis";
+        didUse = false;
     }
 
 
@@ -42,5 +43,13 @@ public class Artemis extends GodCard {
     @java.lang.Override
     public Action getAction(Game game, Figurine figurine, int row, int column) {
         return null;
+    }
+
+    public boolean retriveDidUse(){
+        return this.didUse;
+    }
+
+    public void changeDidUse(){
+        didUse = !didUse;
     }
 }
