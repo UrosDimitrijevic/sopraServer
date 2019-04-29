@@ -176,6 +176,9 @@ public class Player implements Serializable {
         else if( (game.getStatus() == GameStatus.SettingFigurinesp1f2 && this.startingplayer) || (game.getStatus() == GameStatus.SettingFigurinesp2f2 && !this.startingplayer) ){
             possibleActions.addAll(ActionCreater.createPlaceWorker2Actions(game,this));
         }
+        else if( game.getStatus().player() == this.playerNumber && (game.getStatus() == GameStatus.GODMODE_STATE_NONSTARTINGPLAYER || game.getStatus() == GameStatus.GODMODE_STATE_STARTINGPLAYER) ){
+            possibleActions.addAll(this.assignedGod.getActions(game));
+        }
 
 
         return possibleActions;

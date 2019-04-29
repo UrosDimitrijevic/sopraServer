@@ -63,6 +63,7 @@ public class ChooseMode extends Action {
             Figurine figurine = myGame.retrivePlayers()[this.playerNumber-1].retirveFigurines()[this.figurineNumber-1];
             god = player.getAssignedGod();
             Action perfromableAction = god.getAction(myGame,figurine,this.row, this.column);
+            perfromableAction.perfromAction(gameService);
         }
         else{
             Action normalMoving;

@@ -1,8 +1,12 @@
 package ch.uzh.ifi.seal.soprafs19.entity.GodCards;
 
+import ch.qos.logback.core.util.COWArrayList;
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.MoveAsArthemis;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.Moving;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
 import javax.persistence.Column;
@@ -20,36 +24,77 @@ public class Artemis extends GodCard {
     @GeneratedValue
     private Long id;
 
-    private boolean didUse;
-
     public Artemis(){
         super();
     }
 
+    int prev_row;
+    int prev_column;
+    int prev_figurine;
+
+    public void setPrev_row(int prev_row) {
+        this.prev_row = prev_row;
+    }
+
+    public void setPrev_column(int prev_column) {
+        this.prev_column = prev_column;
+    }
+
+    public void setPrev_figurine(int prev_figurine) {
+        this.prev_figurine = prev_figurine;
+    }
 
     public Artemis(Game game){
         super(game);
         this.godnumber = 2;
         this.name = "Artemis";
-        didUse = false;
+        prev_row = -1;
+        prev_column = -1;
+        prev_figurine = -1;
     }
 
 
     @java.lang.Override
     public ArrayList<Action> getActions(Game game) {
-        return null;
+        ArrayList<Action> possibleActions = new ArrayList<Action>();
+        if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
+
+            ArrayList<Action> possibleMovements = game.retrivePlayers()[game.getStatus().player()-1].getFigurine1().getPossibleMovingActions(game);
+            possibleMovements.addAll(game.retrivePlayers()[game.getStatus().player()-1].getFigurine2().getPossibleMovingActions(game));
+            for(int i = 0; i < possibleMovements.size(); ++i){
+                Moving currentAction = (Moving)possibleMovements.get(i);
+                possibleActions.add(new MoveAsArthemis(game, currentAction));
+            }
+        }
+        else{
+            ArrayList<Action> possibleMovements = game.retrivePlayers()[game.getStatus().player()-1].retirveFigurines()[this.prev_figurine-1].getPossibleMovingActions(game);
+            for(int i = 0; i < possibleMovements.size(); ++i){
+                Moving currentAction = (Moving)possibleMovements.get(i);
+                if( currentAction.getRow() != this.prev_row || currentAction.getColumn() != this.prev_column) {
+                    possibleActions.add(new MoveAsArthemis(game, currentAction));
+                }
+            }
+
+        }
+        return possibleActions;
     }
 
     @java.lang.Override
     public Action getAction(Game game, Figurine figurine, int row, int column) {
-        return null;
+        return new MoveAsArthemis(game,figurine,row,column);
     }
 
-    public boolean retriveDidUse(){
-        return this.didUse;
+    //später wieder eg nehmen:
+
+    public int getPrev_row() {
+        return prev_row;
     }
 
-    public void changeDidUse(){
-        didUse = !didUse;
+    public int getPrev_column() {
+        return prev_column;
+    }
+
+    public int getPrev_figurine() {
+        return prev_figurine;
     }
 }

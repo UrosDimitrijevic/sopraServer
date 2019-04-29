@@ -36,19 +36,10 @@ public class ChoseYourGod extends Action  {
         Game game = gameservice.gameByID(this.myGameId);
         boolean P1startingplayer = game.retrivePlayers()[0].isStartingplayer();
         GodCard otherGod;
-        if( P1startingplayer){
-            if(game.retrivePlayers()[0].getAssignedGod().getGodnumber() != this.myGod.getGodnumber() ){
-                otherGod = game.retrivePlayers()[0].getAssignedGod();
-                game.retrivePlayers()[0].setAssignedGod(this.myGod);
-                game.retrivePlayers()[1].setAssignedGod(otherGod);
-            }
-        }
-        else{
-            if(game.retrivePlayers()[1].getAssignedGod().getGodnumber() != this.myGod.getGodnumber() ){
-                otherGod = game.retrivePlayers()[1].getAssignedGod();
-                game.retrivePlayers()[1].setAssignedGod(this.myGod);
-                game.retrivePlayers()[0].setAssignedGod(otherGod);
-            }
+        if(game.retrivePlayers()[1].getAssignedGod().getGodnumber() != this.myGod.getGodnumber() ){
+            otherGod = game.retrivePlayers()[1].getAssignedGod();
+            game.retrivePlayers()[1].setAssignedGod(this.myGod);
+            game.retrivePlayers()[0].setAssignedGod(otherGod);
         }
         game.setStatus(GameStatus.SettingFigurinesp1f1);
         gameservice.saveGame(game);
