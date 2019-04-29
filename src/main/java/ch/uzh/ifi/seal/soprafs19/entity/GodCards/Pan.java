@@ -46,6 +46,6 @@ public class Pan extends GodCard {
 
     @java.lang.Override
     public boolean didWin(){
-
+        return false;
     }
 }
