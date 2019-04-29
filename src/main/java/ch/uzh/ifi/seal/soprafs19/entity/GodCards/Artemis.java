@@ -84,17 +84,4 @@ public class Artemis extends GodCard {
         return new MoveAsArthemis(game,figurine,row,column);
     }
 
-    //später wieder eg nehmen:
-
-    public int getPrev_row() {
-        return prev_row;
-    }
-
-    public int getPrev_column() {
-        return prev_column;
-    }
-
-    public int getPrev_figurine() {
-        return prev_figurine;
-    }
 }

@@ -43,4 +43,9 @@ public class Pan extends GodCard {
     public Action getAction(Game game, Figurine figurine, int row, int column) {
         return null;
     }
+
+    @java.lang.Override
+    public boolean didWin(){
+
+    }
 }
