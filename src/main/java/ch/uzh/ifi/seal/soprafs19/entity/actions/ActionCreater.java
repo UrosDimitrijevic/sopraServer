@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
+import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.*;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
@@ -52,7 +53,7 @@ public class ActionCreater {
 
     public static ArrayList<Action> createChooseModeActions(Game game, Player player){
         ArrayList<Action> possibleActions =new ArrayList<>();
-        for( int i = 0; i < 5; ++i) {
+        /*for( int i = 0; i < 5; ++i) {
             for (int j = 0; j < 5; ++j) {
                 if( game.getBoard().isEmpty(i,j) ) {
                     possibleActions.add(new ChooseMode(game, player.getFigurine1(),true, i, j));
@@ -60,6 +61,17 @@ public class ActionCreater {
                     possibleActions.add(new ChooseMode(game, player.getFigurine2(),true, i, j));
                     possibleActions.add(new ChooseMode(game, player.getFigurine2(),false, i, j));
                 }
+            }
+        }*/
+        ArrayList<Action> movingActions = createMovementActions(game, player);
+        for( int i = 0; i < movingActions.size(); ++i){
+            Action currentAction = movingActions.get(i);
+            if(currentAction instanceof Moving){
+                Figurine figurine = player.retirveFigurines()[((Moving) currentAction).getFigurineNumber()-1];
+                possibleActions.add(new ChooseMode(game,figurine,false,((Moving) currentAction).getRow(), ((Moving) currentAction).getColumn() ) );
+            }
+            else{
+                return possibleActions;
             }
         }
         return possibleActions;

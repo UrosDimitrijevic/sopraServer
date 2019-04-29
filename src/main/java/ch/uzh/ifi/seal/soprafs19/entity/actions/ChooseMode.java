@@ -24,6 +24,21 @@ public class ChooseMode extends Action {
 
     }
 
+    public boolean isUseGod() {
+        return useGod;
+    }
+
+    public int getFigurineNumber() {
+        return figurineNumber;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
 
     public ChooseMode(Game game, Figurine figurine, boolean useGod, int row, int column ){
         super(game);
@@ -43,8 +58,7 @@ public class ChooseMode extends Action {
         Game myGame = gameService.gameByID(this.myGameId);
         Player player = myGame.retrivePlayers()[this.playerNumber - 1];
         GodCard god;
-        if (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER
-                && this.useGod) {
+        if ( (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER) && this.useGod ) {
             god = player.getAssignedGod();
 
         }

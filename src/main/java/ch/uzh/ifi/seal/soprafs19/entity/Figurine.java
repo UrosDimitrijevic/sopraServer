@@ -51,7 +51,7 @@ public class Figurine implements Serializable {
         return position;
     }
 
-    public Board getBoard() {
+    public Board retirveBoard() {
         return board;
     }
 
