@@ -44,6 +44,7 @@ public class ChooseMode extends Action {
         super(game);
         this.useGod=useGod;
         this.name="Choose Moving Mode";
+        if(useGod){ this.name += game.retrivePlayers()[figurine.retrivePlayerNumber()-1].getAssignedGod().getName(); }
         this.row=row;
         this.column=column;
 

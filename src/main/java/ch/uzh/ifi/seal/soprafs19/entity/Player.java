@@ -109,6 +109,16 @@ public class Player implements Serializable {
 
     }
 
+    public boolean didWin(){
+        if( this.assignedGod == null) { return (this.figurine2.didWin() || this.figurine1.didWin() ); }
+        else { return (this.figurine2.didWin() || this.figurine1.didWin() || this.assignedGod.didWin() ); }
+    }
+
+    public boolean didLoose(){
+        if( this.assignedGod == null) { return (this.figurine2.didLoose() && this.figurine1.didLoose() ); }
+        else { return (this.figurine2.didLoose() && this.figurine1.didLoose() && this.assignedGod.didLoose()); }
+    }
+
     public ArrayList<Action> getPossibleActions(Game game){
         ArrayList<Action> possibleActions = new ArrayList<>();
         if( game.getStatus() == GameStatus.CHOSING_GAME_MODE && startingplayer){

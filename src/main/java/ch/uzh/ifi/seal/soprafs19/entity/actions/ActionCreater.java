@@ -74,7 +74,9 @@ public class ActionCreater {
                 return possibleActions;
             }
         }
+        if(player.getAssignedGod() == null){ return possibleActions; }
         ArrayList<Action> godMoving = player.getAssignedGod().getActions(game);
+        if(godMoving == null){ return  possibleActions; }
         for( int i = 0; i < godMoving.size(); ++i){
             Action currentAction = godMoving.get(i);
             if(currentAction instanceof GodMovingAction){

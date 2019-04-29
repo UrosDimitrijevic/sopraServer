@@ -58,4 +58,12 @@ public abstract class GodCard implements Serializable {
 
     public abstract Action getAction(Game game, Figurine figurine, int row, int column);
 
+    public boolean didWin(){
+        return false;
+    }
+
+    public boolean didLoose(){
+        return true;
+    }
+
 }

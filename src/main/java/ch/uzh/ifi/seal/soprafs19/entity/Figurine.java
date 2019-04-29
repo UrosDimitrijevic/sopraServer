@@ -144,6 +144,25 @@ public class Figurine implements Serializable {
         return possibleActions;
     }
 
+    public boolean didWin(){
+        if(this.space.getLevel() == 3){ return true; }
+        else{ return false; }
+    }
+
+    public boolean didLoose(){
+        if(
+                !this.board.isWalkeable(this.position[0]-1,this.position[1]-1,this.space.getLevel()) &&
+                        !this.board.isWalkeable(this.position[0]-1,this.position[1],this.space.getLevel()) &&
+                        !this.board.isWalkeable(this.position[0]-1,this.position[1]+1,this.space.getLevel()) &&
+                        !this.board.isWalkeable(this.position[0],this.position[1]-1,this.space.getLevel()) &&
+                        !this.board.isWalkeable(this.position[0],this.position[1]+1,this.space.getLevel()) &&
+                        !this.board.isWalkeable(this.position[0]+1,this.position[1]-1,this.space.getLevel()) &&
+                        !this.board.isWalkeable(this.position[0]+1,this.position[1],this.space.getLevel()) &&
+                        !this.board.isWalkeable(this.position[0]+1,this.position[1]+1,this.space.getLevel())
+        ){ return true; }
+        else{ return false; }
+    }
+
     public Board retriveBoard(){
         return this.board;
     }

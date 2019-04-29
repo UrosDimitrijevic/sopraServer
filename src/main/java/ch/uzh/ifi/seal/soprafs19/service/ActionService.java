@@ -55,6 +55,8 @@ public class ActionService {
         }
         game.setActions1(null);
         game.setActions2(null);
+        game.checkIfGameOver();
+        gameService.saveGame(game);
         return true;
     }
 

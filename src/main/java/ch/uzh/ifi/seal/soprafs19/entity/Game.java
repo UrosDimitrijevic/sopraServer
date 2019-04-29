@@ -196,6 +196,13 @@ public class Game  implements Serializable  {
         return possibleActions;
     }
 
+    public void checkIfGameOver(){
+        if(this.players[0].didWin() ){ this.setStatus(GameStatus.STARTINGPLAYER_WON); }
+        else if(this.players[0].didLoose()) { this.setStatus(GameStatus.NONSTARTINGPLAYER_WON); }
+        else if(this.players[1].didWin() ){ this.setStatus(GameStatus.NONSTARTINGPLAYER_WON); }
+        else if(this.players[1].didLoose()) { this.setStatus(GameStatus.STARTINGPLAYER_WON); }
+    }
+
     public void addAction(Action action){
         performedActions.add(action);
     }
