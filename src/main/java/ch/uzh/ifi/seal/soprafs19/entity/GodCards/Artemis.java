@@ -1,15 +1,13 @@
 package ch.uzh.ifi.seal.soprafs19.entity.GodCards;
 
-import ch.qos.logback.core.util.COWArrayList;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
-import ch.uzh.ifi.seal.soprafs19.entity.actions.MoveAsArthemis;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.ActionCreater;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Moving;
-import ch.uzh.ifi.seal.soprafs19.service.GameService;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.MovingAsArthemis;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -63,7 +61,7 @@ public class Artemis extends GodCard {
             possibleMovements.addAll(game.retrivePlayers()[game.getStatus().player()-1].getFigurine2().getPossibleMovingActions(game));
             for(int i = 0; i < possibleMovements.size(); ++i){
                 Moving currentAction = (Moving)possibleMovements.get(i);
-                possibleActions.add(new MoveAsArthemis(game, currentAction));
+                possibleActions.add(new MovingAsArthemis(game, currentAction));
             }
         }
         else{
@@ -71,7 +69,7 @@ public class Artemis extends GodCard {
             for(int i = 0; i < possibleMovements.size(); ++i){
                 Moving currentAction = (Moving)possibleMovements.get(i);
                 if( currentAction.getRow() != this.prev_row || currentAction.getColumn() != this.prev_column) {
-                    possibleActions.add(new MoveAsArthemis(game, currentAction));
+                    possibleActions.add(new MovingAsArthemis(game, currentAction));
                 }
             }
 
@@ -81,7 +79,7 @@ public class Artemis extends GodCard {
 
     @java.lang.Override
     public Action getAction(Game game, Figurine figurine, int row, int column) {
-        return new MoveAsArthemis(game,figurine,row,column);
+        return new MovingAsArthemis(game,figurine,row,column);
     }
 
 }

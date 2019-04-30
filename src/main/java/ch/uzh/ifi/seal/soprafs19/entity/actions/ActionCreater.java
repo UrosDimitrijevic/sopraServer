@@ -1,10 +1,13 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.*;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
+import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
 public class ActionCreater {
@@ -146,5 +149,4 @@ public class ActionCreater {
 
         return possibleActions;
     }
-
 }

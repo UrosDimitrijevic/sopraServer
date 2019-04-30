@@ -169,4 +169,8 @@ public class Figurine implements Serializable {
         return this.board;
     }
 
+    public Space retriveSpace(){
+        return this.space;
+    }
+
 }

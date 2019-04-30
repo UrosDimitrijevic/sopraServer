@@ -109,14 +109,14 @@ public class Player implements Serializable {
 
     }
 
-    public boolean didWin(){
+    public boolean didWin(Game game){
         if( this.assignedGod == null) { return (this.figurine2.didWin() || this.figurine1.didWin() ); }
-        else { return (this.figurine2.didWin() || this.figurine1.didWin() || this.assignedGod.didWin() ); }
+        else { return (this.figurine2.didWin() || this.figurine1.didWin() || this.assignedGod.didWin(game, this) ); }
     }
 
-    public boolean didLoose(){
+    public boolean didLoose(Game game){
         if( this.assignedGod == null) { return (this.figurine2.didLoose() && this.figurine1.didLoose() ); }
-        else { return (this.figurine2.didLoose() && this.figurine1.didLoose() && this.assignedGod.didLoose()); }
+        else { return (this.figurine2.didLoose() && this.figurine1.didLoose() && this.assignedGod.didLoose(game, this)); }
     }
 
     public ArrayList<Action> getPossibleActions(Game game){
