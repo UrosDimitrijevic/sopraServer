@@ -2,7 +2,9 @@ package ch.uzh.ifi.seal.soprafs19.controller;
 
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Artemis;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Pan;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.service.ActionService;
@@ -121,14 +123,14 @@ public class GameController {
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
         game.retrivePlayers()[0].getFigurine1().setPosition(0,0);
         game.retrivePlayers()[0].getFigurine2().setPosition(0,2);
-        game.retrivePlayers()[1].getFigurine1().setPosition(4,0);
-        game.retrivePlayers()[1].getFigurine2().setPosition(4,2);
+        game.retrivePlayers()[1].getFigurine1().setPosition(0,1);
+        game.retrivePlayers()[1].getFigurine2().setPosition(0,3);
 
         //artemis
         game.setPlayWithGodCards(true);
         gameService.saveGame(game);
-        game.getStartingPlayer().setAssignedGod(new Artemis(game));
-        game.getNonStartingPlayer().setAssignedGod(new Artemis(game));
+        game.getStartingPlayer().setAssignedGod(new Apollo(game));
+        game.getNonStartingPlayer().setAssignedGod(new Pan(game));
 
         gameService.saveGame(game);
         return ResponseEntity.status(HttpStatus.OK).body("game was created" );

@@ -10,14 +10,10 @@ import ch.uzh.ifi.seal.soprafs19.service.GameService;
 import javax.persistence.Entity;
 
 @Entity
-public class ChooseMode extends Action {
+public class ChooseMode extends Moving {
 
 
     private boolean useGod;
-    private int figurineNumber;
-    private int playerNumber;
-    private int row;
-    private int column;
 
 
     public ChooseMode(){
@@ -41,7 +37,7 @@ public class ChooseMode extends Action {
     }
 
     public ChooseMode(Game game, Figurine figurine, boolean useGod, int row, int column ){
-        super(game);
+        super(game,figurine,row,column);
         this.useGod=useGod;
         this.name="Choose Moving Mode";
         if(useGod){ this.name += game.retrivePlayers()[figurine.retrivePlayerNumber()-1].getAssignedGod().getName(); }

@@ -75,7 +75,7 @@ public class Board implements Serializable{
     }
 
     public boolean isEmpty(int row, int collumn){
-        return this.spaces[row][collumn].checkIfEmtpy();
+        return ( (row < 5 && row >= 0 && collumn < 5 && collumn >= 0) && this.spaces[row][collumn].checkIfEmtpy() );
     }
 
 }
