@@ -42,7 +42,11 @@ public class ChooseMode extends Action {
         GodCard god;
         if (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER
                 && this.useGod) {
+            Figurine figurine = myGame.retrivePlayers()[this.playerNumber-1].retirveFigurines()[this.figurineNumber-1];
             god = player.getAssignedGod();
+            //Get all possible actions defined in the assigned god
+            Action toPerfrom = god.getAction(myGame, figurine, this.row, this.column);
+            toPerfrom.perfromAction(gameService);
 
         }
         else{

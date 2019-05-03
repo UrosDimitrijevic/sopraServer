@@ -96,13 +96,6 @@ public class ActionCreater {
 
     }
 
-
-
-
-
-
-
-
     public static ArrayList<Action> createBuildingActions(Game game, Player player){
         ArrayList<Action> possibleActions = new ArrayList<>();
 
