@@ -109,6 +109,16 @@ public class Player implements Serializable {
 
     }
 
+    public boolean didWin(Game game){
+        if( this.assignedGod == null) { return (this.figurine2.didWin() || this.figurine1.didWin() ); }
+        else { return (this.figurine2.didWin() || this.figurine1.didWin() || this.assignedGod.didWin(game, this) ); }
+    }
+
+    public boolean didLoose(Game game){
+        if( this.assignedGod == null) { return (this.figurine2.didLoose() && this.figurine1.didLoose() ); }
+        else { return (this.figurine2.didLoose() && this.figurine1.didLoose() && this.assignedGod.didLoose(game, this)); }
+    }
+
     public ArrayList<Action> getPossibleActions(Game game){
         ArrayList<Action> possibleActions = new ArrayList<>();
         if( game.getStatus() == GameStatus.CHOSING_GAME_MODE && startingplayer){
@@ -154,7 +164,7 @@ public class Player implements Serializable {
         }
         else if( (game.getStatus() == GameStatus.MOVING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER && !this.startingplayer) ){
             //possibleActions.addAll(ActionCreater.createMovementActions(game, this));
-            possibleActions.addAll(ActionCreater.createChooseModeActions(game, this));
+            possibleActions.addAll(ActionCreater.createChooseModeMovementsActions(game, this));
 
         }
         else if( (game.getStatus() == GameStatus.BUILDING_STARTINGPLAYER && this.startingplayer) || (game.getStatus() == GameStatus.BUILDING_NONSTARTINGPLAYER && !this.startingplayer) ){
@@ -165,6 +175,9 @@ public class Player implements Serializable {
         }
         else if( (game.getStatus() == GameStatus.SettingFigurinesp1f2 && this.startingplayer) || (game.getStatus() == GameStatus.SettingFigurinesp2f2 && !this.startingplayer) ){
             possibleActions.addAll(ActionCreater.createPlaceWorker2Actions(game,this));
+        }
+        else if( game.getStatus().player() == this.playerNumber && (game.getStatus() == GameStatus.GODMODE_STATE_NONSTARTINGPLAYER || game.getStatus() == GameStatus.GODMODE_STATE_STARTINGPLAYER) ){
+            possibleActions.addAll(this.assignedGod.getActions(game));
         }
 
 

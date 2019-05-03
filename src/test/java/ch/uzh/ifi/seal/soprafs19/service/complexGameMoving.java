@@ -88,7 +88,6 @@ public class complexGameMoving {
         this.player1id = testUser1.getId();
         this.player2id = testUser2.getId();
         this.gameId = testGame.getId();
-
     }
 
     @Test

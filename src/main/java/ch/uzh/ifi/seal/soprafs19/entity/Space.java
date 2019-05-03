@@ -67,4 +67,8 @@ public class Space implements Serializable{
     }
 
     public boolean checkIfEmtpy(){ return (this.figurine == null); }
+
+    public int [] retriveFigurine(){
+        return this.figurine;
+    }
 }
