@@ -98,11 +98,15 @@ public class ActionTest {
         testUser2 = userService.createUser(testUser2);
 
         Game testGame1 = new Game(testUser1, testUser2 );
+        gameService.saveGame(testGame1);
 
         testGame1.setStatus(GameStatus.BUILDING_STARTINGPLAYER);
         Building tower = new Building(testGame1,0,4);// (0,4) randomly chosen
         tower.perfromAction(gameService);
-        assertFalse(testGame1.getBoard().isEmpty(0,4));
+
+        testGame1 = gameService.gameByID(testGame1.getId());
+        assertEquals(testGame1.getBoard().getSpaces()[0][4].getLevel(),1);
+        //assertFalse(testGame1.getBoard().isEmpty(0,4));
     }
 
     @Test
@@ -206,13 +210,13 @@ public class ActionTest {
     @Test
     public void canGetGocCards() throws Exception {
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction1");
+        testUser1.setUsername("testUsernameAction1qejpgo");
         testUser1.setPassword("testPassowrdAction2");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection2");
+        testUser2.setUsername("testUsernamection2einbü");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
