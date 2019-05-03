@@ -35,9 +35,9 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@WebAppConfiguration
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes= Application.class)
+@WebAppConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes= Application.class)
 public class ActionTest {
 
 
@@ -87,34 +87,26 @@ public class ActionTest {
     @Test
     public void testBuilding() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsername1suqdg");
+        testUser1.setUsername("testUsername1");
         testUser1.setPassword("testPassword1");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsername2iapgzf");
+        testUser2.setUsername("testUsername2");
         testUser2.setPassword("testPassword2");
-        testUser2.setBirthday("2000-01-03");
-        testUser1.setChallenging(testUser2.getId());
-        testUser2.setChallenging(testUser1.getId());
-
         testUser2 = userService.createUser(testUser2);
 
-        //setting up game mode
         Game testGame1 = new Game(testUser1, testUser2 );
-
-
-        testGame1.getStartingPlayer().getFigurine1().setPosition(1,1);
-        testGame1.getStartingPlayer().getFigurine2().setPosition(3,1);
-        testGame1.getNonStartingPlayer().getFigurine1().setPosition(1,3);
-        testGame1.getNonStartingPlayer().getFigurine1().setPosition(3,3);
+        gameService.saveGame(testGame1);
 
         testGame1.setStatus(GameStatus.BUILDING_STARTINGPLAYER);
         Building tower = new Building(testGame1,0,4);// (0,4) randomly chosen
         tower.perfromAction(gameService);
-        assertFalse(testGame1.getBoard().isEmpty(0,4));
 
+        testGame1 = gameService.gameByID(testGame1.getId());
+        assertEquals(testGame1.getBoard().getSpaces()[0][4].getLevel(),1);
+        //assertFalse(testGame1.getBoard().isEmpty(0,4));
     }
 
     @Test
@@ -143,13 +135,13 @@ public class ActionTest {
     @Test
     public void testPlaceWorker() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction3");
-        testUser1.setPassword("testPassowrdAction4");
+        testUser1.setUsername("testUsernameAction1");
+        testUser1.setPassword("testPassowrdAction2");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection5");
+        testUser2.setUsername("testUsernamection2");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
@@ -164,13 +156,13 @@ public class ActionTest {
     @Test
     public void testPlaceWorker2() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction6");
-        testUser1.setPassword("testPassowrdAction7");
+        testUser1.setUsername("testUsernameAction1");
+        testUser1.setPassword("testPassowrdAction2");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection8");
+        testUser2.setUsername("testUsernamection2");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
@@ -185,13 +177,13 @@ public class ActionTest {
     @Test
     public void testMoving() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction8");
-        testUser1.setPassword("testPassowrdAction9");
+        testUser1.setUsername("testUsernameAction1");
+        testUser1.setPassword("testPassowrdAction2");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection10");
+        testUser2.setUsername("testUsernamection2");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
@@ -213,16 +205,18 @@ public class ActionTest {
 
     }
 
+
+
     @Test
     public void canGetGocCards() throws Exception {
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction12");
-        testUser1.setPassword("testPassowrdAction13");
+        testUser1.setUsername("testUsernameAction1qejpgo");
+        testUser1.setPassword("testPassowrdAction2");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection14");
+        testUser2.setUsername("testUsernamection2einbü");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
