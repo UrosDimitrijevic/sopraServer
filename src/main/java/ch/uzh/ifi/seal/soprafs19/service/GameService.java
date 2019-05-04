@@ -25,12 +25,23 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public Game gameByID(long id ){ return this.gameRepository.findById(id ); }
+    public Game gameByID(long id ){
+        Game game = this.gameRepository.findById(id );
+        game.setBoardForFigurines();
+        return game;
+    }
 
     public Game gameByPlaxerId(long id ){
         Game game = this.gameRepository.findByPlayer1id(id);
-        if( game != null){ return game; }
-        else{ return this.gameRepository.findByPlayer2id(id); }
+        if( game != null){
+            game.setBoardForFigurines();
+            return game;
+        }
+        else{
+            game = this.gameRepository.findByPlayer2id(id);
+            game.setBoardForFigurines();
+            return game;
+        }
     }
 
     public Iterable<Game> getGames() {

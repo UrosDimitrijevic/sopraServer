@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import org.slf4j.Logger;
@@ -41,13 +42,39 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void updateProfile(User modelUser, long id){
+    public void updateProfile(User modelUser, long id, GameService gameService){
         User gef = this.userByID(id);
         if( modelUser.getUsername() != null){
             gef.setUsername(modelUser.getUsername() );
         }
         if( modelUser.getBirthday() != null){
             gef.setBirthday(modelUser.getBirthday() );
+        }
+
+        //checking for challenge
+        if( modelUser.getChallenging() != null){
+            Long oponentId = modelUser.getChallenging();
+            gef.setChallenging(oponentId);
+            User oponent = this.userByID(oponentId);
+            oponent.setGettingChallengedBy(gef.getId() );
+
+            //checking if both players are into it
+            if(gef.getGettingChallengedBy() == gef.getChallenging() && gef.getGettingChallengedBy() != null ){
+                Game game = new Game(oponent,gef);
+                gameService.saveGame(game);
+                System.out.println("\n\n\nshould have created the game\n\n\n");
+                oponent.setStatus(UserStatus.INGAME);
+                gef.setStatus(UserStatus.INGAME);
+            }
+            userRepository.save(oponent);
+        }
+
+        //checking if a challenge got rejected
+        else if( modelUser.getGettingChallengedBy() == null && gef.getGettingChallengedBy() != null){
+            User oponent = this.userByID(gef.getGettingChallengedBy());
+            oponent.setChallenging(null);
+            this.userRepository.save(oponent);
+            gef.setGettingChallengedBy(null);
         }
         userRepository.save(gef );
     }

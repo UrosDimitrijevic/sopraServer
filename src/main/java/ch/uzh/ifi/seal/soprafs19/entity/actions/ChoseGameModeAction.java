@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
+import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
@@ -10,15 +11,19 @@ public class ChoseGameModeAction extends Action {
 
     private boolean withGodCards;
 
-    public ChoseGameModeAction() {
+    public ChoseGameModeAction(){
+
     }
 
     public ChoseGameModeAction (Game game, boolean withGodCards){
+
         super();
         this.withGodCards = withGodCards;
         this.name = "ChoseMode";
         this.myGameId = game.getId();
+
     }
+
 
 
     public void setWithGodCards(boolean withGodCards) {
@@ -31,6 +36,17 @@ public class ChoseGameModeAction extends Action {
 
     @java.lang.Override
     public void perfromAction(GameService gameService) {
-        System.out.println("\n\n\n\n\n\nI chose my godMode here\n\n\n\n\n\n");
+
+        Game myGame = gameService.gameByID(this.myGameId);
+        myGame.setPlayWithGodCards(this.withGodCards);
+        if(this.withGodCards){
+            myGame.setStatus(GameStatus.CHOSING_GODCARDS);
+        }
+        else{
+            myGame.setStatus(GameStatus.SettingFigurinesp1f1);
+        }
+        gameService.saveGame(myGame);
     }
+
+
 }

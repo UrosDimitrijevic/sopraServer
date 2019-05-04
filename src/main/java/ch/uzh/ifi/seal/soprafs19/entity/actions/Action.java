@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
-import ch.uzh.ifi.seal.soprafs19.entity.Board;
+import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
@@ -21,6 +21,10 @@ public abstract class Action implements Serializable{
     @Column(nullable = false, unique = false)
     String name;
 
+
+    @Column(nullable = false)
+    long myGameId;
+
     public void setName(String name) {
         this.name = name;
     }
@@ -37,6 +41,10 @@ public abstract class Action implements Serializable{
         this.name = "testname";
     }
 
+    public Action(Game game){
+        this.myGameId = game.getId();
+    }
+
     public Long getId() {
         return id;
     }
@@ -45,8 +53,11 @@ public abstract class Action implements Serializable{
         return name;
     }
 
-    @Column(nullable = false)
-    long myGameId;
 
     public abstract void perfromAction(GameService gameService);
+
+    public long TheGameId(){
+        return this.myGameId;
+    }
+
 }
