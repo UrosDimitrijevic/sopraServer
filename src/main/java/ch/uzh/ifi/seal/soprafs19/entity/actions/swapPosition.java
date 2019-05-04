@@ -52,6 +52,8 @@ public class swapPosition extends Action {
             throw new Exception("The workers are not neighbors!")
         }
 
+        gameService.saveGame(myGame);
+
 
 
     }
