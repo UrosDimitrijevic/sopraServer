@@ -40,9 +40,8 @@ public class Moving extends Action {
         this.figurineNumber = figurineNumber;
     }
 
-    public Moving(){
-
-    }
+    public Moving(){super(); }
+    public Moving(Game game){ super(game); }
 
     public Moving (Game game, Figurine figurine, int row, int column){
         super(game);

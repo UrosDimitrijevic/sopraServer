@@ -7,14 +7,10 @@ import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
-public class ChooseMode extends Action {
+public class ChooseMode extends Moving {
 
 
     private boolean useGod;
-    private int figurineNumber;
-    private int playerNumber;
-    private int row;
-    private int column;
 
 
     public ChooseMode(){

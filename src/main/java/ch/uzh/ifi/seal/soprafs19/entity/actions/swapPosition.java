@@ -13,7 +13,10 @@ public class swapPosition extends Action {
     private final int oppPlayerNumber;
 
     public swapPosition(){
-
+        figurineNumber =0;
+        playerNumber = 0;
+        oppFigNumber = 0;
+        oppPlayerNumber = 0;
     }
 
     public swapPosition (Game game, Figurine figurine, Figurine oppFigurine){
@@ -49,7 +52,7 @@ public class swapPosition extends Action {
             int[] pos=figurine1.getPosition();
             figurine1.changePosition(pos[0],pos[1]);
         }else{
-            throw new Exception("The workers are not neighbors!")
+            //throw new Exception("The workers are not neighbors!");
         }
 
         gameService.saveGame(myGame);
