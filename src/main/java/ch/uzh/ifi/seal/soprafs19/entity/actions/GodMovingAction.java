@@ -14,4 +14,6 @@ abstract public class GodMovingAction extends Moving {
             super(game, figurine, row, column);
         }
 
+
+
 }

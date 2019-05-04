@@ -87,14 +87,14 @@ public class ActionTest {
     @Test
     public void testBuilding() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsername1");
-        testUser1.setPassword("testPassword1");
+        testUser1.setUsername("testUsernamesfgnsffgn");
+        testUser1.setPassword("testPasswordplrtohk");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsername2");
-        testUser2.setPassword("testPassword2");
+        testUser2.setUsername("testUsernamebxccbeqeth");
+        testUser2.setPassword("testPasswordasctbuz2");
         testUser2 = userService.createUser(testUser2);
 
         Game testGame1 = new Game(testUser1, testUser2 );
@@ -123,73 +123,77 @@ public class ActionTest {
         testUser2 = userService.createUser(testUser2);
 
         Game testGame2 = new Game(testUser1, testUser2 );
+        gameService.saveGame(testGame2);
         testGame2.setStatus(GameStatus.CHOSING_GODCARDS);
         Athena ath = new Athena(testGame2);
         Artemis art = new Artemis(testGame2);
         ChooseGod chGod = new ChooseGod(testGame2, ath,art);
         chGod.perfromAction(gameService);
+        testGame2 = gameService.gameByID(testGame2.getId());
         assertNotNull(testGame2.retrivePlayers()[0].getAssignedGod());
-
     }
 
     @Test
     public void testPlaceWorker() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction1");
-        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setUsername("testUsernamesdfvewt");
+        testUser1.setPassword("testPassowrdqwrvqfvq");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection2");
+        testUser2.setUsername("testUsernamectionqreveqrvreq");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
         Game testGame3 = new Game(testUser1, testUser2 );
+        gameService.saveGame(testGame3);
         testGame3.setStatus(GameStatus.SettingFigurinesp1f1);
         PlaceWorker  placing = new PlaceWorker(testGame3,testGame3.retrivePlayers()[0].getFigurine1(),0,1);
         placing.perfromAction(gameService);
+        testGame3 = gameService.gameByID(testGame3.getId());
         assertFalse(testGame3.getBoard().isEmpty(0,1));
-
     }
 
     @Test
     public void testPlaceWorker2() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction1");
-        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setUsername("testUsernameasCascaSC");
+        testUser1.setPassword("testPassowrdasceqcwce a");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection2");
-        testUser2.setPassword("testPassowrd");
+        testUser2.setUsername("testUsernameasdcqwrf");
+        testUser2.setPassword("testPassowrdwfsadca");
         testUser2 = userService.createUser(testUser2);
 
         Game testGame4 = new Game(testUser1, testUser2 );
+        gameService.saveGame(testGame4);
         testGame4.setStatus(GameStatus.SettingFigurinesp1f2);
         PlaceWorker  placing = new PlaceWorker(testGame4,testGame4.retrivePlayers()[0].getFigurine2(),0,2);
         placing.perfromAction(gameService);
+        testGame4 = gameService.gameByID(testGame4.getId());
         assertFalse(testGame4.getBoard().isEmpty(0,2));
-
     }
 
     @Test
     public void testMoving() throws Throwable{
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction1");
-        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setUsername("testUsernamepeqirnl");
+        testUser1.setPassword("testPassowrdnuvenqvl");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection2");
-        testUser2.setPassword("testPassowrd");
+        testUser2.setUsername("testUsernamelqierngzulev");
+        testUser2.setPassword("testPassowrdkeqrubh");
         testUser2 = userService.createUser(testUser2);
 
         Game testGame5 = new Game(testUser1, testUser2 );
+        gameService.saveGame(testGame5);
         PlaceWorker  placing = new PlaceWorker(testGame5,testGame5.retrivePlayers()[0].getFigurine1(),0,1);
-        PlaceWorker2  placing1 = new PlaceWorker2(testGame5,testGame5.retrivePlayers()[0].getFigurine2(),0,5);
+        PlaceWorker2  placing1 = new PlaceWorker2(testGame5,testGame5.retrivePlayers()[0].getFigurine2(),0,4);
         PlaceWorker  placing2 = new PlaceWorker(testGame5,testGame5.retrivePlayers()[1].getFigurine1(),4,0);
         PlaceWorker2  placing3 = new PlaceWorker2(testGame5,testGame5.retrivePlayers()[1].getFigurine2(),4,3);
         placing.perfromAction(gameService);
@@ -201,11 +205,9 @@ public class ActionTest {
 
         Moving move = new Moving(testGame5,figurine,0,2);
         move.perfromAction(gameService);
+        testGame5 = gameService.gameByID(testGame5.getId());
         assertFalse(testGame5.getBoard().isEmpty(0,2));
-
     }
-
-
 
     @Test
     public void canGetGocCards() throws Exception {
@@ -237,5 +239,4 @@ public class ActionTest {
         this.mockMvc.perform(get("/users/{id}",testUser1.getId() )).andExpect(status().isOk() );
         this.mockMvc.perform(get("/users/{id}",testUser2.getId() )).andExpect(status().isOk() );
     }
-
 }

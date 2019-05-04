@@ -65,7 +65,7 @@ public class Figurine implements Serializable {
     }
 
     public void setPosition(int row, int column){
-        if(this.board == null){ System.out.println("game == null"); return; }
+        if(this.board == null){ System.out.println("game == null");return; }
         this.position = new int [2];
         this.position[0] = row;
         this.position[1] = column;
