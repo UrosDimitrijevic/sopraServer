@@ -7,6 +7,9 @@ import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
+import javax.persistence.Entity;
+
+@Entity
 public class ChooseMode extends Moving {
 
 
