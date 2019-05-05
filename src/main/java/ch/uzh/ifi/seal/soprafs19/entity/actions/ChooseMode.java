@@ -39,7 +39,7 @@ public class ChooseMode extends Moving {
         Game myGame = gameService.gameByID(this.myGameId);
         Player player = myGame.retrivePlayers()[this.playerNumber - 1];
         GodCard god;
-        if (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER
+        if ( (myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER || myGame.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER)
                 && this.useGod) {
             Figurine figurine = myGame.retrivePlayers()[this.playerNumber-1].retirveFigurines()[this.figurineNumber-1];
             god = player.getAssignedGod();
@@ -55,8 +55,9 @@ public class ChooseMode extends Moving {
             normalMoving.perfromAction(gameService);
 
         }
+        System.out.println("Hello, World");
 
-        gameService.saveGame(myGame);
+        //gameService.saveGame(myGame);
 
     }
 
