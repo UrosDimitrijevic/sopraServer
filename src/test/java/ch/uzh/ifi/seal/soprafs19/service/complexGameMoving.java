@@ -15,14 +15,17 @@ import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
@@ -32,6 +35,9 @@ import javax.validation.constraints.AssertTrue;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
@@ -250,5 +256,23 @@ public class complexGameMoving {
         Assert.assertEquals(spaces[1][1],0);
         //can't go on Dome
         Assert.assertEquals(spaces[1][0],0);
+    }
+
+    @Ignore
+    @Test
+    public void canGetRightActions() throws Exception{
+        Game game = gameService.gameByID(this.gameId);
+        game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+        gameService.saveGame(game);
+        game = gameService.gameByID(this.gameId);
+
+
+        this.mockMvc.perform(get("/game/actions/{id}",this.player1id))
+                .andExpect(status().isCreated() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").value("Hans"))
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").value(""))
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").isNotEmpty() );
+
     }
 }
