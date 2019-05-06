@@ -20,6 +20,9 @@ public class ChooseMode extends Moving {
 
     }
 
+    public boolean isUseGod() {
+        return useGod;
+    }
 
     public ChooseMode(Game game, Figurine figurine, boolean useGod, int row, int column ){
         super(game);

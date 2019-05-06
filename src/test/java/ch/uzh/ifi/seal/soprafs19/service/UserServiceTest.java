@@ -148,7 +148,7 @@ public class UserServiceTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"username\": \"Hans\", \"password\": \"123\"}")
                 )
-                .andExpect(status().isCreated() )
+                .andExpect(status().isOk() )
                 .andExpect(MockMvcResultMatchers.jsonPath( ".username").value("Hans"))
                 .andExpect(MockMvcResultMatchers.jsonPath( ".password").value(""))
                 .andExpect(MockMvcResultMatchers.jsonPath( ".token").isNotEmpty())
