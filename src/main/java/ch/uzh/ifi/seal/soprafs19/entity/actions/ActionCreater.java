@@ -123,8 +123,11 @@ public class ActionCreater {
         int movedFigurine = 1;
         for( int i = oldActions.size()-1; i >= 0; --i){
             Action action = oldActions.get(i);
+            //System.out.println("iterated over one action\n");
             if( action instanceof Moving ){
+                //System.out.println("is a instance of moving with figurine: " + Integer.toString( ((Moving) action).getFigurineNumber() ));
                 movedFigurine = ((Moving) action).getFigurineNumber();
+                break;
             }
         }
 
