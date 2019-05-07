@@ -112,8 +112,8 @@ public class GameController {
         if(user1 == null || user2 == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
-        //Game game = new Game(user1,user2);
-        Game game = gameService.gameByPlaxerId(id);
+        Game game = new Game(user1,user2);
+        //Game game = gameService.gameByPlaxerId(id);
         System.out.println("\n\n\nkommt bis hier\n\n\n\n");
         if(game == null){         System.out.println("game == null"); }
         if(game.retrivePlayers() == null){ System.out.println("players array == NULL"); }
@@ -134,7 +134,7 @@ public class GameController {
         //artemis
         game.setPlayWithGodCards(true);
         gameService.saveGame(game);
-        game.getStartingPlayer().setAssignedGod(new Pan(game));
+        game.getStartingPlayer().setAssignedGod(new Artemis(game));
         game.getNonStartingPlayer().setAssignedGod(new Apollo(game));
 
         gameService.saveGame(game);

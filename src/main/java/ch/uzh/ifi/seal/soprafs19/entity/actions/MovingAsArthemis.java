@@ -28,6 +28,7 @@ public class MovingAsArthemis extends GodMovingAction {
     @java.lang.Override
     public void perfromAction(GameService gameService) {
         super.perfromAction(gameService);
+
         Game mygame = gameService.gameByID(this.myGameId);
         if(playerNumber == 1){
             if(mygame.getStatus() == GameStatus.BUILDING_STARTINGPLAYER) {
@@ -37,6 +38,7 @@ public class MovingAsArthemis extends GodMovingAction {
                 ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_figurine(this.figurineNumber);
             }
             else{
+                mygame.setStatus(GameStatus.BUILDING_STARTINGPLAYER);
                 ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_row(-1);
                 ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_column(-1);
                 ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_figurine(-1);
@@ -49,6 +51,7 @@ public class MovingAsArthemis extends GodMovingAction {
                 ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_figurine(this.figurineNumber);
             }
             else{
+                mygame.setStatus(GameStatus.BUILDING_NONSTARTINGPLAYER);
                 ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_row(-1);
                 ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_column(-1);
                 ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_figurine(-1);
