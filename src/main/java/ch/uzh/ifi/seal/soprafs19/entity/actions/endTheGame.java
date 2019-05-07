@@ -32,15 +32,19 @@ public class endTheGame extends Action{
         user[1] = gameService.getUserService().userByID(game.getPlayer2id());
         int pl = this.playerNumber-1;
 
-        //addapting my player
-        user[pl].setStatus(UserStatus.ONLINE);
-        user[pl].setChallenging(null);
-        user[pl].setGettingChallengedBy(null);
-        gameService.getUserService().updateProfile(user[pl],user[pl].getId(),gameService);
-
         //checking if oponent has also ended game
-        if( user[1-pl].getChallenging() != user[pl].getId() ){
-            gameService.deleteGame( this.myGameId );
+        if( user[0].getChallenging() == null && user[1].getChallenging() == null ){
+            gameService.deleteGame( this.myGameId ); return;
         }
+
+        //addapting my player
+        user[0].setStatus(UserStatus.ONLINE);
+        user[0].setChallenging(null);
+        user[0].setGettingChallengedBy(null);
+        gameService.getUserService().updateProfile(user[0],user[0].getId(),gameService);
+        user[1].setStatus(UserStatus.ONLINE);
+        user[1].setChallenging(null);
+        user[1].setGettingChallengedBy(null);
+        gameService.getUserService().updateProfile(user[1],user[1].getId(),gameService);
     }
 }
