@@ -68,7 +68,8 @@ public class Artemis extends GodCard {
             ArrayList<Action> possibleMovements = game.retrivePlayers()[game.getStatus().player()-1].retirveFigurines()[this.prev_figurine-1].getPossibleMovingActions(game);
             for(int i = 0; i < possibleMovements.size(); ++i){
                 Moving currentAction = (Moving)possibleMovements.get(i);
-                if( currentAction.getRow() != this.prev_row && currentAction.getColumn() != this.prev_column) {
+                System.out.println("prev_row: " + Integer.toString(this.prev_row) + "prev_column: " + Integer.toString(this.prev_column) + "prev_fig: " + Integer.toString(this.prev_figurine));
+                if( currentAction.getRow() != this.prev_row || currentAction.getColumn() != this.prev_column) {
                     possibleActions.add(new MovingAsArthemis(game, currentAction));
                 }
             }
