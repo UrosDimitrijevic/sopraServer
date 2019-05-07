@@ -120,15 +120,17 @@ public class complexGameMoving {
         //building some structures
         testGame.getBoard().getSpaces()[0][0].build();
         testGame.getBoard().getSpaces()[0][0].build();
+        testGame.getBoard().getSpaces()[0][2].build();
         //under player2figurine2
         testGame.getBoard().getSpaces()[4][3].build();
         testGame.getBoard().getSpaces()[4][3].build();
-        testGame.getBoard().getSpaces()[4][3].build();
+        //testGame.getBoard().getSpaces()[4][3].build();
         //next to pl2fig2
         testGame.getBoard().getSpaces()[4][2].build();
         testGame.getBoard().getSpaces()[4][2].build();
         testGame.getBoard().getSpaces()[4][2].build();
         testGame.getBoard().getSpaces()[4][2].build();
+        testGame.getBoard().getSpaces()[4][4].build();
 
 
         //setting the figurines
@@ -220,17 +222,19 @@ public class complexGameMoving {
         }
 
         Assert.assertEquals(spaces[0][1],1);
-        Assert.assertEquals(spaces[0][2],1);
         Assert.assertEquals(spaces[1][0],1);
         Assert.assertEquals(spaces[2][0],1);
         Assert.assertEquals(spaces[2][1],1);
         Assert.assertEquals(spaces[2][2],1);
+        //can move one step up
+        Assert.assertEquals(spaces[0][2],1);
         //Not the field figurine is standing on
         Assert.assertEquals(spaces[1][1],0);
         //not a field that a figurine is standing on
         Assert.assertEquals(spaces[1][2],0);
         //can't go on a level two tower
         Assert.assertEquals(spaces[0][0],0);
+
     }
 
 
