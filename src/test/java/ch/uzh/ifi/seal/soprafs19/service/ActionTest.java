@@ -5,8 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.*;
 
 import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Artemis;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Athena;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Pan;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.*;
 import org.junit.Test;
 
@@ -71,16 +73,6 @@ public class ActionTest {
     @Before
     public void setup() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    }
-
-    @Test
-    public void canCreateAndSaveActions() throws Exception {
-
-        /*
-
-        CREAtE A GAME AND PUT PLAYER 1 IN IT
-
-         */
     }
 
 
@@ -210,33 +202,88 @@ public class ActionTest {
     }
 
     @Test
-    public void canGetGocCards() throws Exception {
+    public void canChoseYourGod() throws Exception {
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction1qejpgo");
+        testUser1.setUsername("testUsernameAction1ChoseYourGod");
         testUser1.setPassword("testPassowrdAction2");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection2einbü");
+        testUser2.setUsername("testUsernamection2ChoseYourGod");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
-        Game testGame = new Game(testUser1, testUser2 );
+        Game testGame2 = new Game(testUser1, testUser2 );
+        testGame2.setStatus(GameStatus.PICKING_GODCARDS);
+        testGame2.getStartingPlayer().setAssignedGod(new Apollo(testGame2) );
+        testGame2.getNonStartingPlayer().setAssignedGod(new Pan(testGame2) );
 
-        testGame.setStatus(GameStatus.CHOSING_GODCARDS);
-        long id2 = 999;
+        //test if stay the same
+        gameService.saveGame(testGame2);
+        ChoseYourGod pickGod = new ChoseYourGod(testGame2,true);
+        pickGod.perfromAction(gameService);
+        testGame2 = gameService.gameByID(testGame2.getId());
+        Assert.assertEquals("Apollo", testGame2.getNonStartingPlayer().getAssignedGod().getName());
+        Assert.assertEquals("Pan", testGame2.getStartingPlayer().getAssignedGod().getName());
 
-        this.gameService.saveGame(testGame);
+        //test if switch
+        testGame2.setStatus(GameStatus.PICKING_GODCARDS);
+        gameService.saveGame(testGame2);
+        pickGod = new ChoseYourGod(testGame2,false);
+        pickGod.perfromAction(gameService);
+        testGame2 = gameService.gameByID(testGame2.getId());
+        Assert.assertEquals("Apollo", testGame2.getNonStartingPlayer().getAssignedGod().getName());
+        Assert.assertEquals("Pan", testGame2.getStartingPlayer().getAssignedGod().getName());
+    }
 
-        long id = testGame.getId();
 
-        Game retrivedGame = this.gameService.gameByID(id);
+    @Test
+    public void canEndGame() throws Exception {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameAction1EndGameGod");
+        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
 
-        //retrivedGame.getPossibleActions(testUser1.getId());
-        //retrivedGame.getPossibleActions(testUser2.getId());
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamection2EndGameGod");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
 
-        this.mockMvc.perform(get("/users/{id}",testUser1.getId() )).andExpect(status().isOk() );
-        this.mockMvc.perform(get("/users/{id}",testUser2.getId() )).andExpect(status().isOk() );
+        testUser1.setChallenging(testUser2.getId());
+
+        userService.updateProfile(testUser1,testUser1.getId(),gameService);
+        testUser2 = userService.userByID(testUser2.getId());
+        testUser2.setChallenging(testUser1.getId());
+        userService.updateProfile(testUser2,testUser2.getId(),gameService);
+        testUser1 = userService.userByID(testUser1.getId());
+        testUser2 = userService.userByID(testUser2.getId());
+
+        Game testGame2 = gameService.gameByPlaxerId(testUser1.getId());
+        testGame2.setStatus(GameStatus.STARTINGPLAYER_WON);
+
+        //end pl1
+        gameService.saveGame(testGame2);
+        Action endGame = new endTheGame(testGame2,1);
+        endGame.perfromAction(gameService);
+        testGame2 = gameService.gameByID(testGame2.getId());
+        testUser1 = userService.userByID(testUser1.getId());
+        testUser2 = userService.userByID(testUser2.getId());
+
+        Assert.assertNull(testUser1.getGettingChallengedBy());
+        Assert.assertNull(testUser2.getGettingChallengedBy());
+        Assert.assertNull(testUser1.getChallenging());
+        Assert.assertNull(testUser2.getChallenging());
+        Assert.assertNull(testUser1.getChallenging());
+
+        //end pl2
+        gameService.saveGame(testGame2);
+        endGame = new endTheGame(testGame2,2);
+        endGame.perfromAction(gameService);
+        testGame2 = gameService.gameByID(testGame2.getId());
+
+        //Assert.assertNull();
+        Assert.assertNull(testGame2);
     }
 }
