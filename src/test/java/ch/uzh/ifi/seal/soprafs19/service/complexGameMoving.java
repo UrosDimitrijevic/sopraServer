@@ -370,4 +370,20 @@ public class complexGameMoving {
         //can't go on a dome
         Assert.assertEquals(movements2[2][2],0);
     }
+
+    @Test
+    public void canGetNoActions() throws Exception{
+        Game game = gameService.gameByID(this.gameId);
+        game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+        gameService.saveGame(game);
+        game = gameService.gameByID(this.gameId);
+
+        //MvcResult result = this.mockMvc.perform(get("/users/100")).andExpect(status().isNotFound() );
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/10000").accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+
+        //making sure we get the right return-code
+        Assert.assertEquals(mvcResult.getResponse().getStatus(), 404);
+        Assert.assertEquals("Player is not in a game", content);
+    }
 }
