@@ -25,6 +25,8 @@ public abstract class Action implements Serializable{
     @Column(nullable = false)
     long myGameId;
 
+    boolean deleteAfter;
+
     public void setName(String name) {
         this.name = name;
     }
@@ -39,9 +41,12 @@ public abstract class Action implements Serializable{
 
     public Action(){
         this.name = "testname";
+        this.deleteAfter = true;
     }
 
     public Action(Game game){
+        this.deleteAfter = true;
+        this.name = "testname";
         this.myGameId = game.getId();
     }
 
@@ -60,4 +65,7 @@ public abstract class Action implements Serializable{
         return this.myGameId;
     }
 
+    public boolean needToDelete(){
+        return this.deleteAfter;
+    }
 }

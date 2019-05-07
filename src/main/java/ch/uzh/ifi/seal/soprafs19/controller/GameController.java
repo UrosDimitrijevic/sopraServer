@@ -112,7 +112,8 @@ public class GameController {
         if(user1 == null || user2 == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
-        Game game = new Game(user1,user2);
+        //Game game = new Game(user1,user2);
+        Game game = gameService.gameByPlaxerId(id);
         System.out.println("\n\n\nkommt bis hier\n\n\n\n");
         if(game == null){         System.out.println("game == null"); }
         if(game.retrivePlayers() == null){ System.out.println("players array == NULL"); }
@@ -125,13 +126,19 @@ public class GameController {
         game.retrivePlayers()[0].getFigurine2().setPosition(0,2);
         game.retrivePlayers()[1].getFigurine1().setPosition(0,1);
         game.retrivePlayers()[1].getFigurine2().setPosition(0,3);
+        game.getBoard().getSpaces()[0][0].build();
+        game.getBoard().getSpaces()[0][0].build();
+        game.getBoard().getSpaces()[0][1].build();
+        game.getBoard().getSpaces()[0][1].build();
 
         //artemis
         game.setPlayWithGodCards(true);
         gameService.saveGame(game);
-        game.getStartingPlayer().setAssignedGod(new Apollo(game));
-        game.getNonStartingPlayer().setAssignedGod(new Pan(game));
+        game.getStartingPlayer().setAssignedGod(new Pan(game));
+        game.getNonStartingPlayer().setAssignedGod(new Apollo(game));
 
+        gameService.saveGame(game);
+        game.checkIfGameOver();
         gameService.saveGame(game);
         return ResponseEntity.status(HttpStatus.OK).body("game was created" );
     }

@@ -31,7 +31,7 @@ public class Building extends Action {
 
 
     public Building(){
-
+        super();
     }
 
 

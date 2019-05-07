@@ -179,6 +179,9 @@ public class Player implements Serializable {
         else if( game.getStatus().player() == this.playerNumber && (game.getStatus() == GameStatus.GODMODE_STATE_NONSTARTINGPLAYER || game.getStatus() == GameStatus.GODMODE_STATE_STARTINGPLAYER) ){
             possibleActions.addAll(this.assignedGod.getActions(game));
         }
+        else if(game.getStatus() == GameStatus.NONSTARTINGPLAYER_WON || game.getStatus() == GameStatus.STARTINGPLAYER_WON){
+            possibleActions.add(new endTheGame(game,this.getPlayerNumber()));
+        }
 
 
         return possibleActions;

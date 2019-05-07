@@ -17,17 +17,21 @@ public class GameService {
     private final Logger log = LoggerFactory.getLogger(GameService.class);
 
     @Autowired
+    private final UserService service;
+
+    @Autowired
     private final GameRepository gameRepository;
 
 
     @Autowired
-    public GameService(GameRepository gameRepository) {
+    public GameService(GameRepository gameRepository, UserService service) {
+        this.service = service;
         this.gameRepository = gameRepository;
     }
 
     public Game gameByID(long id ){
         Game game = this.gameRepository.findById(id );
-        game.setBoardForFigurines();
+        if(game !=  null) {game.setBoardForFigurines(); }
         return game;
     }
 
@@ -52,4 +56,12 @@ public class GameService {
         this.gameRepository.save(newgame);
     }
 
+    public UserService getUserService() {
+        return service;
+    }
+
+    public void deleteGame(long gameId){
+        Game game = this.gameByID(gameId);
+        this.gameRepository.delete(game);
+    }
 }
