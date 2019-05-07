@@ -43,7 +43,7 @@ public class GameService {
         }
         else{
             game = this.gameRepository.findByPlayer2id(id);
-            game.setBoardForFigurines();
+            if( game != null) {game.setBoardForFigurines();}
             return game;
         }
     }
