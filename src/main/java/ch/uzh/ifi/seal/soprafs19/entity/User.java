@@ -136,5 +136,9 @@ public class User implements Serializable {
 		return this.getId().equals(user.getId());
 	}
 
+	@Override
+	public int hashCode(){
+		return (int)(long)this.id;
+	}
 
 }

@@ -65,7 +65,6 @@ public class Figurine implements Serializable {
     }
 
     public void setPosition(int row, int column){
-        if(this.board == null){ System.out.println("game == null");return; }
         this.position = new int [2];
         this.position[0] = row;
         this.position[1] = column;
@@ -84,7 +83,6 @@ public class Figurine implements Serializable {
 
     public ArrayList<Action> getPossibleMovingActions(Game game) {
         ArrayList<Action> possibleActions = new ArrayList<>();
-        if(this.space == null){ System.out.println("space == null\n\n\n"); }
         if(board.isWalkeable(this.position[0]-1,this.position[1]-1,this.space.getLevel()) ){
             possibleActions.add(new Moving(game, this, this.position[0]-1, this.position[1]-1 ) );
         }

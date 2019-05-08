@@ -113,9 +113,6 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
         Game game = new Game(user1,user2);
-        //Game game = gameService.gameByPlaxerId(id);
-        System.out.println("\n\n\nkommt bis hier\n\n\n\n");
-        if(game == null){         System.out.println("game == null"); }
         if(game.retrivePlayers() == null){ System.out.println("players array == NULL"); }
         if(game.retrivePlayers()[1] == null){ System.out.println("players[0] == NULL"); }
         if(game.retrivePlayers()[1].getFigurine1() == null){ System.out.println("figurine[0][1] array == NULL"); }
