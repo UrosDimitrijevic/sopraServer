@@ -286,4 +286,87 @@ public class ActionTest {
         //Assert.assertNull();
         Assert.assertNull(testGame2);
     }
+
+
+    @Test
+    public void canChoseGameModeYes() throws Exception {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameAction1ChoseGameMode");
+        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamection2ChoseGameMode");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame2 = new Game(testUser1, testUser2 );
+        gameService.saveGame(testGame2);
+
+        Action chodeGameMode = new ChoseGameModeAction(testGame2,true);
+        chodeGameMode.perfromAction(gameService);
+        testGame2 = gameService.gameByID(testGame2.getId());
+        Assert.assertTrue(testGame2.isPlayWithGodCards());
+    }
+
+    @Test
+    public void canChoseGameModeNo() throws Exception {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameAction1ChoseGameModeNo");
+        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamection2ChoseGameModeNo");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame2 = new Game(testUser1, testUser2 );
+        gameService.saveGame(testGame2);
+
+        Action chodeGameMode = new ChoseGameModeAction(testGame2,false);
+        chodeGameMode.perfromAction(gameService);
+        testGame2 = gameService.gameByID(testGame2.getId());
+        Assert.assertFalse(testGame2.isPlayWithGodCards());
+    }
+
+    @Ignore
+    @Test
+    public void canChoseMode() throws Exception {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameAction1ChoseMode");
+        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamection2ChoseMode");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame = new Game(testUser1, testUser2 );
+        testGame.setStatus(GameStatus.PICKING_GODCARDS);
+        testGame.getStartingPlayer().setAssignedGod(new Artemis(testGame) );
+        testGame.getNonStartingPlayer().setAssignedGod(new Apollo(testGame) );
+        testGame.setPlayWithGodCards(true);
+        gameService.saveGame(testGame);
+        PlaceWorker  placing = new PlaceWorker(testGame,testGame.retrivePlayers()[0].getFigurine1(),0,1);
+        PlaceWorker2  placing1 = new PlaceWorker2(testGame,testGame.retrivePlayers()[0].getFigurine2(),0,3);
+        PlaceWorker  placing2 = new PlaceWorker(testGame,testGame.retrivePlayers()[1].getFigurine1(),0,2);
+        PlaceWorker2  placing3 = new PlaceWorker2(testGame,testGame.retrivePlayers()[1].getFigurine2(),0,4);
+        placing.perfromAction(gameService);
+        placing1.perfromAction(gameService);
+        placing2.perfromAction(gameService);
+        placing3.perfromAction(gameService);
+        gameService.saveGame(testGame);
+
+        Figurine fig = testGame.getNonStartingPlayer().getFigurine2();
+        Action choseMode = new ChooseMode(testGame, fig,true,0,3);
+        choseMode.perfromAction(gameService);
+        testGame = gameService.gameByID(testGame.getId());
+        Assert.assertFalse(testGame.getBoard().isEmpty(0,2));
+        Assert.assertFalse(testGame.getBoard().isEmpty(0,3));
+    }
 }
