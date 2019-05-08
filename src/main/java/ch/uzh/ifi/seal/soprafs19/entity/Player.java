@@ -183,7 +183,6 @@ public class Player implements Serializable {
             possibleActions.add(new endTheGame(game,this.getPlayerNumber()));
         }
 
-
         return possibleActions;
     }
 
