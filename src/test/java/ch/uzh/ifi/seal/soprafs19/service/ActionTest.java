@@ -412,13 +412,19 @@ public class ActionTest {
 
         testGame7 = gameService.gameByID(testGame7.getId());
         for( int a=0;a<chG.size();a++ ){
+            ChooseGod godActoin1 = (ChooseGod)chG.get(a);
             int counter =0;
             for( int b=0;b<possActions.size();b++){
-                Action god1 =chG.get(a).
-                Action god2 =possActions.get(b);
-                assertEquals(god1,god2);
+                ChooseGod godAction2 = (ChooseGod) possActions.get(b);
 
+                if( (godActoin1.getGod1().getGodnumber() == godAction2.getGod1().getGodnumber() &&
+                        godActoin1.getGod2().getGodnumber() == godAction2.getGod2().getGodnumber()) ||
+                        (godActoin1.getGod2().getGodnumber() == godAction2.getGod1().getGodnumber() &&
+                                godActoin1.getGod1().getGodnumber() == godAction2.getGod2().getGodnumber())){
+                    counter += 1;
+                }
             }
+            Assert.assertEquals(1, counter);
         }
 
     }
