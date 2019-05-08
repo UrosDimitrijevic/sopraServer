@@ -412,10 +412,10 @@ public class ActionTest {
 
         testGame7 = gameService.gameByID(testGame7.getId());
         for( int a=0;a<chG.size();a++ ){
-            ChooseGod godActoin1 = (ChooseGod)chG.get(a);
+            ChooseGod godActoin1 = (ChooseGod)chG.get(a);  //tolf java that this is not any action, but a ChooseGod-action
             int counter =0;
             for( int b=0;b<possActions.size();b++){
-                ChooseGod godAction2 = (ChooseGod) possActions.get(b);
+                ChooseGod godAction2 = (ChooseGod) possActions.get(b);  //tolf java that this is not any action, but a ChooseGod-action
 
                 if( (godActoin1.getGod1().getGodnumber() == godAction2.getGod1().getGodnumber() &&
                         godActoin1.getGod2().getGodnumber() == godAction2.getGod2().getGodnumber()) ||
@@ -424,7 +424,7 @@ public class ActionTest {
                     counter += 1;
                 }
             }
-            Assert.assertEquals(1, counter);
+            Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
         }
 
     }
