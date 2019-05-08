@@ -411,13 +411,165 @@ public class ActionTest {
         }
 
         testGame7 = gameService.gameByID(testGame7.getId());
+        for( int a=0;a<chG.size();a++ ){
+            int counter =0;
+            for( int b=0;b<possActions.size();b++){
+                Action god1 =chG.get(a).
+                Action god2 =possActions.get(b);
+                assertEquals(god1,god2);
+
+            }
+        }
+
+    }
+
+    @Test
+    public void testCreatePickGodActions() throws Throwable {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsername1CreatePickGodActions");
+        testUser1.setPassword("testPassowrduhuhuh");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsername2CreatePickGodActions");
+        testUser2.setPassword("testPassowrdeieiei");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame8 = new Game(testUser1, testUser2);
+        gameService.saveGame(testGame8);
+        testGame8.setStatus(GameStatus.PICKING_GODCARDS);
+        Player player1 = testGame8.getNonStartingPlayer();
+        ArrayList<Action> possActions = player1.getPossibleActions(testGame8);
+        ArrayList<Action> possibleActions = new ArrayList<>();
+        possibleActions.add(new ChoseYourGod(testGame8,false));
+        possibleActions.add(new ChoseYourGod(testGame8,true));
+        testGame8 = gameService.gameByID(testGame8.getId());
 
 
 
-        assertEquals(chG,possActions);
+        assertEquals(possibleActions,possActions);
 
 
     }
+
+    @Test
+    public void testCreatePlaceWorkerActions() throws Throwable{
+        User testUser1 = new User();
+        testUser1.setUsername("testUsername1CreatePlaceWorkerActions");
+        testUser1.setPassword("testPassowrduhuhuh");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsername2CreatePlaceWorkerActions");
+        testUser2.setPassword("testPassowrdeieiei");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame9 = new Game(testUser1, testUser2);
+        gameService.saveGame(testGame9);
+        testGame9.setStatus(GameStatus.SettingFigurinesp1f1);
+
+        testGame9.getStartingPlayer().setAssignedGod(new Artemis(testGame9));
+        testGame9.getNonStartingPlayer().setAssignedGod(new Apollo(testGame9));
+        testGame9.setPlayWithGodCards(true);
+        Player player2 = testGame9.getStartingPlayer();
+
+
+
+
+        ArrayList<Action> possActions= new ArrayList<>();
+
+        for( int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                if( testGame9.getBoard().isEmpty(i,j) ) {
+                    possActions.add(new PlaceWorker(testGame9, testGame9.getStartingPlayer().getFigurine1(), i, j));
+                }
+            }
+        }
+
+        assertEquals(possActions,player2.getPossibleActions(testGame9));
+        gameService.saveGame(testGame9);
+
+    }
+
+    @Test
+    public void testCreatePlaceWorker2Actions() throws Throwable{
+        User testUser1 = new User();
+        testUser1.setUsername("testUsername1CreatePlaceWorker2Actions");
+        testUser1.setPassword("testPassowrduhuhuh");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsername2CreatePlaceWorker2Actions");
+        testUser2.setPassword("testPassowrdeieiei");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame9 = new Game(testUser1, testUser2);
+        gameService.saveGame(testGame9);
+        testGame9.setStatus(GameStatus.SettingFigurinesp1f2);
+
+        testGame9.getStartingPlayer().setAssignedGod(new Artemis(testGame9));
+        testGame9.getNonStartingPlayer().setAssignedGod(new Apollo(testGame9));
+        testGame9.setPlayWithGodCards(true);
+        Player player2 = testGame9.getStartingPlayer();
+
+        ArrayList<Action> possActions= new ArrayList<>();
+
+        for( int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                if( testGame9.getBoard().isEmpty(i,j) ) {
+                    possActions.add(new PlaceWorker2(testGame9, testGame9.getStartingPlayer().getFigurine2(), i, j));
+                }
+            }
+        }
+
+        assertEquals(possActions,player2.getPossibleActions(testGame9));
+        gameService.saveGame(testGame9);
+    }
+
+
+    @Test
+    public void testCreateBuildingActions() throws Throwable {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernamepeqirnl");
+        testUser1.setPassword("testPassowrdnuvenqvl");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamelqierngzulev");
+        testUser2.setPassword("testPassowrdkeqrubh");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame5 = new Game(testUser1, testUser2);
+        gameService.saveGame(testGame5);
+        PlaceWorker placing = new PlaceWorker(testGame5, testGame5.retrivePlayers()[0].getFigurine1(), 0, 1);
+        PlaceWorker2 placing1 = new PlaceWorker2(testGame5, testGame5.retrivePlayers()[0].getFigurine2(), 0, 4);
+        PlaceWorker placing2 = new PlaceWorker(testGame5, testGame5.retrivePlayers()[1].getFigurine1(), 4, 0);
+        PlaceWorker2 placing3 = new PlaceWorker2(testGame5, testGame5.retrivePlayers()[1].getFigurine2(), 4, 3);
+        placing.perfromAction(gameService);
+        placing1.perfromAction(gameService);
+        placing2.perfromAction(gameService);
+        placing3.perfromAction(gameService);
+        testGame5.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+        Figurine figurine = testGame5.retrivePlayers()[0].retirveFigurines()[0];
+
+        Moving move = new Moving(testGame5, figurine, 0, 2);
+        move.perfromAction(gameService);
+        testGame5 = gameService.gameByID(testGame5.getId());
+        assertFalse(testGame5.getBoard().isEmpty(0, 2));
+    }
+
+
+
+
+
+
+
+
+
 
 
 

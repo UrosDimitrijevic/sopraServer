@@ -46,6 +46,7 @@ public class ActionCreater {
         return possibleActions;
     }
 
+
     public static ArrayList<Action> createMovementActions(Game game, Player player){
         ArrayList<Action> possibleActions = new ArrayList<>();
         possibleActions.addAll(player.getFigurine1().getPossibleMovingActions(game));
@@ -53,6 +54,7 @@ public class ActionCreater {
 
         return possibleActions;
     }
+
 
     public static ArrayList<Action> createChooseModeMovementsActions(Game game, Player player){
         ArrayList<Action> possibleActions =new ArrayList<>();
