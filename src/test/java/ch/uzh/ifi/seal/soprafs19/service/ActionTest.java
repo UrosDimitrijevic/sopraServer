@@ -594,6 +594,9 @@ public class ActionTest {
 
         Moving move = new Moving(testGame5, figurine, 0, 2);
         move.perfromAction(gameService);
+
+        testGame5 = gameService.gameByID(testGame5.getId()); //After the actions got performed, we need to load the new, better game
+
         ArrayList<Action> possActions = testGame5.retrivePlayers()[0].getPossibleActions(testGame5);
 
         ArrayList<Action> possibleActions = new ArrayList<>();
@@ -630,7 +633,6 @@ public class ActionTest {
 
 
         testGame5 = gameService.gameByID(testGame5.getId());
-
     }
 
 

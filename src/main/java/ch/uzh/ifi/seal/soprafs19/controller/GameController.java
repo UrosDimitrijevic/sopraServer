@@ -158,7 +158,7 @@ public class GameController {
         game.setActions1(null);
 
         gameService.saveGame(game);
-        return ResponseEntity.status(HttpStatus.OK).body("game was created" );
+        return ResponseEntity.status(HttpStatus.OK).body("you cheater" );
     }
 
 
