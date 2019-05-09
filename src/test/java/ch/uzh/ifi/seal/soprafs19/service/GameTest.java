@@ -71,8 +71,7 @@ public class GameTest {
     }
 
     @Test
-    public void canReloadGame() throws
-            Exception {
+    public void canReloadGame() throws Exception {
         User testUser1 = new User();
         testUser1.setUsername("testUsername1");
         testUser1.setPassword("testPassowrd");
