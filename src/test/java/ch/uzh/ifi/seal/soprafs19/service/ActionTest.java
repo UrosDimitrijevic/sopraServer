@@ -203,6 +203,7 @@ public class ActionTest {
         assertFalse(testGame5.getBoard().isEmpty(0, 2));
     }
 
+
     @Test
     public void canChoseYourGod() throws Exception {
         User testUser1 = new User();
@@ -465,8 +466,6 @@ public class ActionTest {
             Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
         }
 
-
-
     }
 
 
@@ -503,7 +502,6 @@ public class ActionTest {
             }
         }
 
-
         for( int a=0;a<possActions.size();a++ ){
             PlaceWorker godAction1 = (PlaceWorker)possActions.get(a);  //tolf java that this is not any action, but a ChooseGod-action
             int counter =0;
@@ -516,9 +514,7 @@ public class ActionTest {
             }
             Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
         }
-
         gameService.saveGame(testGame9);
-
     }
 
     @Test
@@ -566,15 +562,6 @@ public class ActionTest {
             }
             Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
         }
-
-
-
-
-
-
-
-
-
         gameService.saveGame(testGame9);
     }
 
@@ -582,13 +569,13 @@ public class ActionTest {
     @Test
     public void testCreateBuildingActions() throws Throwable {
         User testUser1 = new User();
-        testUser1.setUsername("testUsernamepeqirnl");
+        testUser1.setUsername("testUsernameCreateBuilding1");
         testUser1.setPassword("testPassowrdnuvenqvl");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamelqierngzulev");
+        testUser2.setUsername("testUsernameCreateBuilding2");
         testUser2.setPassword("testPassowrdkeqrubh");
         testUser2 = userService.createUser(testUser2);
 
@@ -607,11 +594,56 @@ public class ActionTest {
 
         Moving move = new Moving(testGame5, figurine, 0, 2);
         move.perfromAction(gameService);
+        ArrayList<Action> possActions = testGame5.retrivePlayers()[0].getPossibleActions(testGame5);
+
+        ArrayList<Action> possibleActions = new ArrayList<>();
+        //figuring out which figurine moved
+        ArrayList<Action> oldActions = testGame5.retrivePerformedActions();
+        int movedFigurine = 1;
+        for( int i = oldActions.size()-1; i >= 0; --i){
+            Action action = oldActions.get(i);
+            //System.out.println("iterated over one action\n");
+            if( action instanceof Moving ){
+                //System.out.println("is a instance of moving with figurine: " + Integer.toString( ((Moving) action).getFigurineNumber() ));
+                movedFigurine = ((Moving) action).getFigurineNumber();
+                break;
+            }
+        }
+        possibleActions.addAll(testGame5.retrivePlayers()[0].retirveFigurines()[movedFigurine-1].getPossibleBuildingActions(testGame5));
+
+
+
+        for( int a=0;a<possActions.size();a++ ){
+            Building godAction1 = (Building)possActions.get(a);  //tolf java that this is not any action, but a ChooseGod-action
+            int counter =0;
+            for( int b=0;b<possibleActions.size();b++){
+                Building godAction2 = (Building) possibleActions.get(b);  //tolf java that this is not any action, but a ChooseGod-action
+                if( (godAction1.getRow() == godAction2.getRow()) &&
+                        (godAction1.getColumn() == godAction2.getColumn())){
+                    counter += 1;
+                }
+            }
+            Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
+        }
+
+
+
+
         testGame5 = gameService.gameByID(testGame5.getId());
-        assertFalse(testGame5.getBoard().isEmpty(0, 2));
+
     }
 
 
+    @Test
+    public void testCreateChooseModeMovementsActions() throws Throwable{
+
+
+
+
+
+
+
+    }
 
 
 

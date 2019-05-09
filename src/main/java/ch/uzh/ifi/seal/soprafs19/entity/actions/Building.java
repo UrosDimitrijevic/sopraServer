@@ -55,7 +55,7 @@ public class Building extends Action {
         } else {
             myGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
         }
-
         gameService.saveGame(myGame);
     }
+
 }
