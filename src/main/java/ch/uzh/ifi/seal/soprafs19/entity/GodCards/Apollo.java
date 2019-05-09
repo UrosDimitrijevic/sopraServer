@@ -114,4 +114,15 @@ public class Apollo extends GodCard {
     public Action getAction(Game game, Figurine figurine, int row, int column) {
         return new MovingAsApollo(game,figurine, row, column);
     }
+
+    @java.lang.Override
+    public boolean didLoose(Game game, Player player){
+        GameStatus oldState = game.getStatus();
+        if(player.getPlayerNumber() == 1){ game.setStatus(GameStatus.MOVING_STARTINGPLAYER); }
+        else{ game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER); }
+        int amount = this.getActions(game).size();
+        game.setStatus(oldState);
+        if( amount != 0 ){ return false; }
+        else{ return true; }
+    }
 }
