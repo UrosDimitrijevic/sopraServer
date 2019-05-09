@@ -26,9 +26,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -387,8 +390,9 @@ public class ActionTest {
         testUser2 = userService.createUser(testUser2);
 
         Game testGame7 = new Game(testUser1, testUser2);
-        gameService.saveGame(testGame7);
         testGame7.setStatus(GameStatus.CHOSING_GODCARDS);
+        testGame7.setPlayWithGodCards(true);
+        gameService.saveGame(testGame7);
         Player player1 = testGame7.getStartingPlayer();
         ArrayList<Action> possActions = player1.getPossibleActions(testGame7);
         ArrayList<Action> chG = new ArrayList<>();
@@ -633,7 +637,6 @@ public class ActionTest {
     }
 
 
-    @Ignore
     @Test
     public void testCreateChooseModeMovementsActions() throws Throwable{
         User testUser1 = new User();
@@ -659,12 +662,16 @@ public class ActionTest {
         placing2.perfromAction(gameService);
         placing3.perfromAction(gameService);
 
+        testGame5 = gameService.gameByID(testGame5.getId());
+
         testGame5.setStatus(GameStatus.MOVING_STARTINGPLAYER);
 
         testGame5.getStartingPlayer().setAssignedGod(new Artemis(testGame5));
         testGame5.getNonStartingPlayer().setAssignedGod(new Apollo(testGame5));
         testGame5.setPlayWithGodCards(true);
         Player player2 = testGame5.getStartingPlayer();
+
+        gameService.saveGame(testGame5);
 
 
         ArrayList<Action> possibleActions = player2.getPossibleActions(testGame5);
@@ -702,7 +709,7 @@ public class ActionTest {
                     counter += 1;
                 }
             }
-            Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
+            Assert.assertEquals(2, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
         }
 
 
@@ -712,13 +719,57 @@ public class ActionTest {
 
     }
 
+    @Test
+    public void testPerformActionOverActionService() throws Throwable {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameACtionservice1");
+        testUser1.setPassword("testPassowrdnuvenqvl");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernameActionservice2");
+        testUser2.setPassword("testPassowrdkeqrubh");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame5 = new Game(testUser1, testUser2);
+        gameService.saveGame(testGame5);
+
+        PlaceWorker placing = new PlaceWorker(testGame5, testGame5.retrivePlayers()[0].getFigurine1(), 0, 1);
+        PlaceWorker2 placing1 = new PlaceWorker2(testGame5, testGame5.retrivePlayers()[0].getFigurine2(), 0, 4);
+        PlaceWorker placing2 = new PlaceWorker(testGame5, testGame5.retrivePlayers()[1].getFigurine1(), 4, 0);
+        PlaceWorker2 placing3 = new PlaceWorker2(testGame5, testGame5.retrivePlayers()[1].getFigurine2(), 4, 3);
+        placing.perfromAction(gameService);
+        placing1.perfromAction(gameService);
+        placing2.perfromAction(gameService);
+        placing3.perfromAction(gameService);
+
+        testGame5 = gameService.gameByID(testGame5.getId());
+
+        testGame5.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+
+        testGame5.getStartingPlayer().setAssignedGod(new Artemis(testGame5));
+        testGame5.getNonStartingPlayer().setAssignedGod(new Apollo(testGame5));
+        testGame5.setPlayWithGodCards(true);
+        Player player2 = testGame5.getStartingPlayer();
+
+        gameService.saveGame(testGame5);
 
 
+        ArrayList<Action> possibleActions = player2.getPossibleActions(testGame5);
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/"+Long.toString(testUser1.getId())).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/"+Long.toString(testUser1.getId())).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
 
+        testGame5 = gameService.gameByID(testGame5.getId());
 
+        long id = testGame5.retriveActions1().get(0);
+        ChooseMode action = (ChooseMode) actionService.getActionById(id);
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/"+Long.toString(id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
-
-
+        testGame5 = gameService.gameByID(testGame5.getId());
+        Assert.assertNull(testGame5.retriveActions1());
+        Assert.assertFalse(testGame5.getBoard().isEmpty(action.getRow(),action.getColumn()));
+    }
 
 }
