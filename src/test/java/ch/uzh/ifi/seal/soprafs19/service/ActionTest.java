@@ -633,6 +633,7 @@ public class ActionTest {
     }
 
 
+    @Ignore
     @Test
     public void testCreateChooseModeMovementsActions() throws Throwable{
         User testUser1 = new User();
