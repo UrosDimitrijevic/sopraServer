@@ -161,13 +161,19 @@ public class Game  implements Serializable  {
     }
 
     public long getCurrentPlayer(){
-        if( this.status == GameStatus.MOVING_NONSTARTINGPLAYER || this.status == GameStatus.BUILDING_NONSTARTINGPLAYER || this.status == GameStatus.PICKING_GODCARDS
+        /*if( this.status == GameStatus.MOVING_NONSTARTINGPLAYER || this.status == GameStatus.BUILDING_NONSTARTINGPLAYER || this.status == GameStatus.PICKING_GODCARDS
           || this.status == GameStatus.SettingFigurinesp2f2 || this.status == GameStatus.SettingFigurinesp2f1){
             return this.player2id;
         }
         else{
             return this.player1id;
+        }*/
+        if(this.status.player() == 1){
+            return this.player1id;
+        }else{
+            return this.player2id;
         }
+
     }
 
     public void setPlayWithGodCards(boolean playWithGodCards) {
