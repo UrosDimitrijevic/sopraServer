@@ -195,9 +195,11 @@ public class UserServiceTest {
 
         long id = createdUser.getId();
 
+        String name = "Karl" + Long.toString(id);
+
         this.mockMvc.perform(put("/users/{id}",createdUser.getId() )
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\": \"Karl\", \"birthday\": \"2012-12-24\"}")
+                .content("{\"username\": \"" + name + "\", \"birthday\": \"2012-12-24\"}")
         )
                 .andExpect(status().isNoContent() )
                 .andExpect(MockMvcResultMatchers.jsonPath( ".username").doesNotExist())
@@ -206,7 +208,7 @@ public class UserServiceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath( ".id").doesNotExist() )
                 .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").doesNotExist());
 
-        Assert.assertEquals( "Karl", userService.userByID(id).getUsername() );
+        Assert.assertEquals( name, userService.userByID(id).getUsername() );
         Assert.assertEquals( LocalDate.parse("2012-12-24", formatter) ,userService.userByID(id).getBirthday());
     }
 
@@ -220,9 +222,12 @@ public class UserServiceTest {
 
         User createdUser = userService.createUser(testUser);
 
+        long nonExtistingID = 1L;
+        while(userService.userByID(nonExtistingID) != null){ nonExtistingID += 1L; }
+
         long id = createdUser.getId();
 
-        this.mockMvc.perform(put("/users/{id}",100)
+        this.mockMvc.perform(put("/users/{id}",nonExtistingID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"username\": \"Karl\", \"birthday\": \"2012-12-24\"}")
         )
