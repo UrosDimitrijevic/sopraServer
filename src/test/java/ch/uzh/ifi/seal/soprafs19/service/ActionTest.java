@@ -174,13 +174,13 @@ public class ActionTest {
     @Test
     public void testMoving() throws Throwable {
         User testUser1 = new User();
-        testUser1.setUsername("testUsernamepeqirnl");
+        testUser1.setUsername("testUsernameTestMoving1");
         testUser1.setPassword("testPassowrdnuvenqvl");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamelqierngzulev");
+        testUser2.setUsername("testUsernameTestMoving2");
         testUser2.setPassword("testPassowrdkeqrubh");
         testUser2 = userService.createUser(testUser2);
 
