@@ -549,7 +549,6 @@ public class ActionTest {
             }
         }
 
-
         for( int a=0;a<possActions.size();a++ ){
             PlaceWorker2 godAction1 = (PlaceWorker2)possActions.get(a);  //tolf java that this is not any action, but a ChooseGod-action
             int counter =0;
@@ -630,19 +629,85 @@ public class ActionTest {
         }
 
 
-
-
         testGame5 = gameService.gameByID(testGame5.getId());
     }
 
 
+    @Ignore
     @Test
     public void testCreateChooseModeMovementsActions() throws Throwable{
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameCreateChooseModeMove1");
+        testUser1.setPassword("testPassowrdnuvenqvl");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernameCreateChooseModeMove2");
+        testUser2.setPassword("testPassowrdkeqrubh");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame5 = new Game(testUser1, testUser2);
+        gameService.saveGame(testGame5);
+
+        PlaceWorker placing = new PlaceWorker(testGame5, testGame5.retrivePlayers()[0].getFigurine1(), 0, 1);
+        PlaceWorker2 placing1 = new PlaceWorker2(testGame5, testGame5.retrivePlayers()[0].getFigurine2(), 0, 4);
+        PlaceWorker placing2 = new PlaceWorker(testGame5, testGame5.retrivePlayers()[1].getFigurine1(), 4, 0);
+        PlaceWorker2 placing3 = new PlaceWorker2(testGame5, testGame5.retrivePlayers()[1].getFigurine2(), 4, 3);
+        placing.perfromAction(gameService);
+        placing1.perfromAction(gameService);
+        placing2.perfromAction(gameService);
+        placing3.perfromAction(gameService);
+
+        testGame5.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+
+        testGame5.getStartingPlayer().setAssignedGod(new Artemis(testGame5));
+        testGame5.getNonStartingPlayer().setAssignedGod(new Apollo(testGame5));
+        testGame5.setPlayWithGodCards(true);
+        Player player2 = testGame5.getStartingPlayer();
+
+
+        ArrayList<Action> possibleActions = player2.getPossibleActions(testGame5);
+
+        testGame5 = gameService.gameByID(testGame5.getId());//After the actions got performed, we need to load the new, better game
+
+
+        ArrayList<Action> possActions = new ArrayList<>();
+        ArrayList<Action> movingActions = ActionCreater.createMovementActions(testGame5, player2);
+        for( int i = 0; i < movingActions.size(); ++i){
+            Action currentAction = movingActions.get(i);
+            if(currentAction instanceof Moving){
+                Figurine figurine = player2.retirveFigurines()[((Moving) currentAction).getFigurineNumber()-1];
+                possActions.add(new ChooseMode(testGame5,figurine,false,((Moving) currentAction).getRow(), ((Moving) currentAction).getColumn() ) );
+            }
+        }
+        ArrayList<Action> godMoving = player2.getAssignedGod().getActions(testGame5);
+        for( int i = 0; i < godMoving.size(); ++i){
+            Action currentAction = godMoving.get(i);
+            if(currentAction instanceof GodMovingAction){
+                Figurine figurine = player2.retirveFigurines()[((GodMovingAction) currentAction).getFigurineNumber()-1];
+                possActions.add(new ChooseMode(testGame5,figurine,true,((GodMovingAction) currentAction).getRow(), ((GodMovingAction) currentAction).getColumn() ) );
+            }
+        }
 
 
 
+        for( int a=0;a<possActions.size();a++ ){
+            ChooseMode godAction1 = (ChooseMode)possActions.get(a);  //tolf java that this is not any action, but a ChooseGod-action
+            int counter =0;
+            for( int b=0;b<possibleActions.size();b++ ){
+                ChooseMode godAction2 = (ChooseMode) possibleActions.get(b);  //tolf java that this is not any action, but a ChooseGod-action
+                if( (godAction1.getRow() == godAction2.getRow()) &&
+                        (godAction1.getColumn() == godAction2.getColumn())){
+                    counter += 1;
+                }
+            }
+            Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
+        }
 
 
+
+        testGame5 = gameService.gameByID(testGame5.getId());
 
 
     }

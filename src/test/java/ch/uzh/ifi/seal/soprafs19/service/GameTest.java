@@ -2,10 +2,13 @@ package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.Application;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Minotaur;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Prometheus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.repository.GameRepository;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +69,38 @@ public class GameTest {
         Game retrivedGame = this.gameService.gameByID(id);
 
         Assert.assertNotNull(retrivedGame);
+    }
+
+    @Ignore
+    @Test
+    public void canReloadGame() throws Exception {
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernamecanReload1");
+        testUser1.setPassword("testPassowrd");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamecanReload2");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
+
+        Game testGame = new Game(testUser1, testUser2 );
+
+        long id2 = 999;
+
+        this.gameService.saveGame(testGame);
+
+        long id = testGame.getId();
+
+        Game retrivedGame = this.gameService.gameByID(id);
+
+        //adding Gods
+        retrivedGame.retrivePlayers()[0].setAssignedGod(new Prometheus(retrivedGame));
+        retrivedGame.retrivePlayers()[1].setAssignedGod(new Minotaur(retrivedGame));
+
+        testGame = this.gameService.gameByID(id);
+        Assert.assertEquals("Prometheus", testGame.getStartingPlayer().getAssignedGod().getName());
+        Assert.assertEquals("Minotaur", testGame.getNonStartingPlayer().getAssignedGod().getName());
     }
 
 

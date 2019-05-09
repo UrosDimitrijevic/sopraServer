@@ -7,6 +7,7 @@ import ch.uzh.ifi.seal.soprafs19.entity.GodCards.GodCard;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -15,6 +16,23 @@ public class ChooseMode extends Moving {
 
     private boolean useGod;
 
+
+
+    @Column
+    private int row;
+
+    @Column
+    private int column;
+
+    @Override
+    public int getRow() {
+        return row;
+    }
+
+    @Override
+    public int getColumn() {
+        return column;
+    }
 
     public ChooseMode(){
 

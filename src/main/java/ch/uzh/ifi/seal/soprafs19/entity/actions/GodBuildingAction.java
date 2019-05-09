@@ -14,4 +14,8 @@ abstract public class GodBuildingAction extends Building {
         super(game, row, column);
     }
 
+
+    public boolean isUseGod() {
+        return true;
+    }
 }

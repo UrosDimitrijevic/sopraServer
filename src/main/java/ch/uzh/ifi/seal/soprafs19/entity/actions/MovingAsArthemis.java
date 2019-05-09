@@ -55,13 +55,13 @@ public class MovingAsArthemis extends GodMovingAction {
                 mygame.setStatus(GameStatus.GODMODE_STATE_NONSTARTINGPLAYER);
                 ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_row(this.oldrow);
                 ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_column(this.oldcolumn);
-                ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_figurine(this.figurineNumber);
+                ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_figurine(this.figurineNumber);
             }
             else{
                 mygame.setStatus(GameStatus.BUILDING_NONSTARTINGPLAYER);
                 ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_row(-1);
                 ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_column(-1);
-                ((Artemis) mygame.retrivePlayers()[0].getAssignedGod()).setPrev_figurine(-1);
+                ((Artemis) mygame.retrivePlayers()[1].getAssignedGod()).setPrev_figurine(-1);
             }
         }
         gameService.saveGame(mygame);
