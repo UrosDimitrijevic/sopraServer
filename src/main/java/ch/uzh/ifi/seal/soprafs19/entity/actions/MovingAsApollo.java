@@ -30,7 +30,7 @@ public class MovingAsApollo extends GodMovingAction {
         Figurine enemyFigurine = game.retrivePlayers()[enemy[0]-1].retirveFigurines()[enemy[1]-1];
 
         myFigurine.changePosition(this.row, this.column);
-        enemyFigurine.changePosition(oldRow,oldColumn);
+        enemyFigurine.setPosition(oldRow,oldColumn);
 
         if(this.playerNumber == 1){game.setStatus(GameStatus.BUILDING_STARTINGPLAYER);}
         else{ game.setStatus(GameStatus.BUILDING_NONSTARTINGPLAYER); }
