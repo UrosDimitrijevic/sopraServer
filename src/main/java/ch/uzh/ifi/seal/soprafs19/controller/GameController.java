@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Artemis;
 import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Pan;
+import ch.uzh.ifi.seal.soprafs19.entity.Space;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.service.ActionService;
@@ -112,32 +113,52 @@ public class GameController {
         if(user1 == null || user2 == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
-        Game game = new Game(user1,user2);
-        if(game.retrivePlayers() == null){ System.out.println("players array == NULL"); }
-        if(game.retrivePlayers()[1] == null){ System.out.println("players[0] == NULL"); }
-        if(game.retrivePlayers()[1].getFigurine1() == null){ System.out.println("figurine[0][1] array == NULL"); }
+        //Game game = new Game(user1,user2);
+        Game game = gameService.gameByPlaxerId(id);
 
-        game.setPlayWithGodCards(false);
-        game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.retrivePlayers()[0].getFigurine1().setPosition(0,0);
-        game.retrivePlayers()[0].getFigurine2().setPosition(0,2);
-        game.retrivePlayers()[1].getFigurine1().setPosition(0,1);
-        game.retrivePlayers()[1].getFigurine2().setPosition(0,3);
-        game.getBoard().getSpaces()[0][0].build();
-        game.getBoard().getSpaces()[0][0].build();
-        game.getBoard().getSpaces()[0][1].build();
-        game.getBoard().getSpaces()[0][1].build();
-
-        //artemis
+        //setting up settings
         game.setPlayWithGodCards(true);
-        gameService.saveGame(game);
-        game.getStartingPlayer().setAssignedGod(new Artemis(game));
-        game.getNonStartingPlayer().setAssignedGod(new Apollo(game));
+        game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
+        game.getStartingPlayer().setAssignedGod(new Apollo(game));
+        game.getNonStartingPlayer().setAssignedGod(new Pan(game));
+        ((Pan) game.getNonStartingPlayer().getAssignedGod()).setTesting();
+
+        //setting up buildings
+        game.getBoard().getSpaces()[0][1] = new Space();
+        game.getBoard().getSpaces()[1][0] = new Space();
+        game.getBoard().getSpaces()[1][1] = new Space();
+        game.getBoard().getSpaces()[4][3] = new Space();
+        game.getBoard().getSpaces()[3][4] = new Space();
+        game.getBoard().getSpaces()[3][3] = new Space();
+        game.getBoard().getSpaces()[2][4] = new Space();
+        game.getBoard().getSpaces()[2][3] = new Space();
+        game.getBoard().getSpaces()[4][4] = new Space();
+        for(int i = 0; i < 4; ++i){
+            game.getBoard().getSpaces()[0][1].build();
+            game.getBoard().getSpaces()[1][0].build();
+            game.getBoard().getSpaces()[1][1].build();
+            game.getBoard().getSpaces()[4][3].build();
+        }
+        for(int i = 0; i < 3; ++i){ game.getBoard().getSpaces()[3][4].build(); }
+        for( int i = 0; i < 2; ++i){
+            game.getBoard().getSpaces()[3][3].build();
+            game.getBoard().getSpaces()[2][4].build();
+        }
+        game.getBoard().getSpaces()[2][3].build();
+        game.getBoard().getSpaces()[4][4].build();
+
+        //setting figurines
+        game.retrivePlayers()[0].getFigurine1().setPosition(0,0);
+        game.retrivePlayers()[0].getFigurine2().setPosition(4,4);
+        game.retrivePlayers()[1].getFigurine1().setPosition(2,4);
+        game.retrivePlayers()[1].getFigurine2().setPosition(3,1);
+
+        //making all action-arrays null
+        game.setActions2(null);
+        game.setActions1(null);
 
         gameService.saveGame(game);
-        game.checkIfGameOver();
-        gameService.saveGame(game);
-        return ResponseEntity.status(HttpStatus.OK).body("game was created" );
+        return ResponseEntity.status(HttpStatus.OK).body("you cheater" );
     }
 
 

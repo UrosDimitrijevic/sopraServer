@@ -15,6 +15,14 @@ public class ChoseYourGod extends Action  {
         return myGod;
     }
 
+    public boolean getStatus(){
+        return this.pickGod1;
+    }
+
+    @Column
+    private boolean pickGod1;
+
+
     @Column(nullable = true, length = 800)
     private GodCard myGod;
 
@@ -23,6 +31,7 @@ public class ChoseYourGod extends Action  {
     public ChoseYourGod(Game game,boolean pickGod1){
         super(game);
         this.name = "ChoseYourGod";
+        this.pickGod1=pickGod1;
         if(pickGod1){
             this.myGod = game.retrivePlayers()[0].getAssignedGod();
         }
