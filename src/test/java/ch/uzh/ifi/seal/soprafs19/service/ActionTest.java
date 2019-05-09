@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -452,12 +453,23 @@ public class ActionTest {
         possibleActions.add(new ChoseYourGod(testGame8,true));
         testGame8 = gameService.gameByID(testGame8.getId());
 
+        for( int a=0;a<possActions.size();a++ ){
+            ChoseYourGod godAction1 = (ChoseYourGod)possActions.get(a);  //tolf java that this is not any action, but a ChooseGod-action
+            int counter =0;
+            for( int b=0;b<possActions.size();b++){
+                ChoseYourGod godAction2 = (ChoseYourGod) possibleActions.get(b);  //tolf java that this is not any action, but a ChooseGod-action
+                if( godAction1.getStatus() == godAction2.getStatus() ){
+                    counter += 1;
+                }
+            }
+            Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
+        }
 
-
-        assertEquals(possibleActions,possActions);
 
 
     }
+
+
 
     @Test
     public void testCreatePlaceWorkerActions() throws Throwable{
@@ -480,10 +492,7 @@ public class ActionTest {
         testGame9.getNonStartingPlayer().setAssignedGod(new Apollo(testGame9));
         testGame9.setPlayWithGodCards(true);
         Player player2 = testGame9.getStartingPlayer();
-
-
-
-
+        ArrayList<Action> possibleActions = player2.getPossibleActions(testGame9);
         ArrayList<Action> possActions= new ArrayList<>();
 
         for( int i = 0; i < 5; ++i) {
@@ -494,7 +503,20 @@ public class ActionTest {
             }
         }
 
-        assertEquals(possActions,player2.getPossibleActions(testGame9));
+
+        for( int a=0;a<possActions.size();a++ ){
+            PlaceWorker godAction1 = (PlaceWorker)possActions.get(a);  //tolf java that this is not any action, but a ChooseGod-action
+            int counter =0;
+            for( int b=0;b<possibleActions.size();b++){
+                PlaceWorker godAction2 = (PlaceWorker) possibleActions.get(b);  //tolf java that this is not any action, but a ChooseGod-action
+                if( (godAction1.getRow() == godAction2.getRow()) &&
+                        (godAction1.getColumn() == godAction2.getColumn())){
+                    counter += 1;
+                }
+            }
+            Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
+        }
+
         gameService.saveGame(testGame9);
 
     }
@@ -520,7 +542,7 @@ public class ActionTest {
         testGame9.getNonStartingPlayer().setAssignedGod(new Apollo(testGame9));
         testGame9.setPlayWithGodCards(true);
         Player player2 = testGame9.getStartingPlayer();
-
+        ArrayList<Action> possibleActions = player2.getPossibleActions(testGame9);
         ArrayList<Action> possActions= new ArrayList<>();
 
         for( int i = 0; i < 5; ++i) {
@@ -531,7 +553,28 @@ public class ActionTest {
             }
         }
 
-        assertEquals(possActions,player2.getPossibleActions(testGame9));
+
+        for( int a=0;a<possActions.size();a++ ){
+            PlaceWorker2 godAction1 = (PlaceWorker2)possActions.get(a);  //tolf java that this is not any action, but a ChooseGod-action
+            int counter =0;
+            for( int b=0;b<possibleActions.size();b++){
+                PlaceWorker2 godAction2 = (PlaceWorker2) possibleActions.get(b);  //tolf java that this is not any action, but a ChooseGod-action
+                if( (godAction1.getRow() == godAction2.getRow()) &&
+                        (godAction1.getColumn() == godAction2.getColumn())){
+                    counter += 1;
+                }
+            }
+            Assert.assertEquals(1, counter); //assert that only one time, the gods in godAction1 were equal to the ones in GodAction2
+        }
+
+
+
+
+
+
+
+
+
         gameService.saveGame(testGame9);
     }
 
