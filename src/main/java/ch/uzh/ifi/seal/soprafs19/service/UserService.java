@@ -50,7 +50,7 @@ public class UserService {
         if( modelUser.getBirthday() != null){
             gef.setBirthday(modelUser.getBirthday() );
         }
-
+//nothing changed
         //checking for challenge
         if( modelUser.getChallenging() != null){
             Long oponentId = modelUser.getChallenging();
