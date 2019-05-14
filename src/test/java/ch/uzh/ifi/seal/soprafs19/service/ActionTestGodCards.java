@@ -92,8 +92,6 @@ public class ActionTestGodCards {
 
     private RandomString randString;
 
-    //private RandomString randString;
-
     private void createUserAndGame() {
         this.randString = new RandomString();
         String username = randString.nextString();
@@ -101,7 +99,7 @@ public class ActionTestGodCards {
         //board setUp
         User testUser1 = new User();
         testUser1.setUsername(username);
-        testUser1.setPassword("TestPassowrd1");
+        testUser1.setPassword("TestPassword1");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
@@ -109,10 +107,10 @@ public class ActionTestGodCards {
 
         User testUser2 = new User();
         testUser2.setUsername(username);
-        testUser2.setPassword("TestPassowrd2");
+        testUser2.setPassword("TestPassword2");
         testUser2 = userService.createUser(testUser2);
 
-        testGame = new Game(testUser1, testUser2);
+        this.testGame = new Game(testUser1, testUser2);
         testUser1 = userService.createUser(testUser1);
         testUser2 = userService.createUser(testUser2);
 
@@ -158,6 +156,7 @@ public class ActionTestGodCards {
 
         //checking content
         class Response {
+            public int id;
             public int row;
             public int column;
             public int figurine;
@@ -172,9 +171,11 @@ public class ActionTestGodCards {
             i += 1;
             Response response = new Response();
             Assert.assertEquals("{\"id\":", content.substring(i,i+6) ); i += 6;
-            while(content.charAt(i) != ','){ i += 1; } i += 1;
-            Assert.assertEquals("\"name\":\"Choose Moving Mode\",\"row\":", content.substring(i,i+34 ) );i+=34;
             String number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; } i += 1;
+            response.id = Integer.parseInt(number);
+            Assert.assertEquals("\"name\":\"Choose Moving Mode\",\"row\":", content.substring(i,i+34 ) );i+=34;
+            number = "";
             while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
             response.row = Integer.parseInt(number);
             Assert.assertEquals(",\"column\":", content.substring(i,i+10 ) ); i += 10;
@@ -200,6 +201,8 @@ public class ActionTestGodCards {
         int movements1 [][] = new int [3][3];
         int movements2 [][] = new int [3][3];
 
+        Response toPerform = null;
+
         for( i = 0; i < actions.size(); ++i){
             Assert.assertTrue(actions.get(i).figurine == 1 || actions.get(i).figurine == 2 );
             int row = actions.get(i).row;
@@ -209,10 +212,30 @@ public class ActionTestGodCards {
             } else if(actions.get(i).figurine == 2){
                 movements2[row-2][col]++;
             }
+            if(actions.get(i).withGod){
+                toPerform = actions.get(i);
+            }
         }
 
         //can move to the field with the opponent figurine
         Assert.assertEquals(movements1[1][2],1);
+
+        //perform Appollo action
+        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //control if Appollo action was performed correctly
+        //mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/Board/" + Long.toString(gameId)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //retrieve changed game
+        this.testGame = gameService.gameByID(this.gameId);
+
+        //check if player1.figurine1 and player2.figurine1 changed positions
+        int[] position = testGame.getStartingPlayer().getFigurine1().getPosition();
+        Assert.assertEquals(position[0], 1);
+        Assert.assertEquals(position[1], 2);
+        position = testGame.getNonStartingPlayer().getFigurine1().getPosition();
+        Assert.assertEquals(position[0], 1);
+        Assert.assertEquals(position[1], 1);
 
     }
 }
