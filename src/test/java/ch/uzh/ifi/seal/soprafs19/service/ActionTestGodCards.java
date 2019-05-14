@@ -4,6 +4,9 @@ import ch.uzh.ifi.seal.soprafs19.Application;
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.*;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.*;
+
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
@@ -53,7 +56,7 @@ import java.net.URLEncoder;
 @WebAppConfiguration
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= Application.class)
-public class complexGameMoving {
+public class ActionTestGodCards {
 
     @Qualifier("userRepository")
     @Autowired
@@ -86,6 +89,8 @@ public class complexGameMoving {
     private long player2id;
     private Game testGame;
     private long gameId;
+
+    private RandomString randString;
 
     //private RandomString randString;
 
@@ -135,14 +140,16 @@ public class complexGameMoving {
         testGame.getNonStartingPlayer().getFigurine2().setPosition(4,3);
 
         //assign god cards
+        testGame.setStatus(GameStatus.PICKING_GODCARDS);
         testGame.getStartingPlayer().setAssignedGod(new Apollo(testGame));
         testGame.getNonStartingPlayer().setAssignedGod(new Pan(testGame));
+        testGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
 
         gameRepository.save(testGame);
 
         //MvcResult result = this.mockMvc.perform(get("/users/100")).andExpect(status().isNotFound() );
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
 
@@ -154,6 +161,7 @@ public class complexGameMoving {
             public int row;
             public int column;
             public int figurine;
+            public boolean withGod;
             Response(){}
         }
         ArrayList<Response> actions = new ArrayList<Response>();
@@ -175,9 +183,16 @@ public class complexGameMoving {
             response.column = Integer.parseInt(number);
             Assert.assertEquals(",\"figurineNumber\":", content.substring(i,i+18 ) ); i += 18;
             number = "";
-            /*while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
             response.figurine = Integer.parseInt(number);
-            Assert.assertEquals(",\"useGod\":true}", content.substring(i,i+16 ) ); i += 16;*/
+            Assert.assertEquals(",\"useGod\":", content.substring(i,i+10 )); i += 10;
+            if(content.substring(i,i+4 ).equals( "true") ){
+                i += 5;
+                response.withGod = true;
+            }else{
+                i += 6;
+                response.withGod = false;
+            }
             actions.add(response);
         }
 
