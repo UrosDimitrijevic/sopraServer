@@ -124,7 +124,7 @@ public class UserServiceTest {
 
     @Test
     public void testForGetUserOne_false() throws Exception {
-        this.mockMvc.perform(get("/users/100")).andExpect(status().isNotFound() )
+        this.mockMvc.perform(get("/users/1000")).andExpect(status().isNotFound() )
                 .andExpect(MockMvcResultMatchers.jsonPath( ".username").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath( ".password").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath( ".birthday").doesNotExist())
