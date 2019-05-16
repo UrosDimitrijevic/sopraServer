@@ -527,7 +527,7 @@ public class ActionTestGodCards {
         mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         //check if Pan-User has won
-        this.testGame = gameService.gameByID(this.gameId);
+        this.testGame = gameService.gameByID(this.gameId); //get changed game
         Assert.assertEquals(testGame.getStatus(), GameStatus.STARTINGPLAYER_WON);
 
 
