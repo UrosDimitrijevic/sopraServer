@@ -98,7 +98,20 @@ public class GameController {
         if( this.actionService.runActionByID(actionId) ){
             return ResponseEntity.status(HttpStatus.OK).body("action was performed");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
+        else if( this.gameService.gameByPlaxerId(actionId) != null){
+            Game game = gameService.gameByPlaxerId(actionId);
+            if(game.getPlayer1id() == actionId){
+                game.setStatus(GameStatus.NONSTARTINGPLAYER_WON);
+            } else {
+                game.setStatus(GameStatus.STARTINGPLAYER_WON);
+            }
+            actionService.deleteActions(game);
+            gameService.saveGame(game);
+            return ResponseEntity.status(HttpStatus.OK).body("action was performed");
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request Not implemented");
+        }
     }
 
     @PutMapping("/game/justForTesting/{id}")
@@ -117,8 +130,8 @@ public class GameController {
         //setting up settings
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Atlas(game));
-        game.getNonStartingPlayer().setAssignedGod(new Demeter(game));
+        game.getStartingPlayer().setAssignedGod(new Demeter(game));
+        game.getNonStartingPlayer().setAssignedGod(new Atlas(game));
 
         //setting up buildings
         game.getBoard().getSpaces()[0][1] = new Space();
