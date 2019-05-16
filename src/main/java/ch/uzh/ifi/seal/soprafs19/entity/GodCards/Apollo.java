@@ -43,10 +43,10 @@ public class Apollo extends GodCard {
     @java.lang.Override
     public ArrayList<Action> getActions(Game game) {
         ArrayList<Action> possibleActions = new ArrayList<Action>();
+        Player myPlayer = game.retrivePlayers()[game.getStatus().player()-1];
 
         if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
 
-            Player myPlayer = game.retrivePlayers()[game.getStatus().player()-1];
             Board board = game.getBoard();
             int row1 = myPlayer.getFigurine1().getPosition()[0];
             int column1 = myPlayer.getFigurine1().getPosition()[1];
@@ -106,7 +106,7 @@ public class Apollo extends GodCard {
             if( (rowTotest>=0 && rowTotest < 5 && columnToTest>=0 && columnToTest<5) && !board.isEmpty(rowTotest,columnToTest ) && board.getSpaces()[rowTotest][columnToTest].retriveFigurine()[0] != myPlayer.getPlayerNumber()  ){ possibleActions.add(new MovingAsApollo(game,myPlayer.getFigurine2(), rowTotest, columnToTest)); }
 
         }
-
+        game.removeActions(possibleActions,myPlayer.getPlayerNumber());
         return possibleActions;
     }
 

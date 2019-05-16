@@ -29,6 +29,9 @@ public class Building extends Action {
         this.column = column;
     }
 
+    public boolean isUseGod(){
+        return false;
+    }
 
     public Building(){
         super();

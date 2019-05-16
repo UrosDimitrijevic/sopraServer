@@ -75,6 +75,7 @@ public class Artemis extends GodCard {
             }
 
         }
+        game.removeActions(possibleActions,game.getStatus().player());
         return possibleActions;
     }
 

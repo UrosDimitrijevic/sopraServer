@@ -10,12 +10,12 @@ abstract public class GodBuildingAction extends Building {
 
     public GodBuildingAction(){ super(); }
 
-    public GodBuildingAction(Game game, Figurine figurine, int row, int column){
+    public GodBuildingAction(Game game, int row, int column){
         super(game, row, column);
     }
 
-
-    public boolean isUseGod() {
+    @java.lang.Override
+    public boolean isUseGod(){
         return true;
     }
 }

@@ -107,6 +107,7 @@ public class Figurine implements Serializable {
         if(board.isWalkeable(this.position[0],this.position[1]+1,this.space.getLevel()) ){
             possibleActions.add(new Moving(game, this, this.position[0], this.position[1]+1 ) );
         }
+        game.removeActions(possibleActions,this.playerNumber);
         return possibleActions;
     }
 
@@ -138,7 +139,7 @@ public class Figurine implements Serializable {
         if(board.isBuildiable(this.position[0],this.position[1]+1) ){
             possibleActions.add(new Building(game, this.position[0], this.position[1]+1 ) );
         }
-
+        game.removeActions(possibleActions,playerNumber);
         return possibleActions;
     }
 
@@ -148,17 +149,10 @@ public class Figurine implements Serializable {
         else{ return false; }
     }
 
-    public boolean didLoose(){
+    public boolean didLoose(Game game){
         if( this.space == null){ return false; }
         if(
-                !this.board.isWalkeable(this.position[0]-1,this.position[1]-1,this.space.getLevel()) &&
-                        !this.board.isWalkeable(this.position[0]-1,this.position[1],this.space.getLevel()) &&
-                        !this.board.isWalkeable(this.position[0]-1,this.position[1]+1,this.space.getLevel()) &&
-                        !this.board.isWalkeable(this.position[0],this.position[1]-1,this.space.getLevel()) &&
-                        !this.board.isWalkeable(this.position[0],this.position[1]+1,this.space.getLevel()) &&
-                        !this.board.isWalkeable(this.position[0]+1,this.position[1]-1,this.space.getLevel()) &&
-                        !this.board.isWalkeable(this.position[0]+1,this.position[1],this.space.getLevel()) &&
-                        !this.board.isWalkeable(this.position[0]+1,this.position[1]+1,this.space.getLevel())
+                this.getPossibleMovingActions(game).size() == 0
         ){ return true; }
         else{ return false; }
     }

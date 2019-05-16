@@ -2,9 +2,7 @@ package ch.uzh.ifi.seal.soprafs19.controller;
 
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
-import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo;
-import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Artemis;
-import ch.uzh.ifi.seal.soprafs19.entity.GodCards.Pan;
+import ch.uzh.ifi.seal.soprafs19.entity.GodCards.*;
 import ch.uzh.ifi.seal.soprafs19.entity.Space;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
@@ -113,15 +111,14 @@ public class GameController {
         if(user1 == null || user2 == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
-        //Game game = new Game(user1,user2);
-        Game game = gameService.gameByPlaxerId(id);
+        Game game = new Game(user1,user2);
+        //Game game = gameService.gameByPlaxerId(id);
 
         //setting up settings
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Apollo(game));
-        game.getNonStartingPlayer().setAssignedGod(new Pan(game));
-        ((Pan) game.getNonStartingPlayer().getAssignedGod()).setTesting();
+        game.getStartingPlayer().setAssignedGod(new Atlas(game));
+        game.getNonStartingPlayer().setAssignedGod(new Athena(game));
 
         //setting up buildings
         game.getBoard().getSpaces()[0][1] = new Space();
@@ -150,8 +147,9 @@ public class GameController {
         //setting figurines
         game.retrivePlayers()[0].getFigurine1().setPosition(0,0);
         game.retrivePlayers()[0].getFigurine2().setPosition(4,4);
-        game.retrivePlayers()[1].getFigurine1().setPosition(2,4);
+        game.retrivePlayers()[1].getFigurine1().setPosition(2,3);
         game.retrivePlayers()[1].getFigurine2().setPosition(3,1);
+        game.checkIfGameOver();
 
         //making all action-arrays null
         game.setActions2(null);
