@@ -36,6 +36,10 @@ public class Moving extends Action {
         return figurineNumber;
     }
 
+    public boolean isUseGod() {
+        return false;
+    }
+
     public void setFigurineNumber(int figurineNumber) {
         this.figurineNumber = figurineNumber;
     }

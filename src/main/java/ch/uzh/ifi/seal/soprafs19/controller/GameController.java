@@ -131,7 +131,7 @@ public class GameController {
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
         game.getStartingPlayer().setAssignedGod(new Demeter(game));
-        game.getNonStartingPlayer().setAssignedGod(new Atlas(game));
+        game.getNonStartingPlayer().setAssignedGod(new Hermes(game));
 
         //setting up buildings
         game.getBoard().getSpaces()[0][1] = new Space();
