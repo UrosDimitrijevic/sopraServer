@@ -130,10 +130,12 @@ public class ActionTestGodCards {
     }
 
 
-    /** Appollo actions test **/
+    /**
+     * Apollo actions test
+     * **/
 
     @Test
-    public void AppolloActions() throws Exception{
+    public void ApolloActions() throws Exception{
         //setting the figurines
         testGame.getStartingPlayer().getFigurine1().setPosition(1,1);
         testGame.getStartingPlayer().getFigurine2().setPosition(3,1);
@@ -243,7 +245,9 @@ public class ActionTestGodCards {
     }
 
 
-    /** Artemis actions test **/
+    /**
+     * Artemis actions test
+     * **/
 
     @Test
     public void ArtemisActions() throws Exception {
@@ -333,8 +337,6 @@ public class ActionTestGodCards {
             }
         }
 
-        System.out.print("\n " + Long.toString(toPerform.row) + ", " + Long.toString(toPerform.column) + "\n ");
-
         //check if correct movements are saved in movements matrix
         Assert.assertEquals(movements2[2][2], 2);
         Assert.assertEquals(movements2[2][3], 2);
@@ -420,6 +422,114 @@ public class ActionTestGodCards {
         Assert.assertEquals(movements2[3][4], 0); //own position
         Assert.assertEquals(movements2[4][3], 1);
         Assert.assertEquals(movements2[4][4], 0); //opponent figurine's position
+
+    }
+
+    /**
+     * Pan actions test
+     * **/
+
+    @Test
+    public void PanActions() throws Exception {
+        //building some structures
+        testGame.getBoard().getSpaces()[0][0].build();
+        testGame.getBoard().getSpaces()[0][0].build();
+
+        //setting the figurines
+        testGame.getStartingPlayer().getFigurine1().setPosition(0, 0);
+        testGame.getStartingPlayer().getFigurine2().setPosition(3, 1);
+        testGame.getNonStartingPlayer().getFigurine1().setPosition(1, 2);
+        testGame.getNonStartingPlayer().getFigurine2().setPosition(4, 3);
+
+        //assign god cards
+        testGame.setStatus(GameStatus.PICKING_GODCARDS);
+        testGame.getStartingPlayer().setAssignedGod(new Pan(testGame));
+        testGame.getNonStartingPlayer().setAssignedGod(new Apollo(testGame));
+        testGame.checkIfGameOver();
+        testGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+
+        gameRepository.save(testGame);
+
+        //MvcResult result = this.mockMvc.perform(get("/users/100")).andExpect(status().isNotFound() );
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+
+        //making sure we get the right return-code
+        Assert.assertEquals(mvcResult.getResponse().getStatus(), 200);
+
+        //checking content
+        class Response {
+            public int id;
+            public int row;
+            public int column;
+            public int figurine;
+            public boolean withGod;
+            Response(){}
+        }
+        ArrayList<Response> actions = new ArrayList<Response>();
+
+        //creating and checking the actions for consistency
+        int i = 0;
+        while( content.charAt(i) != ']') {
+            i += 1;
+            Response response = new Response();
+            Assert.assertEquals("{\"id\":", content.substring(i,i+6) ); i += 6;
+            String number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; } i += 1;
+            response.id = Integer.parseInt(number);
+            Assert.assertEquals("\"name\":\"Choose Moving Mode\",\"row\":", content.substring(i,i+34 ) );i+=34;
+            number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
+            response.row = Integer.parseInt(number);
+            Assert.assertEquals(",\"column\":", content.substring(i,i+10 ) ); i += 10;
+            number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
+            response.column = Integer.parseInt(number);
+            Assert.assertEquals(",\"figurineNumber\":", content.substring(i,i+18 ) ); i += 18;
+            number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
+            response.figurine = Integer.parseInt(number);
+            Assert.assertEquals(",\"useGod\":", content.substring(i,i+10 )); i += 10;
+            if(content.substring(i,i+4 ).equals( "true") ){
+                i += 5;
+                response.withGod = true;
+            }else{
+                i += 6;
+                response.withGod = false;
+            }
+            actions.add(response);
+        }
+
+        //looking that only allowed moves are here  [1][1]  [3][1]
+        int movements1 [][] = new int [5][5];
+        int movements2 [][] = new int [5][5];
+
+        Response toPerform = null;
+
+        for( i = 0; i < actions.size(); ++i){
+            Assert.assertTrue(actions.get(i).figurine == 1 || actions.get(i).figurine == 2 );
+            int row = actions.get(i).row;
+            int col = actions.get(i).column;
+            if(actions.get(i).figurine == 1){
+                movements1[row][col]++;
+                toPerform = actions.get(i);
+            } else if(actions.get(i).figurine == 2){
+                movements2[row][col]++;
+            }
+        }
+
+        //check if correct movements are saved in movements matrix
+        Assert.assertEquals(movements1[0][1], 1);
+
+        //perform saved action
+        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //check if Pan-User has won
+        this.testGame = gameService.gameByID(this.gameId);
+        Assert.assertEquals(testGame.getStatus(), GameStatus.STARTINGPLAYER_WON);
+
 
     }
 
