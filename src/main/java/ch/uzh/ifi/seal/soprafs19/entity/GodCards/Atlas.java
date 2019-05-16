@@ -63,6 +63,6 @@ public class Atlas extends GodCard {
     @java.lang.Override
     public Action getAction(Game game, Figurine figurine, int row, int column) {
         Action action = new BuildingAsAtlas(game,row,column);
-        return null;
+        return action;
     }
 }
