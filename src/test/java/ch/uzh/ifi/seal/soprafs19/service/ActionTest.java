@@ -780,13 +780,13 @@ public class ActionTest {
         long gameId;
 
         User testUser1 = new User();
-        testUser1.setUsername("testUsernameAction1EndGameGod");
+        testUser1.setUsername("testUsernameAction1surrender");
         testUser1.setPassword("testPassowrdAction2");
         testUser1.setBirthday("2000-01-01");
         testUser1 = userService.createUser(testUser1);
 
         User testUser2 = new User();
-        testUser2.setUsername("testUsernamection2EndGameGod");
+        testUser2.setUsername("testUsernamection2surrender");
         testUser2.setPassword("testPassowrd");
         testUser2 = userService.createUser(testUser2);
 
