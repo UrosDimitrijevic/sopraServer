@@ -202,7 +202,7 @@ public class ActionTestGodCards {
             actions.add(response);
         }
 
-        //looking that only allowed moves are here  [1][1]  [3][1]
+        //looking that only allowed moves are here
         int movements1 [][] = new int [3][3];
         int movements2 [][] = new int [3][3];
 
@@ -317,7 +317,7 @@ public class ActionTestGodCards {
             actions.add(response);
         }
 
-        //looking that only allowed moves are here  [1][1]  [3][1]
+        //looking that only allowed moves are here
         int movements1 [][] = new int [5][5];
         int movements2 [][] = new int [5][5];
 
@@ -497,7 +497,7 @@ public class ActionTestGodCards {
             actions.add(response);
         }
 
-        //looking that only allowed moves are here  [1][1]  [3][1]
+        //looking that only allowed moves are here
         int movements1 [][] = new int [5][5];
         int movements2 [][] = new int [5][5];
 
@@ -673,7 +673,7 @@ public class ActionTestGodCards {
             actions3.add(response);
         }
 
-        //looking that only allowed moves are here  [1][1]  [3][1]
+        //looking that only allowed moves are here
         int movements12 [][] = new int [5][5];
         int movements22 [][] = new int [5][5];
 
