@@ -426,6 +426,10 @@ public class ActionTestGodCards {
     }
 
     /**
+     * Demeter actions test
+     * **/
+
+    /**
      * Atlas actions test
      * **/
 
@@ -722,7 +726,7 @@ public class ActionTestGodCards {
         //assign god cards
         testGame.setStatus(GameStatus.PICKING_GODCARDS);
         testGame.getStartingPlayer().setAssignedGod(new Hermes(testGame));
-        testGame.getNonStartingPlayer().setAssignedGod(new Apollo(testGame));
+        testGame.getNonStartingPlayer().setAssignedGod(new Artemis(testGame));
         //testGame.checkIfGameOver();
         testGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
 
@@ -958,7 +962,6 @@ public class ActionTestGodCards {
         Assert.assertEquals(movements22[3][3], 0);
 
         //perform saved action
-        //FAILURE: Hier kommt das NestedServletException: Request processing failed; nested exception is java.lang.ClassCastException: class ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo cannot be cast to class ch.uzh.ifi.seal.soprafs19.entity.GodCards.Hermes (ch.uzh.ifi.seal.soprafs19.entity.GodCards.Apollo and ch.uzh.ifi.seal.soprafs19.entity.GodCards.Hermes are in unnamed module of loader 'app')
         mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         this.testGame = gameService.gameByID(this.gameId); //get changed game
