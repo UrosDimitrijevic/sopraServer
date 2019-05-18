@@ -25,17 +25,13 @@ public class PushOpponent extends Action {
     public PushOpponent (Game game, Figurine figurine, Figurine oppFigurine){
         super(game);
 
-        this.name = " Swap Moving Position";
+        this.name = " Push Opponent Moving ";
         this.figurineNumber = figurine.getFigurineNumber();
         this.playerNumber = figurine.retrivePlayerNumber();
         this.oppFigNumber= oppFigurine.getFigurineNumber();
         this.oppPlayerNumber= oppFigurine.retrivePlayerNumber();
 
     }
-
-
-
-
 
 
     @Override
@@ -79,7 +75,7 @@ public class PushOpponent extends Action {
                     figurine2.changePosition(pos2[0]-1,pos2[1]-1);
                 }
             }
-            
+
         }
 
 

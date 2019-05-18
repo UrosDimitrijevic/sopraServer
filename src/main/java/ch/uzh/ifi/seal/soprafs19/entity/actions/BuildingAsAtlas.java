@@ -34,6 +34,8 @@ public class BuildingAsAtlas extends GodBuildingAction {
         } else {
             game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
         }
+
         gameService.saveGame(game);
+
     }
 }
