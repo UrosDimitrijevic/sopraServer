@@ -129,9 +129,9 @@ public class GameController {
 
         //setting up settings
         game.setPlayWithGodCards(true);
-        game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Demeter(game));
-        game.getNonStartingPlayer().setAssignedGod(new Hermes(game));
+        game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+        game.getStartingPlayer().setAssignedGod(new Hermes(game));
+        game.getNonStartingPlayer().setAssignedGod(new Apollo(game));
 
         //setting up buildings
         game.getBoard().getSpaces()[0][1] = new Space();
@@ -158,8 +158,8 @@ public class GameController {
         game.getBoard().getSpaces()[4][4].build();
 
         //setting figurines
-        game.retrivePlayers()[0].getFigurine1().setPosition(0,0);
-        game.retrivePlayers()[0].getFigurine2().setPosition(4,4);
+        game.retrivePlayers()[0].getFigurine1().setPosition(0,2);
+        game.retrivePlayers()[0].getFigurine2().setPosition(0,3);
         game.retrivePlayers()[1].getFigurine1().setPosition(2,3);
         game.retrivePlayers()[1].getFigurine2().setPosition(3,1);
         game.checkIfGameOver();
