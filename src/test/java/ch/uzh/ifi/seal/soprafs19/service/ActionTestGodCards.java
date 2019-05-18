@@ -967,18 +967,6 @@ public class ActionTestGodCards {
         this.testGame = gameService.gameByID(this.gameId); //get changed game
 
         Assert.assertEquals(testGame.getStatus(), GameStatus.GODMODE_STATE_STARTINGPLAYER);
-        /*
-        //get new actions
-        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-
-        content = mvcResult.getResponse().getContentAsString();
-
-        //making sure we get the right return-code
-        Assert.assertEquals(mvcResult.getResponse().getStatus(), 200);
-
-        Assert.assertEquals(content, "[]");
-        //actions sollten == []*/
-
 
     }
 
