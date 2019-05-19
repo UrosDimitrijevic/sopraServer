@@ -58,15 +58,15 @@ public class Hephastephus extends GodCard {
             int rowTotest; int columnToTest;
             rowTotest = row1-1; columnToTest =column1-1;
             if( (rowTotest>=0 && rowTotest < 5 && columnToTest>=0 && columnToTest<5) && !board.isEmpty(rowTotest,columnToTest ) && board.getSpaces()[rowTotest][columnToTest].retriveFigurine()[0] != myPlayer.getPlayerNumber()  )
-            { possibleActions.add(new DoubleBlockBuild(game, rowTotest, columnToTest) }
+            { possibleActions.add(new DoubleBlockBuild(game, rowTotest, columnToTest)); }
 
             rowTotest = row1-1; columnToTest =column1;
             if( (rowTotest>=0 && rowTotest < 5 && columnToTest>=0 && columnToTest<5) && !board.isEmpty(rowTotest,columnToTest ) && board.getSpaces()[rowTotest][columnToTest].retriveFigurine()[0] != myPlayer.getPlayerNumber()  )
-            { possibleActions.add( new DoubleBlockBuild(game, rowTotest, columnToTest)) }
+            { possibleActions.add( new DoubleBlockBuild(game, rowTotest, columnToTest)); }
 
             rowTotest = row1-1; columnToTest =column1+1;
             if( (rowTotest>=0 && rowTotest < 5 && columnToTest>=0 && columnToTest<5) && !board.isEmpty(rowTotest,columnToTest ) && board.getSpaces()[rowTotest][columnToTest].retriveFigurine()[0] != myPlayer.getPlayerNumber()  )
-            { possibleActions.add( new DoubleBlockBuild(game, rowTotest, columnToTest)  ) }
+            { possibleActions.add( new DoubleBlockBuild(game, rowTotest, columnToTest)  ); }
 
             rowTotest = row1; columnToTest =column1-1;
             if( (rowTotest>=0 && rowTotest < 5 && columnToTest>=0 && columnToTest<5) && !board.isEmpty(rowTotest,columnToTest ) && board.getSpaces()[rowTotest][columnToTest].retriveFigurine()[0] != myPlayer.getPlayerNumber()  )

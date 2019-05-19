@@ -41,7 +41,7 @@ public class Minotaur extends GodCard {
     }
 
 
-    @java.lang.Override
+    //@java.lang.Override
     public ArrayList<Action> getActions(Game game, Figurine figurine, Figurine oppFigurine ) {
             ArrayList<Action> possibleActions = new ArrayList<Action>();
             Player myPlayer = game.retrivePlayers()[game.getStatus().player()-1];
@@ -56,7 +56,18 @@ public class Minotaur extends GodCard {
     }
 
 
+
     @java.lang.Override
+    public Action getAction(Game game, Figurine figurine, int row, int column) {
+        return null;
+    }
+
+    @java.lang.Override
+    public ArrayList<Action> getActions(Game game) {
+        return null;
+    }
+
+    //@java.lang.Override
     public Action getAction(Game game, Figurine figurine, Figurine oppFigurine) {
         return new PushOpponent(game, figurine, oppFigurine);
     }
