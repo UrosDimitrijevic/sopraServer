@@ -412,6 +412,9 @@ public class ActionTestGodCards {
             } else if(actions2.get(i).figurine == 2){
                 movements2[row][col]++;
             }
+            if(actions2.get(i).figurine == 2 && row == 4 && col == 3) {
+                toPerform = actions2.get(i);
+            }
         }
 
 
@@ -422,6 +425,25 @@ public class ActionTestGodCards {
         Assert.assertEquals(movements2[3][4], 0); //own position
         Assert.assertEquals(movements2[4][3], 1);
         Assert.assertEquals(movements2[4][4], 0); //opponent figurine's position
+
+        //perform saved action
+        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //get changed game
+        this.testGame = gameService.gameByID(this.gameId);
+
+        //check again all possible actions
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        content = mvcResult.getResponse().getContentAsString();
+
+        //making sure we get the right return-code
+        Assert.assertEquals(mvcResult.getResponse().getStatus(), 200);
+
+        System.out.print(content + "\n\n\n\n\n\n\n\n\n\n\n");
+
+        System.out.print(testGame.getStatus()+ "\n\n\n\n\n\n\n\n\n\n\n");
+
 
     }
 
@@ -576,6 +598,8 @@ public class ActionTestGodCards {
     /**
      * Atlas actions test
      * **/
+
+
 
     @Test
     public void AtlasActions() throws Exception {
