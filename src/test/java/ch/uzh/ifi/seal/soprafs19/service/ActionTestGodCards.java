@@ -247,6 +247,17 @@ public class ActionTestGodCards {
 
     /**
      * Artemis actions test
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      * **/
 
     @Test
@@ -448,12 +459,16 @@ public class ActionTestGodCards {
     }
 
 
-
-
-
-
     /**
      * Athena actions test
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      * **/
 
     @Test
@@ -776,11 +791,17 @@ public class ActionTestGodCards {
 
 
 
-
-
-
     /**
      * Atlas actions test
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      * **/
 
 
@@ -1053,6 +1074,14 @@ public class ActionTestGodCards {
 
     /**
      * Demeter actions test
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      * **/
 
     @Test
@@ -1354,6 +1383,15 @@ public class ActionTestGodCards {
 
     /**
      * Hermes actions test
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      * **/
 
     @Test
@@ -1625,6 +1663,16 @@ public class ActionTestGodCards {
 
     /**
      * Pan actions test
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      * **/
 
     @Test
