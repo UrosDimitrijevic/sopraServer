@@ -50,8 +50,6 @@ public class DoubleBlockBuild extends Action {
         myGame.getBoard().getSpaces()[row][column].build();
         myGame.getBoard().getSpaces()[row][column].build();
 
-
-
         gameService.saveGame(myGame);
 
 
