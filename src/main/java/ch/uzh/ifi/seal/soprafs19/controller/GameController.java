@@ -130,7 +130,7 @@ public class GameController {
         //setting up settings
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Hermes(game));
+        game.getStartingPlayer().setAssignedGod(new Artemis(game));
         game.getNonStartingPlayer().setAssignedGod(new Apollo(game));
 
         //setting up buildings
