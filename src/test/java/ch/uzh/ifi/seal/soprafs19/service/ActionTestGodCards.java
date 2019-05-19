@@ -447,6 +447,11 @@ public class ActionTestGodCards {
 
     }
 
+
+
+
+
+
     /**
      * Athena actions test
      * **/
@@ -466,7 +471,7 @@ public class ActionTestGodCards {
         //assign god cards
         testGame.setStatus(GameStatus.PICKING_GODCARDS);
         testGame.getStartingPlayer().setAssignedGod(new Athena(testGame));
-        testGame.getNonStartingPlayer().setAssignedGod(new Artemis(testGame));
+        testGame.getNonStartingPlayer().setAssignedGod(new Pan(testGame));
         //testGame.checkIfGameOver();
         testGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
 
@@ -565,7 +570,7 @@ public class ActionTestGodCards {
             } else if (actions.get(i).figurine == 2) {
                 movements2[row][col]++;
             }
-            if (actions.get(i).withGod && actions.get(i).withGod && row == 1 && col == 1) {
+            if (/*actions.get(i).withGod && */row == 1 && col == 1 && actions.get(i).figurine == 2) {
                 toPerform = actions.get(i);
             }
         }
@@ -590,9 +595,188 @@ public class ActionTestGodCards {
         Assert.assertEquals(movements2[2][2], 0);
         Assert.assertEquals(movements2[2][3], 1);
 
+        //perform saved action
+        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //get changed game
+        this.testGame = gameService.gameByID(this.gameId);
+
+        //check again all possible actions
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        content = mvcResult.getResponse().getContentAsString();
+
+        //making sure we get the right return-code
+        Assert.assertEquals(mvcResult.getResponse().getStatus(), 200);
+
+
+        ArrayList<Response> actions2 = new ArrayList<Response>();
+
+        //creating and checking the actions for consistency
+        i = 0;
+        while (content.charAt(i) != ']') {
+            i += 1;
+            Response response = new Response();
+            Assert.assertEquals("{\"id\":", content.substring(i, i + 6));
+            i += 6;
+            String number = "";
+            while (content.charAt(i) != ',') {
+                number += content.charAt(i);
+                i += 1;
+            }
+            i += 1;
+            response.id = Integer.parseInt(number);
+            Assert.assertEquals("\"name\":\"Building", content.substring(i, i + 16));
+            i+=16;
+            if (content.substring(i, i + 8).equals("AsAthena")) {
+                i+=8;
+            }
+            Assert.assertEquals("\",\"row\":", content.substring(i, i + 8));
+            i += 8;
+            number = "";
+            while (content.charAt(i) != ',') {
+                number += content.charAt(i);
+                i += 1;
+            }
+            response.row = Integer.parseInt(number);
+            Assert.assertEquals(",\"column\":", content.substring(i, i + 10));
+            i += 10;
+            number = "";
+            while (content.charAt(i) != ',') {
+                number += content.charAt(i);
+                i += 1;
+            }
+            response.column = Integer.parseInt(number);
+            Assert.assertEquals(",\"useGod\":", content.substring(i, i + 10));
+            i += 10;
+            if (content.substring(i, i + 4).equals("true")) {
+                i += 5;
+                response.withGod = true;
+            } else {
+                i += 6;
+                response.withGod = false;
+            }
+            actions2.add(response);
+        }
+
+        //looking that only allowed moves are here
+        int building[][] = new int[5][5];
+
+        toPerform = null;
+
+        for (i = 0; i < actions2.size(); ++i) {
+            int row = actions2.get(i).row;
+            int col = actions2.get(i).column;
+            building[row][col]++;
+            if (row == 0 && col == 0) {
+                toPerform = actions2.get(i);
+            }
+        }
+
+        //check if correct building actions are saved in building matrix - for some fields two building actions
+
+
+        //build
+        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //get changed game
+        this.testGame = gameService.gameByID(this.gameId);
+
+        //change to moving mode, nonstarting player
+        testGame.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
+
+        gameRepository.save(testGame);
+
+        //get actions
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/game/actions/" + Long.toString(this.player2id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        content = mvcResult.getResponse().getContentAsString();
+
+        //making sure we get the right return-code
+        Assert.assertEquals(mvcResult.getResponse().getStatus(), 200);
+
+
+        ArrayList<Response> actions3 = new ArrayList<Response>();
+
+        //creating and checking the actions for consistency
+        i = 0;
+        while (content.charAt(i) != ']') {
+            i += 1;
+            Response response = new Response();
+            Assert.assertEquals("{\"id\":", content.substring(i, i + 6));
+            i += 6;
+            String number = "";
+            while (content.charAt(i) != ',') {
+                number += content.charAt(i);
+                i += 1;
+            }
+            i += 1;
+            response.id = Integer.parseInt(number);
+            Assert.assertEquals("\"name\":\"Choose Moving Mode\",\"row\":", content.substring(i, i + 34));
+            i += 34;
+            number = "";
+            while (content.charAt(i) != ',') {
+                number += content.charAt(i);
+                i += 1;
+            }
+            response.row = Integer.parseInt(number);
+            Assert.assertEquals(",\"column\":", content.substring(i, i + 10));
+            i += 10;
+            number = "";
+            while (content.charAt(i) != ',') {
+                number += content.charAt(i);
+                i += 1;
+            }
+            response.column = Integer.parseInt(number);
+            Assert.assertEquals(",\"figurineNumber\":", content.substring(i, i + 18));
+            i += 18;
+            number = "";
+            while (content.charAt(i) != ',') {
+                number += content.charAt(i);
+                i += 1;
+            }
+            response.figurine = Integer.parseInt(number);
+            Assert.assertEquals(",\"useGod\":", content.substring(i, i + 10));
+            i += 10;
+            if (content.substring(i, i + 4).equals("true")) {
+                i += 5;
+                response.withGod = true;
+            } else {
+                i += 6;
+                response.withGod = false;
+            }
+            actions.add(response);
+        }
+
+        //looking that only allowed moves are here
+        int movements12[][] = new int[5][5];
+        int movements22[][] = new int[5][5];
+
+
+        for (i = 0; i < actions3.size(); ++i) {
+            Assert.assertTrue(actions3.get(i).figurine == 1 || actions3.get(i).figurine == 2);
+            int row = actions.get(i).row;
+            int col = actions.get(i).column;
+            if (actions3.get(i).figurine == 1) {
+                movements1[row][col]++;
+            } else if (actions3.get(i).figurine == 2) {
+                movements2[row][col]++;
+            }
+        }
+
+        //check if correct movements are saved in movements12 matrix
+        Assert.assertEquals(movements12[3][2], 0); //one level up
+
+        //check if correct movements are saved in movements22 matrix
+        Assert.assertEquals(movements22[3][2], 0); //one level up
+
         //build to end turn and check if opponent can move up afterwards
 
     }
+
+
+
+
 
 
     /**
