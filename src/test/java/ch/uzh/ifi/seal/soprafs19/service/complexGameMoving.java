@@ -303,7 +303,7 @@ public class complexGameMoving {
         }
         ArrayList<Response> actions = new ArrayList<Response>();
 
-        //creating and checking the actions for consitency
+        //creating and checking the actions for consistency
         int i = 0;
         while( content.charAt(i) != ']') {
             i += 1;

@@ -4,6 +4,7 @@ import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.ChoseGameModeAction;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.Moving;
 import ch.uzh.ifi.seal.soprafs19.service.ActionService;
 
 import javax.persistence.Column;
@@ -200,6 +201,32 @@ public class Game  implements Serializable  {
             possibleActions.addAll( players[1].getPossibleActions(this) );
         }
         return possibleActions;
+    }
+
+    public int retriveBuildingFigurine(){
+        int movedFigurine = 1;
+        for( int i = performedActions.size()-1; i >= 0; --i){
+            Action action = performedActions.get(i);
+            //System.out.println("iterated over one action\n");
+            if( action instanceof Moving){
+                //System.out.println("is a instance of moving with figurine: " + Integer.toString( ((Moving) action).getFigurineNumber() ));
+                movedFigurine = ((Moving) action).getFigurineNumber();
+                break;
+            }
+        }
+        return movedFigurine;
+    }
+
+    public void removeActions(ArrayList<Action> actions, int playerNumber){
+        if(!playWithGodCards){
+            return;
+        }
+        if(playerNumber == 1){
+            this.players[1].getAssignedGod().removeEnemyActions(actions,this);
+        } else {
+            this.players[0].getAssignedGod().removeEnemyActions(actions,this);
+        }
+        return;
     }
 
     public void checkIfGameOver(){

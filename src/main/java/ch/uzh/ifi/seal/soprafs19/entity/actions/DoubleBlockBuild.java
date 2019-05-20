@@ -1,14 +1,10 @@
 package ch.uzh.ifi.seal.soprafs19.entity.actions;
 
 import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
-import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
-import javax.persistence.Entity;
-
-@Entity
-public class Building extends Action {
+public class DoubleBlockBuild extends Action {
 
     int row;
     int column;
@@ -33,17 +29,17 @@ public class Building extends Action {
         return false;
     }
 
-    public Building(){
+    public DoubleBlockBuild(){
         super();
     }
 
 
-    public Building (Game game, int row, int column){
+    public DoubleBlockBuild (Game game, int row, int column){
         super(game);
         this.row = row;
         this.column = column;
 
-        this.name = "Building";
+        this.name = "Double Block Build";
     }
 
 
@@ -52,13 +48,15 @@ public class Building extends Action {
         Game myGame = gameService.gameByID(this.myGameId);
 
         myGame.getBoard().getSpaces()[row][column].build();
+        myGame.getBoard().getSpaces()[row][column].build();
 
-        if(myGame.getStatus() == GameStatus.BUILDING_STARTINGPLAYER){
-            myGame.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
-        } else {
-            myGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        }
         gameService.saveGame(myGame);
+
+
     }
+
+
+
+
 
 }

@@ -134,6 +134,12 @@ public class ActionCreater {
         }
 
         possibleActions.addAll(player.retirveFigurines()[movedFigurine-1].getPossibleBuildingActions(game));
+        if(game.isPlayWithGodCards()) {
+            ArrayList<Action> godActions = player.getAssignedGod().getActions(game);
+            if(godActions != null) {
+                possibleActions.addAll(godActions);
+            }
+        }
 
         return possibleActions;
     }

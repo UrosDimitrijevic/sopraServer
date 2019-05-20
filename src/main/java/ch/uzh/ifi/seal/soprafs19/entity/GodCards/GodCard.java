@@ -67,4 +67,8 @@ public abstract class GodCard implements Serializable {
         return true;
     }
 
+    public void removeEnemyActions(ArrayList<Action> list, Game game){
+        return;
+    }
+
 }

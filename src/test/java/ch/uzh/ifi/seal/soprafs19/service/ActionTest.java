@@ -772,4 +772,51 @@ public class ActionTest {
         Assert.assertFalse(testGame5.getBoard().isEmpty(action.getRow(),action.getColumn()));
     }
 
+    @Test
+    public void surrenderTest() throws Exception {
+        long player1id;
+        long player2id;
+        Game testGame;
+        long gameId;
+
+        User testUser1 = new User();
+        testUser1.setUsername("testUsernameAction1surrender");
+        testUser1.setPassword("testPassowrdAction2");
+        testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
+
+        User testUser2 = new User();
+        testUser2.setUsername("testUsernamection2surrender");
+        testUser2.setPassword("testPassowrd");
+        testUser2 = userService.createUser(testUser2);
+
+        testUser1.setChallenging(testUser2.getId());
+
+        userService.updateProfile(testUser1, testUser1.getId(), gameService);
+        testUser2 = userService.userByID(testUser2.getId());
+        testUser2.setChallenging(testUser1.getId());
+        userService.updateProfile(testUser2, testUser2.getId(), gameService);
+        testUser1 = userService.userByID(testUser1.getId());
+        testUser2 = userService.userByID(testUser2.getId());
+
+        testGame = gameService.gameByPlaxerId(testUser1.getId());
+
+        testGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+
+        gameRepository.save(testGame);
+
+        player1id = testUser1.getId();
+        player2id = testUser2.getId();
+        gameId = testGame.getId();
+
+        // Use player id as action id to surrender
+        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //get changed game
+        testGame = gameService.gameByID(gameId);
+
+        //check if other player won
+        Assert.assertEquals(testGame.getStatus(), GameStatus.NONSTARTINGPLAYER_WON);
+    }
+
 }

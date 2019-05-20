@@ -33,6 +33,22 @@ public class ActionService {
     }
 
 
+    public void deleteActions(Game game){
+        if( game.retriveActions1() != null) {
+            for (long actionId : game.retriveActions1()) {
+                this.actionRepository.deleteById(actionId);
+            }
+        }
+        if( game.retriveActions2() != null) {
+            for (long actionId : game.retriveActions2()) {
+                this.actionRepository.deleteById(actionId);
+            }
+        }
+        game.setActions1(null);
+        game.setActions2(null);
+        gameService.saveGame(game);
+
+    }
 
     public boolean runActionByID(long id ){
         Action action = this.actionRepository.findById(id );
@@ -46,23 +62,14 @@ public class ActionService {
             return true;
         }
         game.addAction(action);
+        game.checkIfGameOver();
+        gameService.saveGame(game);
         if(!action.needToDelete()){
             return true;
         }
-        if( game.retriveActions1() != null) {
-            for (long actionId : game.retriveActions1()) {
-                this.actionRepository.deleteById(actionId);
-            }
+        else{
+            this.deleteActions(game);
         }
-        if( game.retriveActions2() != null) {
-            for (long actionId : game.retriveActions2()) {
-                this.actionRepository.deleteById(actionId);
-            }
-        }
-        game.setActions1(null);
-        game.setActions2(null);
-        game.checkIfGameOver();
-        gameService.saveGame(game);
         return true;
     }
 

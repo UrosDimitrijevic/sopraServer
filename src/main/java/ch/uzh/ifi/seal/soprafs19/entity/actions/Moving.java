@@ -36,6 +36,10 @@ public class Moving extends Action {
         return figurineNumber;
     }
 
+    public boolean isUseGod() {
+        return false;
+    }
+
     public void setFigurineNumber(int figurineNumber) {
         this.figurineNumber = figurineNumber;
     }
@@ -61,7 +65,7 @@ public class Moving extends Action {
 
         figurine.changePosition(this.row, this.column);
 
-        if(myGame.getStatus() == GameStatus.MOVING_STARTINGPLAYER){ myGame.setStatus(GameStatus.BUILDING_STARTINGPLAYER); }
+        if(myGame.getStatus().player() == 1){ myGame.setStatus(GameStatus.BUILDING_STARTINGPLAYER); }
         else{ myGame.setStatus(GameStatus.BUILDING_NONSTARTINGPLAYER); }
 
         gameService.saveGame(myGame);

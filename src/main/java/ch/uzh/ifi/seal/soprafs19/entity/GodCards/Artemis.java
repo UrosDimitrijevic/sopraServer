@@ -63,8 +63,9 @@ public class Artemis extends GodCard {
                 Moving currentAction = (Moving)possibleMovements.get(i);
                 possibleActions.add(new MovingAsArthemis(game, currentAction));
             }
+            game.removeActions(possibleActions,game.getStatus().player());
         }
-        else{
+        else if(game.getStatus() == GameStatus.GODMODE_STATE_NONSTARTINGPLAYER || game.getStatus() == GameStatus.GODMODE_STATE_STARTINGPLAYER){
             ArrayList<Action> possibleMovements = game.retrivePlayers()[game.getStatus().player()-1].retirveFigurines()[this.prev_figurine-1].getPossibleMovingActions(game);
             for(int i = 0; i < possibleMovements.size(); ++i){
                 Moving currentAction = (Moving)possibleMovements.get(i);
@@ -73,7 +74,7 @@ public class Artemis extends GodCard {
                     possibleActions.add(new MovingAsArthemis(game, currentAction));
                 }
             }
-
+            game.removeActions(possibleActions,game.getStatus().player());
         }
         return possibleActions;
     }
