@@ -378,6 +378,31 @@ public class UserServiceTest {
         Assert.assertEquals(UserStatus.OFFLINE,createdUser.getStatus());
     }
 
+    public void canLogout() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        User testUser = new User();
+        testUser.setUsername("CanLogout");
+        testUser.setPassword("123");
+        testUser.setStatus(UserStatus.ONLINE);
+
+        User createdUser = userService.createUser(testUser);
+
+        this.mockMvc.perform(put("/users/{id}",createdUser.getId() )
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"CanLogout\", \"status\": \"OFFLINE\"}")
+        )
+                .andExpect(status().isNoContent() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").doesNotExist())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").doesNotExist() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").doesNotExist());
+
+        //test if worked
+        createdUser = userService.userByID(createdUser.getId());
+        Assert.assertEquals(UserStatus.OFFLINE, createdUser.getStatus());
+    }
+
     @Ignore
     @Test
     public void canChallenge() throws Exception {
