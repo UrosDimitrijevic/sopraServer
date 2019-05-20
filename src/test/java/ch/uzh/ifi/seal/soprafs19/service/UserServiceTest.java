@@ -335,6 +335,49 @@ public class UserServiceTest {
 
     }
 
+    @Test
+    public void canLogIn() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        User testUser = new User();
+        testUser.setUsername("CanLogIn");
+        testUser.setPassword("123");
+        testUser.setStatus(UserStatus.OFFLINE);
+
+        User createdUser = userService.createUser(testUser);
+
+        this.mockMvc.perform(put("/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"CanLogIn\", \"password\": \"123\"}")
+        )
+                .andExpect(status().isOk() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".username").value("CanLogIn"))
+                .andExpect(MockMvcResultMatchers.jsonPath( ".password").value(""))
+                .andExpect(MockMvcResultMatchers.jsonPath( ".token").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath( ".id").isNotEmpty() )
+                .andExpect(MockMvcResultMatchers.jsonPath( ".creationDate").isNotEmpty() );
+        createdUser = userService.userByID(createdUser.getId());
+        Assert.assertEquals(UserStatus.ONLINE,createdUser.getStatus());
+    }
+
+    @Test
+    public void canNotLogIn() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        User testUser = new User();
+        testUser.setUsername("CanNotLogIn");
+        testUser.setPassword("123");
+        testUser.setStatus(UserStatus.OFFLINE);
+
+        User createdUser = userService.createUser(testUser);
+
+        this.mockMvc.perform(put("/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"username\": \"CanNotLogIn\", \"password\": \"2134\"}")
+        )
+                .andExpect(status().isUnauthorized() );
+        createdUser = userService.userByID(createdUser.getId());
+        Assert.assertEquals(UserStatus.OFFLINE,createdUser.getStatus());
+    }
+
     @Ignore
     @Test
     public void canChallenge() throws Exception {
