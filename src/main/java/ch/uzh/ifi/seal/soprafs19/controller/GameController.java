@@ -41,9 +41,6 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player is not in a game");
         }
         performableActions = myGame.getPossibleActions(id);
-        if(performableActions == null){
-            return ResponseEntity.status(HttpStatus.OK).body("performable actions is null for some reason");
-        }
 
         //checking if actions not created yes:
         if( (id == myGame.getPlayer1id() && myGame.retriveActions1() == null) || (id == myGame.getPlayer2id() && myGame.retriveActions2() == null) ) {
