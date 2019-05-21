@@ -39,6 +39,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebAppConfiguration
@@ -810,8 +811,14 @@ public class ActionTest {
         gameId = testGame.getId();
 
         // Use player id as action id to surrender
-        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        //mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/"+Long.toString(gameId)+"/actions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Long.toString(player1id)))
+                .andReturn();
 
+        //Assert.assertEquals("action was performed", mvcResult.getResponse().getContentAsString());
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
         //get changed game
         testGame = gameService.gameByID(gameId);
 

@@ -76,8 +76,4 @@ public class ActionService {
     public void saveAction(Action action){
         this.actionRepository.save(action);
     }
-
-    public Iterable<Action> getActions() {
-        return this.actionRepository.findAll();
-    }
 }

@@ -20,16 +20,8 @@ public class Moving extends Action {
         return row;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
     public int getColumn() {
         return column;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
     }
 
     public int getFigurineNumber() {
@@ -38,10 +30,6 @@ public class Moving extends Action {
 
     public boolean isUseGod() {
         return false;
-    }
-
-    public void setFigurineNumber(int figurineNumber) {
-        this.figurineNumber = figurineNumber;
     }
 
     public Moving(){super(); }

@@ -25,24 +25,12 @@ public class PlaceWorker extends Action {
             return row;
         }
 
-        public void setRow(int row) {
-            this.row = row;
-        }
-
         public int getColumn() {
             return column;
         }
 
-        public void setColumn(int column) {
-            this.column = column;
-        }
-
         public int getFigurineNumber() {
             return figurineNumber;
-        }
-
-        public void setFigurineNumber(int figurineNumber) {
-            this.figurineNumber = figurineNumber;
         }
 
         public PlaceWorker(){

@@ -68,4 +68,8 @@ public abstract class Action implements Serializable{
     public boolean needToDelete(){
         return this.deleteAfter;
     }
+
+    public Long retriveGameId(){
+        return this.myGameId;
+    }
 }
