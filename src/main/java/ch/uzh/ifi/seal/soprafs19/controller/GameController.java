@@ -145,7 +145,7 @@ public class GameController {
         //setting up settings
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Minotaur(game));
+        game.getStartingPlayer().setAssignedGod(new Hephastephus(game));
         game.getNonStartingPlayer().setAssignedGod(new Demeter(game));
 
         //setting up buildings

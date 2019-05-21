@@ -6,9 +6,11 @@ import ch.uzh.ifi.seal.soprafs19.entity.Figurine;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.entity.Player;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.Action;
+import ch.uzh.ifi.seal.soprafs19.entity.actions.Building;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.DoubleBlockBuild;
 import ch.uzh.ifi.seal.soprafs19.entity.actions.MovingAsApollo;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,10 +47,19 @@ public class Hephastephus extends GodCard {
         ArrayList<Action> possibleActions = new ArrayList<Action>();
         Player myPlayer = game.retrivePlayers()[game.getStatus().player()-1];
 
-        if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
+        if(game.getStatus() == GameStatus.BUILDING_STARTINGPLAYER || game.getStatus() == GameStatus.BUILDING_NONSTARTINGPLAYER){
 
             Board board = game.getBoard();
-            int row1 = myPlayer.getFigurine1().getPosition()[0];
+            ArrayList<Action> simpleActions = myPlayer.retirveFigurines()[game.retriveBuildingFigurine()-1].getPossibleBuildingActions(game);
+            for(int i = 0; i < simpleActions.size(); ++i){
+                Building action = (Building)simpleActions.get(i);
+                if(game.getBoard().getSpaces()[action.getRow()][action.getColumn()].getLevel() < 2){
+                    possibleActions.add(new DoubleBlockBuild(game, action.getRow(), action.getColumn()));
+                }
+            }
+
+            //Libis code
+            /*int row1 = myPlayer.getFigurine1().getPosition()[0];
             int column1 = myPlayer.getFigurine1().getPosition()[1];
             int row2 = myPlayer.getFigurine2().getPosition()[0];
             int column2 = myPlayer.getFigurine2().getPosition()[1];
@@ -119,7 +130,7 @@ public class Hephastephus extends GodCard {
 
             rowTotest = row2+1; columnToTest =column2+1;
             if( (rowTotest>=0 && rowTotest < 5 && columnToTest>=0 && columnToTest<5) && !board.isEmpty(rowTotest,columnToTest ) && board.getSpaces()[rowTotest][columnToTest].retriveFigurine()[0] != myPlayer.getPlayerNumber()  )
-            { possibleActions.add(  new DoubleBlockBuild(game, rowTotest, columnToTest)        ); }
+            { possibleActions.add(  new DoubleBlockBuild(game, rowTotest, columnToTest)        ); }*/
 
         }
         game.removeActions(possibleActions,myPlayer.getPlayerNumber());
