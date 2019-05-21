@@ -145,7 +145,7 @@ public class GameController {
         //setting up settings
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Artemis(game));
+        game.getStartingPlayer().setAssignedGod(new Minotaur(game));
         game.getNonStartingPlayer().setAssignedGod(new Demeter(game));
 
         //setting up buildings
@@ -175,7 +175,7 @@ public class GameController {
         //setting figurines
         game.retrivePlayers()[0].getFigurine1().setPosition(0,2);
         game.retrivePlayers()[0].getFigurine2().setPosition(0,3);
-        game.retrivePlayers()[1].getFigurine1().setPosition(2,3);
+        game.retrivePlayers()[1].getFigurine1().setPosition(1,2);
         game.retrivePlayers()[1].getFigurine2().setPosition(3,1);
         game.checkIfGameOver();
 
