@@ -41,9 +41,6 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player is not in a game");
         }
         performableActions = myGame.getPossibleActions(id);
-        if(performableActions == null){
-            return ResponseEntity.status(HttpStatus.OK).body("performable actions is null for some reason");
-        }
 
         //checking if actions not created yes:
         if( (id == myGame.getPlayer1id() && myGame.retriveActions1() == null) || (id == myGame.getPlayer2id() && myGame.retriveActions2() == null) ) {
@@ -93,8 +90,7 @@ public class GameController {
         }
     }
 
-    @PutMapping("/game/actions/{actionId}")
-    ResponseEntity performAction(@PathVariable Long actionId) {
+    ResponseEntity performAction(Long actionId) {
         if( this.actionService.runActionByID(actionId) ){
             return ResponseEntity.status(HttpStatus.OK).body("action was performed");
         }
@@ -114,6 +110,25 @@ public class GameController {
         }
     }
 
+    @PutMapping("/game/actions/{actionId}")
+    ResponseEntity performActionWithoutBody(@PathVariable Long actionId) {
+        return performAction(actionId);
+    }
+
+    @PutMapping("/game/{gameId}/actions")
+    ResponseEntity performActionWithBody(@PathVariable Long gameId, @RequestBody Long actionId) {
+        if( gameService.gameByPlaxerId(actionId) != null && gameService.gameByPlaxerId(actionId).getGameId() == gameId){
+            return performAction(actionId);
+        }
+        Action action = actionService.getActionById(actionId);
+        if( action.retriveGameId().equals(gameId)){
+            return performAction(actionId);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("action-id and game-id do not match");
+        }
+    }
+
     @PutMapping("/game/justForTesting/{id}")
     ResponseEntity justForTesting(@PathVariable Long id) {
 
@@ -130,8 +145,8 @@ public class GameController {
         //setting up settings
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Demeter(game));
-        game.getNonStartingPlayer().setAssignedGod(new Apollo(game));
+        game.getStartingPlayer().setAssignedGod(new Artemis(game));
+        game.getNonStartingPlayer().setAssignedGod(new Demeter(game));
 
         //setting up buildings
         game.getBoard().getSpaces()[0][1] = new Space();

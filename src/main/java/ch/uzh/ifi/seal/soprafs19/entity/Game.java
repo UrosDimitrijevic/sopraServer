@@ -243,4 +243,6 @@ public class Game  implements Serializable  {
         performedActions.add(action);
     }
 
+    public long getGameId(){ return this.id;}
+
 }

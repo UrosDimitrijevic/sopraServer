@@ -34,8 +34,6 @@ public class Player implements Serializable {
 
     private boolean startingplayer;
 
-    private boolean GodMode;
-
     public GodCard getAssignedGod() {
         return assignedGod;
     }

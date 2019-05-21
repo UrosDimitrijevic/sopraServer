@@ -69,8 +69,4 @@ public class Pan extends GodCard {
         }
         return false;
     }
-
-    public void setTesting(){
-        this.hight1 = 2;
-    }
 }

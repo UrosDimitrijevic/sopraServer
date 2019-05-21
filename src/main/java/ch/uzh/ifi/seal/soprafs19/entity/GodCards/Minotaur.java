@@ -41,34 +41,56 @@ public class Minotaur extends GodCard {
     }
 
 
-    //@java.lang.Override
-    public ArrayList<Action> getActions(Game game, Figurine figurine, Figurine oppFigurine ) {
-            ArrayList<Action> possibleActions = new ArrayList<Action>();
-            Player myPlayer = game.retrivePlayers()[game.getStatus().player()-1];
-
-            if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
-                possibleActions.add(new  PushOpponent(game, figurine, oppFigurine));
-            }
-
-            game.removeActions(possibleActions,myPlayer.getPlayerNumber());
-            return possibleActions;
-
-    }
-
-
-
-    @java.lang.Override
-    public Action getAction(Game game, Figurine figurine, int row, int column) {
-        return null;
-    }
-
     @java.lang.Override
     public ArrayList<Action> getActions(Game game) {
-        return null;
+        ArrayList<Action> possibleActions = new ArrayList<Action>();
+        Player myPlayer = game.retrivePlayers()[1];
+        Player player2 = game.retrivePlayers()[0];
+
+        if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
+
+            Board    board = game.getBoard();
+            Figurine fig1 = myPlayer.getFigurine1();
+            Figurine fig2 = myPlayer.getFigurine2();
+            Figurine oppFig1 = player2.getFigurine1();
+            Figurine oppFig2 = player2.getFigurine2();
+
+
+            if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
+            possibleActions.add(new  PushOpponent(game, fig1, oppFig1));
+            possibleActions.add(new  PushOpponent(game, fig2, oppFig1));
+            possibleActions.add(new  PushOpponent(game, fig1, oppFig2));
+            possibleActions.add(new  PushOpponent(game, fig2, oppFig2));
+            }
+
+
+        game.removeActions(possibleActions,myPlayer.getPlayerNumber());
+
+
     }
 
-    //@java.lang.Override
-    public Action getAction(Game game, Figurine figurine, Figurine oppFigurine) {
-        return new PushOpponent(game, figurine, oppFigurine);
+        return possibleActions;
     }
+
+    @java.lang.Override
+    public Action getAction(Game game, Figurine figurine, int row, int column ) {
+        ArrayList<Action> possibleActions = new ArrayList<Action>();
+        Player myPlayer = game.retrivePlayers()[1];
+        Player player2 = game.retrivePlayers()[0];
+
+        Figurine oppFig = null;
+        int[]  figPos = player2.getFigurine1().getPosition();
+        int[]  fig2Pos = player2.getFigurine2().getPosition();
+        if ( row == figPos[0] && column == figPos[1] ) {
+           oppFig = player2.getFigurine1();
+
+        }else if( row == fig2Pos[0] && column== fig2Pos[1]  ){
+            oppFig = player2.getFigurine2();
+
+        }
+
+        return  new  PushOpponent(game, figurine, oppFig);
+    }
+
+
 }

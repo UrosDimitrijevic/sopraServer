@@ -53,7 +53,7 @@ public class BuildingAsDemeter extends GodBuildingAction{
             }
             else{
                 game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
-                ((Demeter)game.retrivePlayers()[0].getAssignedGod()).setSpace(this.row,this.column);
+                ((Demeter)game.retrivePlayers()[0].getAssignedGod()).setSpace(-1,-1);
             }
         }
         gameService.saveGame(game);
