@@ -40,27 +40,46 @@ public class Minotaur extends GodCard {
         this.name = "Minotaur";
     }
 
+    static private boolean checkIfPusheable(Game game, Figurine me, Figurine her){
+        int difference [] = new int [2];
+        difference[0] = her.getPosition()[0] - me.getPosition()[0];
+        difference[1] = her.getPosition()[0] - me.getPosition()[0];
+        if(difference[0] <-1 || difference[0] > 1 || difference[1] < -1 || difference[1] > 1){ return false; }
+        boolean isWalkeable = game.getBoard().getSpaces()[her.getPosition()[0]][her.getPosition()[1]].getLevel() < me.retriveSpace().getLevel()+2;
+        return game.getBoard().isEmpty(her.getPosition()[0]+difference[0], her.getPosition()[1]+difference[1]) & isWalkeable;
+    }
 
     @java.lang.Override
     public ArrayList<Action> getActions(Game game) {
         ArrayList<Action> possibleActions = new ArrayList<Action>();
-        Player myPlayer = game.retrivePlayers()[1];
-        Player player2 = game.retrivePlayers()[0];
+        Player myPlayer = game.retrivePlayers()[game.getStatus().player()-1];
+        Player player2;
+        if(game.getStatus().player() == 1){
+            player2 = game.retrivePlayers()[1];
+        } else {
+            player2 = game.retrivePlayers()[0];
+        }
 
-        if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
+        if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER) {
 
-            Board    board = game.getBoard();
+            Board board = game.getBoard();
             Figurine fig1 = myPlayer.getFigurine1();
             Figurine fig2 = myPlayer.getFigurine2();
             Figurine oppFig1 = player2.getFigurine1();
             Figurine oppFig2 = player2.getFigurine2();
 
 
-            if(game.getStatus() == GameStatus.MOVING_NONSTARTINGPLAYER || game.getStatus() == GameStatus.MOVING_STARTINGPLAYER){
-            possibleActions.add(new  PushOpponent(game, fig1, oppFig1));
-            possibleActions.add(new  PushOpponent(game, fig2, oppFig1));
-            possibleActions.add(new  PushOpponent(game, fig1, oppFig2));
-            possibleActions.add(new  PushOpponent(game, fig2, oppFig2));
+            if (checkIfPusheable(game, fig1, oppFig1)) {
+                possibleActions.add(new PushOpponent(game, fig1, oppFig1));
+            }
+            if (checkIfPusheable(game, fig2, oppFig1)) {
+                possibleActions.add(new PushOpponent(game, fig2, oppFig1));
+            }
+            if (checkIfPusheable(game, fig1, oppFig2)) {
+                possibleActions.add(new PushOpponent(game, fig1, oppFig2));
+            }
+            if (checkIfPusheable(game, fig2, oppFig2)) {
+                possibleActions.add(new PushOpponent(game, fig2, oppFig2));
             }
 
 
@@ -74,9 +93,7 @@ public class Minotaur extends GodCard {
 
     @java.lang.Override
     public Action getAction(Game game, Figurine figurine, int row, int column ) {
-        ArrayList<Action> possibleActions = new ArrayList<Action>();
-        Player myPlayer = game.retrivePlayers()[1];
-        Player player2 = game.retrivePlayers()[0];
+        Player player2 = game.retrivePlayers()[2-game.getStatus().player()];
 
         Figurine oppFig = null;
         int[]  figPos = player2.getFigurine1().getPosition();
@@ -90,6 +107,7 @@ public class Minotaur extends GodCard {
         }
 
         return  new  PushOpponent(game, figurine, oppFig);
+
     }
 
 

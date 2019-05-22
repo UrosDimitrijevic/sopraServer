@@ -4,25 +4,18 @@ import ch.uzh.ifi.seal.soprafs19.constant.GameStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.Game;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 
-public class DoubleBlockBuild extends Action {
+import javax.persistence.Entity;
 
-    int row;
-    int column;
+@Entity
+public class DoubleBlockBuild extends GodBuildingAction {
+
 
     public int getRow() {
         return row;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
     public int getColumn() {
         return column;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
     }
 
     public boolean isUseGod(){
@@ -35,9 +28,7 @@ public class DoubleBlockBuild extends Action {
 
 
     public DoubleBlockBuild (Game game, int row, int column){
-        super(game);
-        this.row = row;
-        this.column = column;
+        super(game, row, column);
 
         this.name = "Double Block Build";
     }
@@ -49,6 +40,12 @@ public class DoubleBlockBuild extends Action {
 
         myGame.getBoard().getSpaces()[row][column].build();
         myGame.getBoard().getSpaces()[row][column].build();
+
+        if(myGame.getStatus().player() == 1){
+            myGame.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
+        } else {
+            myGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+        }
 
         gameService.saveGame(myGame);
 
