@@ -53,7 +53,7 @@ public class Game  implements Serializable  {
     @Column(nullable = false, length = 4000)
     private Player players[];
 
-    @Column(nullable = false, length = 4000)
+    @Column(nullable = false, length = 400000)
     private ArrayList<Action> performedActions;
 
     public ArrayList<Action> retrivePerformedActions() {
@@ -240,6 +240,9 @@ public class Game  implements Serializable  {
     }
 
     public void addAction(Action action){
+        if( performedActions.size() > 100){
+            
+        }
         performedActions.add(action);
     }
 
