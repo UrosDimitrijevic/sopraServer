@@ -14,6 +14,7 @@ public class MovingAsHermes extends GodMovingAction {
     private boolean useGod;
 
     public MovingAsHermes (){
+        super();
         this.setName("movingAsHermes");
     }
 
