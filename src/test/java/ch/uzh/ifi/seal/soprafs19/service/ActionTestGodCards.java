@@ -132,6 +132,11 @@ public class ActionTestGodCards {
 
     /**
      * Apollo actions test
+     *
+     *
+     *
+     *
+     *
      * **/
 
     @Test
@@ -2055,6 +2060,129 @@ public class ActionTestGodCards {
         Assert.assertEquals(building[2][1], 1);
         Assert.assertEquals(building[2][3], 1);
         Assert.assertEquals(building[3][3], 1);
+
+    }
+
+    /**
+     * Minotaur actions test
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * **/
+
+    @Test
+    public void MinotaurActions() throws Exception{
+        //building some structures
+        testGame.getBoard().getSpaces()[3][3].build();
+        testGame.getBoard().getSpaces()[3][3].build();
+
+        //setting the figurines
+        testGame.getStartingPlayer().getFigurine1().setPosition(1,1);
+        testGame.getStartingPlayer().getFigurine2().setPosition(3,1);
+        testGame.getNonStartingPlayer().getFigurine1().setPosition(1,2);
+        testGame.getNonStartingPlayer().getFigurine2().setPosition(3,2);
+
+        //assign god cards
+        testGame.setStatus(GameStatus.PICKING_GODCARDS);
+        testGame.getStartingPlayer().setAssignedGod(new Minotaur(testGame));
+        testGame.getNonStartingPlayer().setAssignedGod(new Pan(testGame));
+        testGame.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+
+        gameRepository.save(testGame);
+
+        //get actions
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+        mvcResult = mockMvc.perform(MockMvcRequestBuilders.get( "http://localhost:8080/game/actions/" + Long.toString(this.player1id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+
+        //making sure we get the right return-code
+        Assert.assertEquals(mvcResult.getResponse().getStatus(), 200);
+
+        //checking content
+        class Response {
+            public int id;
+            public int row;
+            public int column;
+            public int figurine;
+            public boolean withGod;
+            Response(){}
+        }
+
+        ArrayList<Response> actions = new ArrayList<Response>();
+
+        //creating and checking the actions for consistency
+        int i = 0;
+        while( content.charAt(i) != ']') {
+            i += 1;
+            Response response = new Response();
+            Assert.assertEquals("{\"id\":", content.substring(i,i+6) ); i += 6;
+            String number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; } i += 1;
+            response.id = Integer.parseInt(number);
+            Assert.assertEquals("\"name\":\"Choose Moving Mode\",\"row\":", content.substring(i,i+34 ) );i+=34;
+            number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
+            response.row = Integer.parseInt(number);
+            Assert.assertEquals(",\"column\":", content.substring(i,i+10 ) ); i += 10;
+            number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
+            response.column = Integer.parseInt(number);
+            Assert.assertEquals(",\"figurineNumber\":", content.substring(i,i+18 ) ); i += 18;
+            number = "";
+            while(content.charAt(i) != ','){ number += content.charAt(i); i += 1; }
+            response.figurine = Integer.parseInt(number);
+            Assert.assertEquals(",\"useGod\":", content.substring(i,i+10 )); i += 10;
+            if(content.substring(i,i+4 ).equals( "true") ){
+                i += 5;
+                response.withGod = true;
+            }else{
+                i += 6;
+                response.withGod = false;
+            }
+            actions.add(response);
+        }
+
+        //looking that only allowed moves are here
+        int movements1 [][] = new int [5][5];
+        int movements2 [][] = new int [5][5];
+
+        Response toPerform = null;
+
+        for( i = 0; i < actions.size(); ++i){
+            Assert.assertTrue(actions.get(i).figurine == 1 || actions.get(i).figurine == 2 );
+            int row = actions.get(i).row;
+            int col = actions.get(i).column;
+            if(actions.get(i).figurine == 1){
+                movements1[row][col]++;
+            } else if(actions.get(i).figurine == 2){
+                movements2[row][col]++;
+            }
+            if(actions.get(i).withGod && actions.get(i).figurine == 1 && row == 1 && col == 2){
+                toPerform = actions.get(i);
+            }
+        }
+
+        Assert.assertEquals(movements1[1][2], 1); //can push opponent figurine
+        //Assert.assertEquals(movements2[3][2], 0); //can't push opponent figurine because of the building
+
+        //perform Minotaur action
+        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/actions/" + Long.toString(toPerform.id)).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        //retrieve changed game
+        this.testGame = gameService.gameByID(this.gameId);
+
+        //check if player1.figurine1 pushed player2.figurine1 correctly
+        int[] position = testGame.getStartingPlayer().getFigurine1().getPosition();
+        Assert.assertEquals(position[0], 1);
+        Assert.assertEquals(position[1], 2);
+        position = testGame.getNonStartingPlayer().getFigurine1().getPosition();
+        Assert.assertEquals(position[0], 1);
+        Assert.assertEquals(position[1], 3);
 
     }
 
