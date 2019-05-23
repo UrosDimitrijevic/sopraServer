@@ -54,7 +54,7 @@ public class Prometheus extends GodCard {
             Moving mov = (Moving) simpleMovements.get(i);
             int row = mov.getRow();
             int col = mov.getColumn();
-            if(game.getBoard().getSpaces()[row][col].getLevel() == hight){
+            if(game.getBoard().getSpaces()[row][col].getLevel() <= hight){
                 sameLevelMoc.add(new MovingAsPrometheus(game,figurine,row,col));
             }
         }
@@ -91,11 +91,6 @@ public class Prometheus extends GodCard {
                 Building build = (Building) simpleBuildings.get(i);
                 if( canMove) {
                     possibleActions.add(new MovingAsPrometheus(game, figurine, build.getRow(), build.getColumn()));
-                } else {
-                    int hight = figurine.retriveSpace().getLevel();
-                    if(game.getBoard().getSpaces()[build.getRow()][build.getColumn()].getLevel() == hight-1){
-                        possibleActions.add(new MovingAsPrometheus(game, figurine, build.getRow(), build.getColumn()));
-                    }
                 }
             }
         } else if(game.getStatus() == GameStatus.GODMODE_STATE_STARTINGPLAYER || game.getStatus() == GameStatus.GODMODE_STATE_NONSTARTINGPLAYER){

@@ -50,7 +50,11 @@ public class UserService {
         if( modelUser.getBirthday() != null){
             gef.setBirthday(modelUser.getBirthday() );
         }
-//nothing changed
+
+        //logout
+        if(modelUser.getStatus() == UserStatus.OFFLINE){
+            gef.setStatus(UserStatus.OFFLINE);
+        }
         //checking for challenge
         if( modelUser.getChallenging() != null){
             Long oponentId = modelUser.getChallenging();
