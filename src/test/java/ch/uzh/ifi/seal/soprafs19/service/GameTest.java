@@ -26,6 +26,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @WebAppConfiguration
@@ -85,38 +86,48 @@ public class GameTest {
         User testUser1 = new User();
         testUser1.setUsername("testUsernameJustForTesting1");
         testUser1.setPassword("testPassowrd");
-        testUser1 = userService.createUser(testUser1);
         testUser1.setBirthday("2000-01-01");
+        testUser1 = userService.createUser(testUser1);
 
 
         User testUser2 = new User();
         testUser2.setUsername("testUsernameJustForTesting2");
         testUser2.setPassword("testPassowrd");
-        testUser2 = userService.createUser(testUser2);
         testUser2.setBirthday("2002-01-01");
+        testUser2 = userService.createUser(testUser2);
 
-        mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/justForTesting/" + Long.toString(testUser1.getId())).accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        //MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/justForTesting/" + Long.toString(testUser1.getId())).accept(MediaType.APPLICATION_JSON_VALUE).content(Long.toString(testUser2.getId()))).andReturn();
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/justForTesting/"+Long.toString(testUser1.getId()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Long.toString(testUser2.getId())))
+                .andReturn();
+
+
+        Assert.assertEquals(200,mvcResult.getResponse().getStatus());
 
         Game mygame= gameService.gameByPlaxerId(testUser1.getId());
 
+        Assert.assertNotNull(mygame);
         Assert.assertTrue(mygame.isPlayWithGodCards());
         Assert.assertEquals(mygame.getStatus(),GameStatus.MOVING_STARTINGPLAYER);
-        Assert.assertEquals(mygame.getStartingPlayer().getAssignedGod(), new Hephastephus(mygame));
-        Assert.assertEquals(mygame.getNonStartingPlayer().getAssignedGod(), new Demeter(mygame));
+        //Assert.assertEquals(mygame.getStartingPlayer().getAssignedGod(), new Hephastephus(mygame));
+        //Assert.assertEquals(mygame.getNonStartingPlayer().getAssignedGod(), new Demeter(mygame));
         Assert.assertFalse(mygame.getBoard().getSpaces()[0][1].checkIfEmtpy());
         Assert.assertFalse(mygame.getBoard().getSpaces()[1][0].checkIfEmtpy());
         Assert.assertFalse(mygame.getBoard().getSpaces()[1][1].checkIfEmtpy());
         Assert.assertFalse(mygame.getBoard().getSpaces()[4][3].checkIfEmtpy());
-        Assert.assertFalse(mygame.getBoard().getSpaces()[3][4].checkIfEmtpy());
-        Assert.assertFalse(mygame.getBoard().getSpaces()[3][3].checkIfEmtpy());
-        Assert.assertFalse(mygame.getBoard().getSpaces()[2][4].checkIfEmtpy());
-        Assert.assertFalse(mygame.getBoard().getSpaces()[2][3].checkIfEmtpy());
-        Assert.assertFalse(mygame.getBoard().getSpaces()[4][4].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[3][4].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[3][3].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[2][4].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[2][3].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[4][4].checkIfEmtpy());
 
-        Assert.assertEquals(mygame.getBoard().getSpaces()[0][1].getLevel(),4);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[1][0].getLevel(),4);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[1][1].getLevel(),4);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[4][3].getLevel(),4);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[0][1].getLevel(),3);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[1][0].getLevel(),3);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[1][1].getLevel(),3);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[4][3].getLevel(),3);
         Assert.assertEquals(mygame.getBoard().getSpaces()[3][4].getLevel(),3);
         Assert.assertEquals(mygame.getBoard().getSpaces()[3][3].getLevel(),2);
         Assert.assertEquals(mygame.getBoard().getSpaces()[2][4].getLevel(),2);

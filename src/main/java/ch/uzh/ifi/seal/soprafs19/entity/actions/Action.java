@@ -39,6 +39,10 @@ public abstract class Action implements Serializable{
         this.id = id;
     }
 
+    public boolean isUseGod(){
+        return false;
+    }
+
     public Action(){
         this.name = "testname";
         this.deleteAfter = true;

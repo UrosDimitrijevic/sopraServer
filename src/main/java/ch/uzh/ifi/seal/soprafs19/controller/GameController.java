@@ -130,10 +130,8 @@ public class GameController {
     }
 
     @PutMapping("/game/justForTesting/{id}")
-    ResponseEntity justForTesting(@PathVariable Long id) {
+    ResponseEntity justForTesting(@PathVariable Long id, @RequestBody Long secondId) {
 
-
-        Long secondId = 2L;
         User user1 = this.service.userByID(id);
         User user2 = this.service.userByID(secondId);
         if(user1 == null || user2 == null) {
