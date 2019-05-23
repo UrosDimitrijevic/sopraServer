@@ -30,17 +30,10 @@ public class Game  implements Serializable  {
     @Column(unique = true, nullable = false)
     private long player2id;
 
-    public ArrayList<Long> getActions1() {
-        return actions1;
-    }
-
     @Column(nullable = true, length = 2000)
     ArrayList<Long> actions1;
 
 
-    public ArrayList<Long> getActions2() {
-        return actions2;
-    }
 
     @Column(nullable = true, length = 2000)
     ArrayList<Long> actions2;
@@ -238,13 +231,15 @@ public class Game  implements Serializable  {
     }
 
     public void checkIfGameOver(){
+        boolean didP1loose = this.players[0].didLoose(this);
+        boolean didP2losse = this.players[1].didLoose(this);
         if(this.players[0].didWin(this) ){ this.setStatus(GameStatus.STARTINGPLAYER_WON); }
-        else if(this.players[0].didLoose(this)) {
+        else if(didP1loose && (!didP2losse || this.status.nextMovingPlayer() == 1)) {
             this.setStatus(GameStatus.NONSTARTINGPLAYER_WON);
-            System.out.println("pl1 lost");
         }
         else if(this.players[1].didWin(this) ){ this.setStatus(GameStatus.NONSTARTINGPLAYER_WON); }
-        else if(this.players[1].didLoose(this)) { this.setStatus(GameStatus.STARTINGPLAYER_WON); }
+        else if(didP2losse && (!didP2losse || this.status.nextMovingPlayer() == 2)) {
+            this.setStatus(GameStatus.STARTINGPLAYER_WON); }
     }
 
     public void addAction(Action action){
