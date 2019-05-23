@@ -92,7 +92,6 @@ public class Prometheus extends GodCard {
                 if( canMove) {
                     possibleActions.add(new MovingAsPrometheus(game, figurine, build.getRow(), build.getColumn()));
                 }
-                }
             }
         } else if(game.getStatus() == GameStatus.GODMODE_STATE_STARTINGPLAYER || game.getStatus() == GameStatus.GODMODE_STATE_NONSTARTINGPLAYER){
             int figNum = game.retriveBuildingFigurine();

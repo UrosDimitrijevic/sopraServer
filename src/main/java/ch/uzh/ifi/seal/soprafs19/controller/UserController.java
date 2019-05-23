@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
+import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.service.GameService;
 import ch.uzh.ifi.seal.soprafs19.service.UserService;
@@ -47,7 +48,7 @@ public class    UserController {
     @PutMapping("users/login")
     ResponseEntity loginUser(@RequestBody User loginUser) {
         User savedUser = this.service.userByUsername( loginUser.getUsername() );
-        if( savedUser != null && savedUser.getPassword().equals( loginUser.getPassword() ) ) {
+        if( savedUser != null && savedUser.getPassword().equals( loginUser.getPassword() ) && savedUser.getStatus() == UserStatus.OFFLINE) {
             this.service.setOnline(savedUser);
             return ResponseEntity.status(HttpStatus.OK).body(savedUser.removePassword() );
         }
