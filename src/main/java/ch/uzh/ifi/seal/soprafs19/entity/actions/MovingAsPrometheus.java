@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @Entity
 public class MovingAsPrometheus extends GodMovingAction {
 
-    public boolean useGod;
+    private boolean useGod;
 
     @java.lang.Override
     public boolean isUseGod() {
@@ -43,10 +43,8 @@ public class MovingAsPrometheus extends GodMovingAction {
             super.perfromAction(gameService);
             myGame = gameService.gameByID(this.myGameId);
             if(myGame.getStatus().player() == 1){
-                //myGame.setStatus(GameStatus.GODMODE_STATE_STARTINGPLAYER);
                 ((Prometheus)myGame.getStartingPlayer().getAssignedGod()).switchMode();
             } else {
-                //myGame.setStatus(GameStatus.GODMODE_STATE_NONSTARTINGPLAYER);
                 ((Prometheus)myGame.getNonStartingPlayer().getAssignedGod()).switchMode();
             }
         }
