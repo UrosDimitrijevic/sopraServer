@@ -75,6 +75,16 @@ public class Artemis extends GodCard {
                 }
             }
             game.removeActions(possibleActions,game.getStatus().player());
+
+            //can't move a second time
+            if(possibleActions.size() == 0){
+                if(game.getStatus() == GameStatus.GODMODE_STATE_NONSTARTINGPLAYER) {
+                    game.setStatus(GameStatus.BUILDING_NONSTARTINGPLAYER);
+                } else {
+                    game.setStatus(GameStatus.BUILDING_STARTINGPLAYER);
+                }
+                possibleActions = game.retrivePlayers()[game.getStatus().player()-1].getPossibleActions(game);
+            }
         }
         return possibleActions;
     }

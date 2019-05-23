@@ -58,6 +58,7 @@ public class Demeter extends GodCard {
 
         ArrayList<Action> buildingactions = game.retrivePlayers()[game.getStatus().player()-1].retirveFigurines()[movedFigurine-1].getPossibleBuildingActions(game);
         ArrayList<Action> AtlasBuilding = new ArrayList<Action>();
+        if(buildingactions.size() == 1){ return AtlasBuilding; }
         for(int i = 0; i < buildingactions.size(); ++i){
             Building buildAction = (Building) buildingactions.get(i);
             int row = buildAction.getRow();

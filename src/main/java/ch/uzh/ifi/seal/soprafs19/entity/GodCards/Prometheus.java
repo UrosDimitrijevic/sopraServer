@@ -54,7 +54,7 @@ public class Prometheus extends GodCard {
             Moving mov = (Moving) simpleMovements.get(i);
             int row = mov.getRow();
             int col = mov.getColumn();
-            if(game.getBoard().getSpaces()[row][col].getLevel() == hight){
+            if(game.getBoard().getSpaces()[row][col].getLevel() <= hight){
                 sameLevelMoc.add(new MovingAsPrometheus(game,figurine,row,col));
             }
         }
