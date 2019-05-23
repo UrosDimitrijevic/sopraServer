@@ -121,7 +121,7 @@ public class GameController {
             return performAction(actionId);
         }
         Action action = actionService.getActionById(actionId);
-        if( action.retriveGameId().equals(gameId)){
+        if( action != null && action.retriveGameId().equals(gameId)){
             return performAction(actionId);
         }
         else{
@@ -130,10 +130,8 @@ public class GameController {
     }
 
     @PutMapping("/game/justForTesting/{id}")
-    ResponseEntity justForTesting(@PathVariable Long id) {
+    ResponseEntity justForTesting(@PathVariable Long id, @RequestBody Long secondId) {
 
-
-        Long secondId = 2L;
         User user1 = this.service.userByID(id);
         User user2 = this.service.userByID(secondId);
         if(user1 == null || user2 == null) {
@@ -145,7 +143,7 @@ public class GameController {
         //setting up settings
         game.setPlayWithGodCards(true);
         game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Artemis(game));
+        game.getStartingPlayer().setAssignedGod(new Hephastephus(game));
         game.getNonStartingPlayer().setAssignedGod(new Demeter(game));
 
         //setting up buildings
@@ -175,7 +173,7 @@ public class GameController {
         //setting figurines
         game.retrivePlayers()[0].getFigurine1().setPosition(0,2);
         game.retrivePlayers()[0].getFigurine2().setPosition(0,3);
-        game.retrivePlayers()[1].getFigurine1().setPosition(2,3);
+        game.retrivePlayers()[1].getFigurine1().setPosition(1,2);
         game.retrivePlayers()[1].getFigurine2().setPosition(3,1);
         game.checkIfGameOver();
 

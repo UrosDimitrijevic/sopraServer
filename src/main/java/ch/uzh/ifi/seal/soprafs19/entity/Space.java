@@ -66,7 +66,7 @@ public class Space implements Serializable{
         return !dome && (this.figurine == null);
     }
 
-    public boolean checkIfEmtpy(){ return (this.figurine == null); }
+    public boolean checkIfEmtpy(){ return (this.figurine == null && !this.isDome()); }
 
     public int [] retriveFigurine(){
         return this.figurine;
