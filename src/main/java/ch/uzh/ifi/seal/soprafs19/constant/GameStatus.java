@@ -14,4 +14,11 @@ public enum GameStatus {
         }
         else{ return 1; }
     }
+    public int nextMovingPlayer(){
+        if(this == MOVING_STARTINGPLAYER || this == GODMODE_STATE_NONSTARTINGPLAYER || this == BUILDING_NONSTARTINGPLAYER){
+            return 1;
+        } else {
+            return 2;
+        }
+    }
 }
