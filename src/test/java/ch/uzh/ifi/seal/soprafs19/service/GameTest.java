@@ -150,50 +150,6 @@ public class GameTest {
         Assert.assertNull(mygame.getActions1());
 
 
-
-/*
-
-        //setting up buildings
-        game.getBoard().getSpaces()[0][1] = new Space();
-        game.getBoard().getSpaces()[1][0] = new Space();
-        game.getBoard().getSpaces()[1][1] = new Space();
-        game.getBoard().getSpaces()[4][3] = new Space();
-        game.getBoard().getSpaces()[3][4] = new Space();
-        game.getBoard().getSpaces()[3][3] = new Space();
-        game.getBoard().getSpaces()[2][4] = new Space();
-        game.getBoard().getSpaces()[2][3] = new Space();
-        game.getBoard().getSpaces()[4][4] = new Space();
-        for(int i = 0; i < 4; ++i){
-            game.getBoard().getSpaces()[0][1].build();
-            game.getBoard().getSpaces()[1][0].build();
-            game.getBoard().getSpaces()[1][1].build();
-            game.getBoard().getSpaces()[4][3].build();
-        }
-        for(int i = 0; i < 3; ++i){ game.getBoard().getSpaces()[3][4].build(); }
-        for( int i = 0; i < 2; ++i){
-            game.getBoard().getSpaces()[3][3].build();
-            game.getBoard().getSpaces()[2][4].build();
-        }
-        game.getBoard().getSpaces()[2][3].build();
-        game.getBoard().getSpaces()[4][4].build();
-
-        //setting figurines
-        game.retrivePlayers()[0].getFigurine1().setPosition(0,2);
-        game.retrivePlayers()[0].getFigurine2().setPosition(0,3);
-        game.retrivePlayers()[1].getFigurine1().setPosition(1,2);
-        game.retrivePlayers()[1].getFigurine2().setPosition(3,1);
-        game.checkIfGameOver();
-
-        //making all action-arrays null
-        game.setActions2(null);
-        game.setActions1(null);
-
-        gameService.saveGame(game);
-        return ResponseEntity.status(HttpStatus.OK).body("you cheater" );
-*/
-
-
-
     }
 
 
