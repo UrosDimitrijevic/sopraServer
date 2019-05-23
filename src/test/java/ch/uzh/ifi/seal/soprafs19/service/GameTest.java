@@ -96,6 +96,9 @@ public class GameTest {
         testUser2.setBirthday("2002-01-01");
         testUser2 = userService.createUser(testUser2);
 
+        Game createGame = new Game(testUser1,testUser2);
+        gameService.saveGame(createGame);
+
 
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         //MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put( "http://localhost:8080/game/justForTesting/" + Long.toString(testUser1.getId())).accept(MediaType.APPLICATION_JSON_VALUE).content(Long.toString(testUser2.getId()))).andReturn();
@@ -111,43 +114,39 @@ public class GameTest {
 
         Assert.assertNotNull(mygame);
         Assert.assertTrue(mygame.isPlayWithGodCards());
-        Assert.assertEquals(mygame.getStatus(),GameStatus.MOVING_STARTINGPLAYER);
+        Assert.assertEquals(mygame.getStatus(),GameStatus.MOVING_NONSTARTINGPLAYER);
         //Assert.assertEquals(mygame.getStartingPlayer().getAssignedGod(), new Hephastephus(mygame));
         //Assert.assertEquals(mygame.getNonStartingPlayer().getAssignedGod(), new Demeter(mygame));
-        Assert.assertFalse(mygame.getBoard().getSpaces()[0][1].checkIfEmtpy());
         Assert.assertFalse(mygame.getBoard().getSpaces()[1][0].checkIfEmtpy());
-        Assert.assertFalse(mygame.getBoard().getSpaces()[1][1].checkIfEmtpy());
-        Assert.assertFalse(mygame.getBoard().getSpaces()[4][3].checkIfEmtpy());
-        Assert.assertTrue(mygame.getBoard().getSpaces()[3][4].checkIfEmtpy());
-        Assert.assertTrue(mygame.getBoard().getSpaces()[3][3].checkIfEmtpy());
-        Assert.assertTrue(mygame.getBoard().getSpaces()[2][4].checkIfEmtpy());
-        Assert.assertTrue(mygame.getBoard().getSpaces()[2][3].checkIfEmtpy());
-        Assert.assertTrue(mygame.getBoard().getSpaces()[4][4].checkIfEmtpy());
+        Assert.assertFalse(mygame.getBoard().getSpaces()[2][2].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[0][1].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[1][2].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[2][0].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[3][0].checkIfEmtpy());
+        Assert.assertTrue(mygame.getBoard().getSpaces()[3][2].checkIfEmtpy());
 
-        Assert.assertEquals(mygame.getBoard().getSpaces()[0][1].getLevel(),3);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[0][1].getLevel(),1);
         Assert.assertEquals(mygame.getBoard().getSpaces()[1][0].getLevel(),3);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[1][1].getLevel(),3);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[4][3].getLevel(),3);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[3][4].getLevel(),3);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[3][3].getLevel(),2);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[2][4].getLevel(),2);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[2][3].getLevel(),1);
-        Assert.assertEquals(mygame.getBoard().getSpaces()[4][4].getLevel(),1);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[1][2].getLevel(),2);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[2][0].getLevel(),1);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[2][2].getLevel(),3);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[3][0].getLevel(),3);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[3][1].getLevel(),2);
+        Assert.assertEquals(mygame.getBoard().getSpaces()[3][2].getLevel(),1);
 
-        Assert.assertArrayEquals(new int[]{0, 2},mygame.retrivePlayers()[0].getFigurine1().getPosition());
         //player1
-        Assert.assertEquals( 0,mygame.retrivePlayers()[0].getFigurine1().getPosition()[0]);
-        Assert.assertEquals( 2,mygame.retrivePlayers()[0].getFigurine1().getPosition()[1]);
-        Assert.assertEquals( 0,mygame.retrivePlayers()[0].getFigurine2().getPosition()[0]);
-        Assert.assertEquals( 3,mygame.retrivePlayers()[0].getFigurine2().getPosition()[1]);
+        Assert.assertEquals( 2,mygame.retrivePlayers()[0].getFigurine1().getPosition()[0]);
+        Assert.assertEquals( 1,mygame.retrivePlayers()[0].getFigurine1().getPosition()[1]);
+        Assert.assertEquals( 3,mygame.retrivePlayers()[0].getFigurine2().getPosition()[0]);
+        Assert.assertEquals( 4,mygame.retrivePlayers()[0].getFigurine2().getPosition()[1]);
         //player2
-        Assert.assertEquals( 1,mygame.retrivePlayers()[1].getFigurine1().getPosition()[0]);
-        Assert.assertEquals( 2,mygame.retrivePlayers()[1].getFigurine1().getPosition()[1]);
+        Assert.assertEquals( 0,mygame.retrivePlayers()[1].getFigurine1().getPosition()[0]);
+        Assert.assertEquals( 0,mygame.retrivePlayers()[1].getFigurine1().getPosition()[1]);
         Assert.assertEquals( 3,mygame.retrivePlayers()[1].getFigurine2().getPosition()[0]);
         Assert.assertEquals( 1,mygame.retrivePlayers()[1].getFigurine2().getPosition()[1]);
 
-        Assert.assertNull(mygame.getActions2());
-        Assert.assertNull(mygame.getActions1());
+        Assert.assertNull(mygame.retriveActions1());
+        Assert.assertNull(mygame.retriveActions2());
 
 
     }

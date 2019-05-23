@@ -26,7 +26,18 @@ public class Minotaur extends GodCard {
     private Long id;
 
 
-
+    @java.lang.Override
+    public boolean didLoose(Game game, Player player){
+        GameStatus oldState = game.getStatus();
+        if(player.getPlayerNumber() == 1){
+            game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
+        } else {
+            game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
+        }
+        ArrayList<Action> acting = this.getActions(game);
+        game.setStatus(oldState);
+        return acting.size() == 0;
+    }
 
     public Minotaur(){
 

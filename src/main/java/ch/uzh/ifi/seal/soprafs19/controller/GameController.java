@@ -137,43 +137,42 @@ public class GameController {
         if(user1 == null || user2 == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("one of the users not found");
         }
-        Game game = new Game(user1,user2);
-        //Game game = gameService.gameByPlaxerId(id);
+        //Game game = new Game(user1,user2);
+        Game game = gameService.gameByPlaxerId(id);
 
         //setting up settings
         game.setPlayWithGodCards(true);
-        game.setStatus(GameStatus.MOVING_STARTINGPLAYER);
-        game.getStartingPlayer().setAssignedGod(new Hephastephus(game));
-        game.getNonStartingPlayer().setAssignedGod(new Demeter(game));
+        game.setStatus(GameStatus.MOVING_NONSTARTINGPLAYER);
+        game.getStartingPlayer().setAssignedGod(new Athena(game));
+        game.getNonStartingPlayer().setAssignedGod(new Minotaur(game));
 
         //setting up buildings
-        game.getBoard().getSpaces()[0][1] = new Space();
-        game.getBoard().getSpaces()[1][0] = new Space();
-        game.getBoard().getSpaces()[1][1] = new Space();
-        game.getBoard().getSpaces()[4][3] = new Space();
-        game.getBoard().getSpaces()[3][4] = new Space();
-        game.getBoard().getSpaces()[3][3] = new Space();
-        game.getBoard().getSpaces()[2][4] = new Space();
-        game.getBoard().getSpaces()[2][3] = new Space();
-        game.getBoard().getSpaces()[4][4] = new Space();
+        game.getBoard().getSpaces()[1][0] = new Space(); //
+        game.getBoard().getSpaces()[2][0] = new Space(); //
+        game.getBoard().getSpaces()[3][0] = new Space(); //
+        game.getBoard().getSpaces()[1][2] = new Space(); //
+        game.getBoard().getSpaces()[2][2] = new Space(); //
+        game.getBoard().getSpaces()[3][2] = new Space(); //
+        game.getBoard().getSpaces()[3][1] = new Space(); //
+        game.getBoard().getSpaces()[0][1] = new Space(); //
         for(int i = 0; i < 4; ++i){
-            game.getBoard().getSpaces()[0][1].build();
             game.getBoard().getSpaces()[1][0].build();
-            game.getBoard().getSpaces()[1][1].build();
-            game.getBoard().getSpaces()[4][3].build();
+            game.getBoard().getSpaces()[2][2].build();
         }
-        for(int i = 0; i < 3; ++i){ game.getBoard().getSpaces()[3][4].build(); }
+        for(int i = 0; i < 3; ++i){ game.getBoard().getSpaces()[3][0].build(); }
         for( int i = 0; i < 2; ++i){
-            game.getBoard().getSpaces()[3][3].build();
-            game.getBoard().getSpaces()[2][4].build();
+            game.getBoard().getSpaces()[1][2].build();
         }
-        game.getBoard().getSpaces()[2][3].build();
-        game.getBoard().getSpaces()[4][4].build();
+        game.getBoard().getSpaces()[2][0].build();
+        game.getBoard().getSpaces()[3][2].build();
+        game.getBoard().getSpaces()[3][1].build();
+        game.getBoard().getSpaces()[3][1].build();
+        game.getBoard().getSpaces()[0][1].build();
 
         //setting figurines
-        game.retrivePlayers()[0].getFigurine1().setPosition(0,2);
-        game.retrivePlayers()[0].getFigurine2().setPosition(0,3);
-        game.retrivePlayers()[1].getFigurine1().setPosition(1,2);
+        game.retrivePlayers()[0].getFigurine1().setPosition(2,1);
+        game.retrivePlayers()[0].getFigurine2().setPosition(3,4);
+        game.retrivePlayers()[1].getFigurine1().setPosition(0,0);
         game.retrivePlayers()[1].getFigurine2().setPosition(3,1);
         game.checkIfGameOver();
 
