@@ -47,13 +47,15 @@ public class Athena extends GodCard {
                 else{
                     this.canEnemyMoveUp = true;
                 }
+                if(previousHight == null){System.out.print("previousHight is null\n");}
+                //else if(player == null){System.out.print("player is null\n");}
+                //else if(player.getFigurine1() == null){System.out.print("player.getFigrurine1 is null\n");}
+                //else if(player.getFigurine1().retriveSpace() == null){System.out.print("player.getFigrurine1.retriveSpace is null\n");}
             }
-            if(previousHight == null){System.out.print("previousHight is null\n");}
-            //else if(player == null){System.out.print("player is null\n");}
-            //else if(player.getFigurine1() == null){System.out.print("player.getFigrurine1 is null\n");}
-            //else if(player.getFigurine1().retriveSpace() == null){System.out.print("player.getFigrurine1.retriveSpace is null\n");}
-            previousHight[0] = player.getFigurine1().retriveSpace().getLevel();
-            previousHight[1] = player.getFigurine2().retriveSpace().getLevel();
+            if(player.getFigurine1() != null && player.getFigurine2()!= null && player.getFigurine2().retriveSpace() != null) {
+                previousHight[0] = player.getFigurine1().retriveSpace().getLevel();
+                previousHight[1] = player.getFigurine2().retriveSpace().getLevel();
+            }
         }
 
         return false;

@@ -11,18 +11,6 @@ import javax.persistence.Entity;
 public class DoubleBlockBuild extends GodBuildingAction {
 
 
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-    public boolean isUseGod(){
-        return false;
-    }
-
     public DoubleBlockBuild(){
         super();
     }
