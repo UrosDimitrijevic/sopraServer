@@ -43,7 +43,7 @@ public class Minotaur extends GodCard {
     static private boolean checkIfPusheable(Game game, Figurine me, Figurine her){
         int difference [] = new int [2];
         difference[0] = her.getPosition()[0] - me.getPosition()[0];
-        difference[1] = her.getPosition()[0] - me.getPosition()[0];
+        difference[1] = her.getPosition()[1] - me.getPosition()[1];
         if(difference[0] <-1 || difference[0] > 1 || difference[1] < -1 || difference[1] > 1){ return false; }
         boolean isWalkeable = game.getBoard().getSpaces()[her.getPosition()[0]][her.getPosition()[1]].getLevel() < me.retriveSpace().getLevel()+2;
         return game.getBoard().isEmpty(her.getPosition()[0]+difference[0], her.getPosition()[1]+difference[1]) & isWalkeable;

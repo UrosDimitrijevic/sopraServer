@@ -121,7 +121,7 @@ public class GameController {
             return performAction(actionId);
         }
         Action action = actionService.getActionById(actionId);
-        if( action.retriveGameId().equals(gameId)){
+        if( action != null && action.retriveGameId().equals(gameId)){
             return performAction(actionId);
         }
         else{
