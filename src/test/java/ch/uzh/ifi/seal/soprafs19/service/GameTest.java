@@ -135,9 +135,16 @@ public class GameTest {
         Assert.assertEquals(mygame.getBoard().getSpaces()[4][4].getLevel(),1);
 
         Assert.assertArrayEquals(new int[]{0, 2},mygame.retrivePlayers()[0].getFigurine1().getPosition());
-        Assert.assertEquals( new int[]{0,3}  ,mygame.retrivePlayers()[0].getFigurine2().getPosition());
-        Assert.assertEquals(  new int[]{1,2},mygame.retrivePlayers()[1].getFigurine1().getPosition());
-        Assert.assertEquals(new int[]{3,1},mygame.retrivePlayers()[1].getFigurine2().getPosition());
+        //player1
+        Assert.assertEquals( 0,mygame.retrivePlayers()[0].getFigurine1().getPosition()[0]);
+        Assert.assertEquals( 2,mygame.retrivePlayers()[0].getFigurine1().getPosition()[1]);
+        Assert.assertEquals( 0,mygame.retrivePlayers()[0].getFigurine2().getPosition()[0]);
+        Assert.assertEquals( 3,mygame.retrivePlayers()[0].getFigurine2().getPosition()[1]);
+        //player2
+        Assert.assertEquals( 1,mygame.retrivePlayers()[1].getFigurine1().getPosition()[0]);
+        Assert.assertEquals( 2,mygame.retrivePlayers()[1].getFigurine1().getPosition()[1]);
+        Assert.assertEquals( 3,mygame.retrivePlayers()[1].getFigurine2().getPosition()[0]);
+        Assert.assertEquals( 1,mygame.retrivePlayers()[1].getFigurine2().getPosition()[1]);
 
         Assert.assertNull(mygame.getActions2());
         Assert.assertNull(mygame.getActions1());
